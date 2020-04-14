@@ -11,7 +11,7 @@
             </ul>
         </li>
         <li class="i_image"><a href="banners.php"><span>Banners</span></a></li>
-        <li class="i_radio"><a href="publicidade.php"><span>Publicidade</span></a></li>        
+        <!--<li class="i_radio"><a href="publicidade.php"><span>Publicidade</span></a></li>-->     
         <li class="i_tags"><a><span>Produtos</span></a>
 					<ul>
 						<li><a href="cores.php"><span>Cores</span></a></li>
@@ -23,14 +23,14 @@
             <li><a href="produtos.php"><span>Gerenciar Produtos</span></a></li>
 					</ul>
         </li>
-        <li><a href="campanhas.php"><span>Promoções</span></a></li>
+        <!--<li><a href="campanhas.php"><span>Promoções</span></a></li>
         <li class="i_film"><a href="video.php"><span>Vídeo</span></a></li>   
         <li class="i_create_write"><a><span>Blog</span></a>
             <ul>
                 <li><a href="blog_categorias.php"><span>Categorias</span></a></li>
                 <li><a href="blog.php"><span>Gerenciar Blog</span></a></li>
             </ul>
-        </li>        
+        </li>-->
         <li class="i_user_comment"><a href="testemunhos.php"><span>Testemunhos</span></a>
         <li class="i_cog"><a><span>Configurações</span></a>
             <ul>
