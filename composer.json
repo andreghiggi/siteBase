@@ -1,0 +1,12 @@
+{
+    "name": "i9tecinfo/eletro_tonon",
+    "authors": [
+        {
+            "name": "julio",
+            "email": "julio@i9tecinfo.com.br"
+        }
+    ],
+    "require": {
+        "developercielo/api-3.0-php": "^1.2"
+    }
+}
