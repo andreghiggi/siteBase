@@ -661,6 +661,7 @@ color: #fff;}
 	background: var(--background) !important;
 }
 .main-menu ul li:hover ul.sub-menu li a{
+		color: white;
     background: transparent;
 }
 /*----------------------------------------*/
@@ -1700,17 +1701,17 @@ h2.post-title a:hover{
 .footer-menu{}
 .footer-menu ul{margin: 10px 0 0;}
 .footer-menu ul li{
-  background: rgba(0, 0, 0, 0) url("img/icon-footer.png") no-repeat scroll 0 17px;
+  background: rgba(0, 0, 0, 0) url("img/icon-footer.png") no-repeat scroll 0 -18px;
   color: #888;
   font-size: 14px;
   padding-left: 13px;
   line-height: 30px;
 }
 .footer-menu ul li:hover {
-  background-position: 0 -18px;
+  background-position: 0 17px;
 }
 .footer-menu ul li a{color: #fff;text-decoration: none;}
-.footer-menu ul li a:hover{color: #262626;padding-left: 10px;}
+.footer-menu ul li a:hover{/*color: #262626;*/padding-left: 10px;}
 .store-content{}
 .store-content ul{margin: 10px 0 0;}
 .store-content li{

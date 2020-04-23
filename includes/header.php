@@ -361,6 +361,7 @@ elseif($_POST['chave'] == TRUE)
 												<li><a href="como_comprar.php">Como comprar</a></li>
 												<li><a href="termos_uso.php">Termos de uso</a></li>
 												<li><a href="faq.php">FAQ</a></li>
+												<li><a href="politica_troca.php">Política de troca</a></li>
 											</ul>
 										</li>
 										<li><a href="contato.php">Contato</a></li>
