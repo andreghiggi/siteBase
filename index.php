@@ -122,7 +122,7 @@ if($num > 0)
 								$imagem = img_produto_destaque($vet['codigo']);
 							?>
 							<!-- single-product-start -->
-							<div class="col-lg-3 col-md-3">
+							<div class="">
 								<div class="single-product">
 									<div class="image-area">
 										<a href="produto.php?codigo=<?=$vet['codigo']?>">
