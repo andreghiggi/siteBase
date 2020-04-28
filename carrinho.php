@@ -1,17 +1,6 @@
 <?
 include("includes/header.php");
 
-if(!$_SESSION['user_verifica'])
-{
-	if($_GET['cmd'] == "add")
-	{
-		$_SESSION['cart_cmd'] = $_GET['cmd'];
-		$_SESSION['cart_idproduto'] = anti_injection($_GET['idproduto']);
-	}
-
-	redireciona("login.php?ind_msg=2");
-}
-
 if($_COOKIE['frete'] == NULL)
 	$_SESSION['retLoja'] = 2;
 else
