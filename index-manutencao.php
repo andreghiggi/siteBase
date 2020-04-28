@@ -7,6 +7,5 @@
 </head>
 <body>
 <img class="mx-auto d-block" src="img/manutencao.png" style="margin-top:100px">
-mensagem deerro
 </body>
 </hmtl>
