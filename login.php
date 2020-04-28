@@ -267,7 +267,6 @@ function valida_c()
 						<h2 class="form-heading">Cadastre-se</h2>
 						<div class="form-content">
 							<p>Informe os dados básicos de cadastro para iniciar suas compras.</p>
-							<p style="color:#dc3545;"><strong>Apenas para o estado RS</strong></p>
 							<p>
 								<label>Nome <em>*</em></label>
 								<input type="text" name="nome" id="nome" >
@@ -275,52 +274,6 @@ function valida_c()
 							<p>
 								<label>Sobrenome <em>*</em></label>
 								<input type="text" name="sobrenome" id="sobrenome" >
-							</p>
-							<p>
-								<script>
-									function liberarCadastro(self){
-										console.log($(self).val());
-										if($(self).val() == "RS"){
-											$('#botaoEnviar').removeAttr("disabled");
-											$('#apenasRs').attr('hidden',true);
-										}
-										else if($('#botaoEnviar').attr("disabled") == undefined){
-											$('#botaoEnviar').attr('disabled',true);
-											$('#apenasRs').removeAttr("hidden");
-										}
-									}
-								</script>
-								<label>Estado <em>*</em></label>
-								<select onchange="liberarCadastro(this)">
-									<option value="AC">AC</option>
-									<option value="AL">AL</option>
-									<option value="AP">AP</option>
-									<option value="AM">AM</option>
-									<option value="BA">BA</option>
-									<option value="CE">CE</option>
-									<option value="DF">DF</option>
-									<option value="ES">ES</option>
-									<option value="GO">GO</option>
-									<option value="MA">MA</option>
-									<option value="MT">MT</option>
-									<option value="MS">MS</option>
-									<option value="MG">MG</option>
-									<option value="PA">PA</option>
-									<option value="PB">PB</option>
-									<option value="PR">PR</option>
-									<option value="PE">PE</option>
-									<option value="PI">PI</option>
-									<option value="RJ">RJ</option>
-									<option value="RN">RN</option>
-									<option value="RS">RS</option>
-									<option value="RO">RO</option>
-									<option value="RR">RR</option>
-									<option value="SC">SC</option>
-									<option value="SP">SP</option>
-									<option value="SE">SE</option>
-									<option value="TO">TO</option>
-								</select>
-								<p style="color:#dc3545;" id="apenasRs" hidden><strong>Apenas para o estado RS</strong></p>
 							</p>
 							<p>
 								<label>CPF <em>*</em></label>
