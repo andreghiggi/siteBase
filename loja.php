@@ -56,8 +56,9 @@ if($tag)
 if($marca)
 	$strWhere .= 'AND idMarca = '.$marca;
 
-if($chave)
-	$strWhere .= " AND (soundex(nome) LIKE soundex('$chave') OR nome LIKE '%$chave%' OR idcategoria IN (SELECT codigo FROM produtos_categorias WHERE soundex(nome) LIKE soundex('$chave') OR nome LIKE '%$chave%') OR idsubcategoria IN (SELECT codigo FROM produtos_subcategorias WHERE soundex(nome) LIKE soundex('$chave') OR nome LIKE '%$chave%') OR idmarca IN (SELECT codigo FROM marcas WHERE soundex(titulo) LIKE soundex('$chave')) OR LOWER(nome) LIKE LOWER('%".implode('%',explode(' ',$chave))."%'))";
+if($chave){
+	$strWhere .= " AND (soundex(nome) LIKE soundex('$chave') OR nome LIKE '%$chave%' OR lower(nome) LIKE lower('%$chave%') OR idcategoria IN (SELECT codigo FROM produtos_categorias WHERE soundex(nome) LIKE soundex('$chave') OR nome LIKE '%$chave%') OR idsubcategoria IN (SELECT codigo FROM produtos_subcategorias WHERE soundex(nome) LIKE soundex('$chave') OR nome LIKE '%$chave%') OR idmarca IN (SELECT codigo FROM marcas WHERE soundex(titulo) LIKE soundex('$chave')) OR LOWER(nome) LIKE LOWER('%".implode('%',explode(' ',$chave))."%'))";
+}
 
 if($pagina)
     $pag++;
@@ -211,7 +212,7 @@ elseif($order == 4)
 						{
 						?>
 						<!-- grid-product-tab-start -->
-						<div id="grid" class="tab-pane fade active in">
+						<div id="grid" class="tab-pane active in">
 							<?
 							for($i = 0; $i < count($array_produtos); $i++)
 				        	{

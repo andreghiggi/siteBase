@@ -23,18 +23,6 @@ $vet = mysql_fetch_array($rs);
 if(!$num)
 	redireciona("index.php");
 ?>
-<!-- static-right-social-area end-->
-<script>
-  fbq('track', 'produto_visualizado', {
-  'produto': '<?echo stripslashes($vet['nome'])?>',
-  'valor': '<?
-    if($vet['valor_desconto'])
-      echo $vet['valor_desconto'];
-    else
-      echo $vet['valor_produto'];
-    ?>'
-  });
-</script>
 
 <div itemscope itemtype="http://schema.org/Product">
 	<meta itemprop="name" content="<?echo stripslashes($vet['nome'])?>">
@@ -74,9 +62,9 @@ if(!$num)
 									<?
 							        for($i = 0; $i < count($array_imagens); $i++)
 							        {
-							        	$class = 'class="tab-pane fade"';
+							        	$class = 'class="tab-pane"';
 							        	if(!$i)
-							        		$class = 'class="tab-pane fade in active"';
+							        		$class = 'class="tab-pane in active"';
 							        ?>
 									<div id="image<?=$i?>" <?=$class?>>
 										<a href="">
@@ -120,6 +108,10 @@ if(!$num)
 									<?=stripslashes($vet['nome'])?>
 								</h2>
 								<p class="model-condi">
+									<label>Código:</label>
+									<span><?=$vet['identificador'];?></span>
+								</p>
+								<p class="model-condi">
 									<label>Categoria:</label>
 									<span><?=stripslashes($vet['categoria'])?></span>
 								</p>
@@ -152,13 +144,17 @@ if(!$num)
 								<div class="price-box-area">
 									<span class="new-price">
 										<?
-										if($vet['valor_desconto'])
+										if($vet['valor_desconto']){
 											$valor = $vet['valor_desconto'];
-										else
+											echo '
+											<small><strike>De: R$ '.(number_format($vet['valor_produto'], 2, ',', '.')).'</strike></smal><br>
+											<big><strong>Por: R$ '.(number_format($valor, 2, ',', '.')).'</strong></big>';
+										}
+										else{
 											$valor = $vet['valor_produto'];
+											echo 'R$ '.number_format($valor, 2, ',', '.');
+										}
 										?>
-
-										R$ <?=number_format($valor, 2, ',', '.')?>
 									</span>
 								</div>
 
@@ -325,7 +321,7 @@ if(!$num)
 						</ul>
 					</div>
 					<div class="tab-content">
-						<div id ="moreinfo" class="tab-pane fade in active">
+						<div id ="moreinfo" class="tab-pane in active">
 							<div class="rte"><?=stripslashes($vet['informacoes'])?></div>
 						</div>
 					</div>
