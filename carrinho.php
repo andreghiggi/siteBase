@@ -1,10 +1,71 @@
 <?
 include("includes/header.php");
 
-if($_COOKIE['frete'] == NULL)
-	$_SESSION['retLoja'] = 2;
-else
-	$_SESSION['retLoja'] = 1;
+if(isset($_GET['frete'])){
+	$valor_frete = 0;
+	$prazo_entrega = 0;
+	
+	$altura = 0;
+	$largura = 0;
+	$comprimento = 0;
+	$peso = 0;
+	
+	$str = "SELECT A.*, B.qtde FROM produtos A
+		INNER JOIN carrinho B ON A.codigo = B.idproduto
+		WHERE idcadastro = '".$c_codigo."'
+		AND idcarrinho = '".$_SESSION['idcarrinho']."'
+		ORDER BY A.nome";
+		
+	$resp = mysql_query($str);
+	while($row = mysqli_fetch_assoc($resp)){
+		$altura += $row['altura'];
+		$largura += $row['largura'];
+		$comprimento += $row['comprimento'];
+		$peso += $row['peso'];
+	}
+	
+	if($altura < 2) $altura = 2;
+	if($largura < 11) $largura = 11;
+	if($comprimento < 16) $comprimento = 16;
+
+	$args = 'nCdEmpresa=18017487';
+	$args .= '&sDsSenha=N?XR4YS0EP';
+	$args .= '&nCdServico=04553';//.$servico;
+	$args .= '&sCepOrigem=91530000';//.$vetF['cep_origem'];
+	$args .= '&sCepDestino='.$_GET['frete'];//.$c_cep;
+	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
+	$args .= '&nCdFormato=1';
+	$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
+	$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
+	$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
+	$args .= '&nVlDiametro=0';
+	$args .= '&sCdMaoPropria=N';
+	$args .= '&nVlValorDeclarado=0.00';
+	$args .= '&sCdAvisoRecebimento=N';	
+	$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
+	$resp = new SimpleXMLElement($ret);
+	$sedexDias = $resp->Servicos->cServico->PrazoEntrega;
+	$sedex = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
+
+	$args = 'nCdEmpresa=18017487';
+	$args .= '&sDsSenha=N?XR4YS0EP';
+	$args .= '&nCdServico=04596';//.$servico;
+	$args .= '&sCepOrigem=91530000';//.$vetF['cep_origem'];
+	$args .= '&sCepDestino='.$_GET['frete'];//.$c_cep;
+	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
+	$args .= '&nCdFormato=1';
+	$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
+	$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
+	$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
+	$args .= '&nVlDiametro=0';
+	$args .= '&sCdMaoPropria=N';
+	$args .= '&nVlValorDeclarado=0.00';
+	$args .= '&sCdAvisoRecebimento=N';	
+	$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
+	$resp = new SimpleXMLElement($ret);
+	$pacDias = $resp->Servicos->cServico->PrazoEntrega;
+	$pac = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
+}
 
 if($_GET['cmd'] == "add")
 {
@@ -150,6 +211,7 @@ if($_GET['cmd'] == 'edit_qtde')
 		redireciona("carrinho.php");
 }
 ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 function qtde_prod(idproduto, idtamanho, idcor)
 {
@@ -180,6 +242,20 @@ function qtde_prod(idproduto, idtamanho, idcor)
 		document.form_c.action = "carrinho.php";
 		document.form_c.submit();
 	}
+}
+
+function calcFrete(self){
+	$('#linhaSubTotal').removeClass('hidden');
+	$('#linhaFrete').removeClass('hidden');
+	$('#btnProximo').removeClass('hidden');
+	$('#valorFrete').text(parseFloat($(self).val().split(':')[0]).toFixed(2));
+	$('#diasFrete').text($(self).val().split(':')[1]);
+	let valorfinal = parseFloat($('#subTotal').text().replace('.','').replace(',','.')) + parseFloat($(self).val().split(':')[0]);
+	$('#valorFinal').text(valorfinal.toFixed(2));
+}
+
+function avancarCarrinho(){
+	window.location.href = "endereco.php?frete="+$('#selectFrete').val()+"&destino=<?=$_GET['frete']?>";
 }
 
 </script>
@@ -267,6 +343,7 @@ function qtde_prod(idproduto, idtamanho, idcor)
 
 							$valor = $vet['valor_pedido'] * $vet['qtde'];
 							$valor_compras += $valor;
+							$total += $valor;
 					?>
 					<tr>
 						<td class="product-img"><a href="produto.php?codigo=<?=$vet['codigo']?>"><img src="upload/<?=$imagem?>" alt="<?=stripslashes($vet['nome'])?>"></a></td>
@@ -300,79 +377,57 @@ function qtde_prod(idproduto, idtamanho, idcor)
 					}
 					?>
 					</tbody>
-					<?
-					$valor_frete = 0;
-					$prazo_entrega = 0;
-					
-					$total = $valor_compras + $valor_frete;
-					?>
 					<tfoot>
 						<tr>
-							<td colspan="2" rowspan="4" style="text-align:justify;">
-								<label for="frete">Forma de envio</label>
-								<select id="frete" onchange="atualizaFrete(this)">
-									
-									<option value="1" <?php echo (isset($_GET['frete'])|| $_COOKIE['frete'] != NULL)? 'selected':'';?> >Sedex - R$ 25,00</option>
-									<option value="2" <?php echo (isset($_GET['frete'])|| $_COOKIE['frete'] != NULL)? '':'selected';?> >Retirar na loja - R$ 0,00</option>
-								</select>
+							<td colspan="3" style="text-align: left;">
+								<?if(isset($_GET['frete'])):?>
+									<select class="form-control" style="width:50%" onchange="calcFrete(this)" id="selectFrete">
+										<option value="<?=$pac.':'.$pacDias.':1'?>">PAC</option>
+										<option value="<?=$sedex.':'.$sedexDias.':2'?>" selected>SEDEX</option>
+									</select>
+									<br>
+								<?endif;?>
 							</td>
-							<td colspan="3">Valor compra</td>
-							<td colspan="2">R$ <span class="price" id="valorCarrinho"><?=number_format($valor_compras, 2, ',', '.')?></span></td>
+							<td><label>CEP</label></td>
+							<td colspan="2" class="text-left">
+								<script>
+									function carregarFrete(){
+										window.location.href = "carrinho.php?frete="+$('#cep-destino').val();
+									}
+								</script>
+								<input id="cep-destino" type="text" class="form-control" placeholder="00000-000" value="<?if(isset($_GET['frete'])) echo $_GET['frete']?>">
+								<br>
+								<div class="btn btn-primary" onclick="carregarFrete()">Calcular</div>
+							</td>
 						</tr>
-						<tr>
-							<td colspan="3">Valor frete</td>
-							<td colspan="2">R$ <span class="price" id="valorFrete"><?php echo (isset($_GET['frete']) || $_COOKIE['frete'] != NULL)? '25,00':'0,00';?></span></td>
+						<tr class="<?php echo (isset($sedex))?'':'hidden';?>" id="linhaSubTotal">
+							<td colspan="3" class="total"><span>SubTotal</span></td>
+							<td colspan="3">R$ <span class="total-price" id="subTotal"><?php echo number_format($total, 2, ',', '.');?></span></td>
+						</tr>
+						<tr class="<?php echo (isset($sedex))?'':'hidden';?>" id="linhaFrete">
+							<td colspan="2"><span>Prazo: <span id="diasFrete" class="total-price"></span> Dias</span></td>
+							<td colspan="1" class="total"><span>Frete</span></td>
+							<td colspan="3">R$ <span class="total-price" id="valorFrete"><?php echo $sedex;?></span></td>
 						</tr>
 						<tr>
 							<td colspan="3" class="total"><span>Total</span></td>
-							<td colspan="2">R$ <span class="total-price" id="valorFinal"><?php echo (isset($_GET['frete']) || $_COOKIE['frete'] != NULL)? number_format($total+25.00, 2, ',', '.'):number_format($total, 2, ',', '.');?></span></td>
+							<td colspan="3">R$ <span class="total-price" id="valorFinal"><?php echo number_format($total+$sedex, 2, ',', '.');?></span></td>
 						</tr>
-						<?
-						if($config_frete > 0)
-						{
-						?>
-						<tr>
-							<td colspan="3" class="total"><span>Prazo de entrega</span></td>
-							<td colspan="2"><span class="total-price"><?=($prazo_entrega) ? "$prazo_entrega dia(s)" : "" ?></span></td>
-						</tr>
-						<?
-				        }
-			        	?>
 					</tfoot>
 				</table>
 			</div>
-			<script>
-				function atualizaFrete(self){
-				
-					console.log($(self).val());
-				
-					if($(self).val() == 1)
-						document.cookie = "frete=true";
-					else
-						document.cookie = "frete=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-						
-					document.location.reload(true);	
-					
-				}
-				function haveShipping(){
-					location.href = 'endereco.php';
-				}
-				function atualizaQtd(self){
-					let var_qtd = $('#var_prodQtd');
-					console.log(var_qtd);
-					
-				}
-			</script>
 			<div class="cart-button">
 				<a  href="loja.php">
 					<i class="fa fa-angle-left"></i>
 					Continue comprando
 				</a>
-				<div class="btn btn-success standard-checkout" onclick="haveShipping()" href="endereco.php" style="float:right;width:20%;height:50px;line-height:30px;">
+				
+				<div id="btnProximo" class="btn btn-success standard-checkout <?php echo (isset($sedex))?'':'hidden';?>" style="float:right;width:20%;height:50px;line-height:30px;" onclick="avancarCarrinho()">
 					<span style="font-size:20px;"><strong>
 						Próximo
 					</strong></span>
 				</div>
+				
 				<br><br><br>
 			</div>
 		</div>
