@@ -153,6 +153,10 @@
 	============================================ -->          
     <script src="js/scripts.js"></script>
     <script src="js/ajax_funcoes.js"></script>
+    
+  	<!-- mask
+  ============================================ -->
+  	<script src="js/jquery.mask.min.js"></script>
 
     <!-- Adicionando Javascript -->
 	<script type="text/javascript" >

@@ -142,30 +142,30 @@ body {font-family: titillium web;}
 .static-right-social ul li:hover{
   right: 0;
 }
-.static-right-social ul li:nth-child(1){}
-.static-right-social ul li:nth-child(2){
+.static-right-social ul li.liFacebook{}
+.static-right-social ul li.liInstagram{
   background: #3f729b no-repeat scroll 0 0;
   border-bottom: 3px solid #366184;
   top: 60px;
 }
-.static-right-social ul li:nth-child(3){
+.static-right-social ul li.liTwitter{
   background: #00aced no-repeat scroll 0 0;
   border-bottom: 3px solid #0092ca;
   top: 120px;
 }
-.static-right-social ul li:nth-child(4){
+.static-right-social ul li.liPinterest{
   background: #ea4c89 no-repeat scroll 0 0;
   border-bottom: 3px solid #c74175;
   top: 180px;
 }
-.static-right-social ul li:nth-child(5){
+.static-right-social ul li.liGoogle{
   background: #cb2027 no-repeat scroll 0 0;
   border-bottom: 3px solid #ad1b21;
   top: 240px;
 }
-.static-right-social ul li:nth-child(6){
-  background: #dd4b39 no-repeat scroll 0 0;
-  border-bottom: 3px solid #bc4031;
+.static-right-social ul li.liWhatsapp{
+  background: #0DC143 no-repeat scroll 0 0;
+  border-bottom: 3px solid #0ca73a;
   top: 300px;
 }
 .static-right-social ul li a{

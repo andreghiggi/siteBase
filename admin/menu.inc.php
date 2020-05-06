@@ -19,7 +19,7 @@
             <li><a href="marcas.php"><span>Marcas</span></a></li>
             <li><a href="produtos_categorias.php"><span>Categorias</span></a></li>
             <li><a href="produtos_subcategorias.php"><span>SubCategorias</span></a></li>
-            <li><a href="tabela.php"><span>Tabela</span></a></li>                
+            <!--<li><a href="tabela.php"><span>Tabela</span></a></li>-->                
             <li><a href="produtos.php"><span>Gerenciar Produtos</span></a></li>
 					</ul>
         </li>

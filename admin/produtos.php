@@ -27,6 +27,10 @@ $ind_cores = $_POST['ind_cores'];
 $status = $_POST['status'];
 $vet_imagem = $_POST['imagens'];
 
+$altura = $_POST['altura'];
+$largura = $_POST['largura'];
+$comprimento = $_POST['comprimento'];
+
 if($_POST['cmd'] == "altProduto")
 {
 	mysql_query('update produtos set valor_produto = '.$_POST['var_valor'].'where codigo = '.$_POST['var_id']);
@@ -42,8 +46,8 @@ if($_POST['cmd'] == "add")
     if($ind_cores == 1)
         $estoque = 0;
 
-    $str = "INSERT INTO produtos (idcategoria, idsubcategoria, idmarca, nome, descricao, informacoes, valor_produto, valor_desconto, peso, tags, estoque, destaque, ind_cores, status)
-        VALUES ('$idcategoria', '$idsubcategoria', '$idmarca', '$nome', '$descricao', '$informacoes', '$valor_produto', '$valor_desconto', '$peso', '$tags', '$estoque', '$destaque', '$ind_cores', '$status')";
+    $str = "INSERT INTO produtos (idcategoria, idsubcategoria, idmarca, nome, descricao, informacoes, valor_produto, valor_desconto, peso, tags, estoque, destaque, ind_cores, status, altura, largura, comprimento)
+        VALUES ('$idcategoria', '$idsubcategoria', '$idmarca', '$nome', '$descricao', '$informacoes', '$valor_produto', '$valor_desconto', '$peso', '$tags', '$estoque', '$destaque', '$ind_cores', '$status', '$altura', '$largura', '$comprimento')";
     $rs  = mysql_query($str) or die(mysql_error());
     $codigo = mysql_insert_id();
 
@@ -62,7 +66,7 @@ if($_POST['cmd'] == "add")
         }
     }
     
-    //redireciona("produtos.php?ind_msg=1");
+    redireciona("produtos.php?ind_msg=1");
 }
 
 if($_POST['cmd'] == "edit")
@@ -72,7 +76,7 @@ if($_POST['cmd'] == "edit")
 
     $str = "UPDATE produtos SET idcategoria = '$idcategoria', idsubcategoria = '$idsubcategoria', idmarca = '$idmarca', nome = '$nome', descricao = '$descricao',
         informacoes = '$informacoes', valor_produto = '$valor_produto', valor_desconto = '$valor_desconto', peso = '$peso', tags = '$tags', estoque = '$estoque',
-        destaque = '$destaque', ind_cores = '$ind_cores', status = '$status'
+        destaque = '$destaque', ind_cores = '$ind_cores', status = '$status', altura = '$altura', comprimento = '$comprimento', largura = '$largura'
         WHERE codigo = '$codigo'";
     $rs  = mysql_query($str) or die(mysql_error());
 
@@ -257,9 +261,7 @@ function editEstoque(self){
 	$('#editarNovoEstoque').focus();
 }
 
-</script>
-
-			
+</script>			
 <section id="content">
 <div class="g12">
     <h1>Produtos</h1>
@@ -275,7 +277,7 @@ function editEstoque(self){
         <label>Informações sobre o produto</label>
         <section>
             <label for="idcategoria">Categoria</label>
-            <div>
+            <div for="idcategoria">
                 <select name="idcategoria" id="idcategoria" required onchange="javascript: lista_subcategorias(this.value);">
                     <option value="">Selecione uma categoria ...</option>
                     <?
@@ -365,6 +367,27 @@ function editEstoque(self){
             </div>
         </section>
         <section>
+            <label for="estoque">Altura (cm):</label>
+            <div>
+                <input type="number" id="altura" name="altura" value="<?= isset($vet['altura'])? $vet['altura']:3; ?>" style="width:10%;" min="3">
+                <br><span>Valor mínimo 3 cm</span>
+            </div>
+        </section>
+        <section>
+            <label for="estoque">Largura (cm):</label>
+            <div>
+                <input type="number" id="largura" name="largura" value="<?=isset($vet['largura'])?$vet['largura']:11;?>" style="width:10%;" min="11">
+                <br><span>Valor mínimo 11 cm</span>
+            </div>
+        </section>
+        <section>
+            <label for="estoque">Comprimento (cm):</label>
+            <div>
+                <input type="number" id="comprimento" name="comprimento" value="<?=isset($vet['comprimento'])?$vet['comprimento']:16;?>" style="width:10%;" min="16">
+                <br><span>Valor mínimo 16 cm</span>
+            </div>
+        </section>
+        <section>
             <label for="title">Tags:<br><span>Separar as tags com ";" sem espaços</span></label>
             <div><input type="text" id="tags" name="tags" value="<?=$vet['tags']?>" ></div>
         </section>
@@ -422,29 +445,41 @@ function editEstoque(self){
         <section>
             <label for="estoque">Estoque:</label>
             <div>
-                <input type="number" id="estoque" name="estoque" value="<?=$vet['estoque']?>" required class="integer">
+                <input type="number" id="estoque" name="estoque" min="0" value="<?= isset($vet['estoque'])? $vet['estoque']:0; ?>" required class="integer">
                 <br><span>Para produtos com variedade de cores e tamanhos, este campo será ignorado, pois o estoque será informado numa próxima etapa.</span>
             </div>
         </section>
         <section>
             <label for="textarea_auto">Produto em DESTAQUE no site?</span></label>
             <div>
-                <input type="radio" id="destaque_1" name="destaque" <?=($vet['destaque'] == 1) ? "checked" : "" ?> value="1"><label for="destaque_1" class="radio">Sim</label>
-                <input type="radio" id="destaque_2" name="destaque" <?=($vet['destaque'] == FALSE || $vet['destaque'] == 2) ? "checked" : "" ?> value="2"><label for="destaque_2" class="radio">Não</label>
+                <select name="destaque">
+                    <option value="1" <?=($vet['destaque'] == 1) ? "selected" : "" ?>>Sim</option>
+                    <option value="2" <?=($vet['destaque'] == FALSE || $vet['destaque'] == 2) ? "selected" : "" ?>>Não</option>
+                </select>
+                <!--<input type="radio" id="destaque_1" name="destaque" <?=($vet['destaque'] == 1) ? "checked" : "" ?> value="1"><label for="destaque_1" class="radio">Sim</label>
+                <input type="radio" id="destaque_2" name="destaque" <?=($vet['destaque'] == FALSE || $vet['destaque'] == 2) ? "checked" : "" ?> value="2"><label for="destaque_2" class="radio">Não</label>-->
             </div>
         </section>
         <section>
             <label for="textarea_auto">Este produto possui variação de cores ou tamanhos?</span></label>
             <div>
-                <input type="radio" id="ind_cores_1" name="ind_cores" <?=($vet['ind_cores'] == 1) ? "checked" : "" ?> value="1"><label for="ind_cores_1" class="radio">Sim</label>
-                <input type="radio" id="ind_cores_2" name="ind_cores" <?=($vet['ind_cores'] == FALSE || $vet['ind_cores'] == 2) ? "checked" : "" ?> value="2"><label for="ind_cores_2" class="radio">Não</label>
+                <select name="ind_cores">
+                    <option value="1" <?=($vet['ind_cores'] == 1) ? "selected" : "" ?>>Sim</option>
+                    <option value="2" <?=($vet['ind_cores'] == FALSE || $vet['ind_cores'] == 2) ? "selected" : "" ?>>Não</option>
+                </select>
+                <!--<input type="radio" id="ind_cores_1" name="ind_cores" <?=($vet['ind_cores'] == 1) ? "checked" : "" ?> value="1"><label for="ind_cores_1" class="radio">Sim</label>
+                <input type="radio" id="ind_cores_2" name="ind_cores" <?=($vet['ind_cores'] == FALSE || $vet['ind_cores'] == 2) ? "checked" : "" ?> value="2"><label for="ind_cores_2" class="radio">Não</label>-->
             </div>
         </section>
         <section>
             <label for="textarea_auto">Status:</span></label>
             <div>
-                <input type="radio" id="status_1" name="status" <?=($vet['status'] == FALSE || $vet['status'] == 1) ? "checked" : "" ?> value="1"><label for="status_1" class="radio">Ativo</label>
-                <input type="radio" id="status_2" name="status" <?=($vet['status'] == 2) ? "checked" : "" ?> value="2"><label for="status_2" class="radio">Inativo</label>
+                <select name="status">
+                    <option value="1" <?=($vet['status'] == FALSE || $vet['status'] == 1) ? "selected" : "" ?>>Sim</option>
+                    <option value="2" <?=($vet['status'] == 2) ? "selected" : "" ?>>Não</option>
+                </select>
+                <!--<input type="radio" id="status_1" name="status" <?=($vet['status'] == FALSE || $vet['status'] == 1) ? "checked" : "" ?> value="1"><label for="status_1" class="radio">Ativo</label>
+                <input type="radio" id="status_2" name="status" <?=($vet['status'] == 2) ? "checked" : "" ?> value="2"><label for="status_2" class="radio">Inativo</label>-->
             </div>
         </section>
         <section>

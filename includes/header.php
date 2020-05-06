@@ -1,8 +1,9 @@
 <?
-
+/*
 ini_set('display_errors',1);
 ini_set('display_startup_erros',1);
 error_reporting(E_ALL);
+*/
 
 session_start();
 
@@ -17,8 +18,6 @@ $config_frete = 0;
 $c_idendereco = 0;
 
 $c_codigo = $_SESSION['user_codigo'];
-
-error_reporting(0);
 
 if($c_codigo)
 {
@@ -77,6 +76,7 @@ $instagram = $vetS['instagram'];
 $twitter = $vetS['twitter'];
 $pinterest = $vetS['pinterest'];
 $google = $vetS['google'];
+$whatsapp = $vetS['whatsapp'];
 
 $n_logo = $vetS['logo'];
 $n_empresa = stripslashes($vetS['nome']);
@@ -425,35 +425,42 @@ elseif($_POST['chave'] == TRUE)
 				if($facebook)
 				{
 				?>
-				<li><a href="<?=$facebook?>" target="_blank"><i class="fa fa-facebook"></i>Nosso Facebook</a></li>
+				<li class="liFacebook"><a href="<?=$facebook?>" target="_blank"><i class="fa fa-facebook"></i>Nosso Facebook</a></li>
 				<?
 				}
 
 				if($instagram)
 				{
 				?>
-				<li><a href="<?=$instagram?>" target="_blank"><i class="fa fa-instagram"></i>Nosso Instagram</a></li>
+				<li class="liInstagram"><a href="<?=$instagram?>" target="_blank"><i class="fa fa-instagram"></i>Nosso Instagram</a></li>
 				<?
 				}
 
 				if($twitter)
 				{
 				?>
-				<li><a href="<?=$twitter?>" target="_blank"><i class="fa fa-twitter"></i>Nosso Twitter</a></li>
+				<li class="liTwitter"><a href="<?=$twitter?>" target="_blank"><i class="fa fa-twitter"></i>Nosso Twitter</a></li>
 				<?
 				}
 
 				if($pinterest)
 				{
 				?>
-				<li><a href="<?=$pinterest?>" target="_blank"><i class="fa fa-pinterest-p"></i>Nosso Pinterest</a></li>
+				<li class="liPinterest"><a href="<?=$pinterest?>" target="_blank"><i class="fa fa-pinterest-p"></i>Nosso Pinterest</a></li>
 				<?
 				}
 
 				if($google)
 				{
 				?>
-				<li><a href="<?=$google?>" target="_blank"><i class="fa fa-google-plus"></i>Nosso Google Plus</a></li>
+				<li class="liGoogle"><a href="<?=$google?>" target="_blank"><i class="fa fa-google-plus"></i>Nosso Google Plus</a></li>
+				<?
+				}
+
+				if($whatsapp)
+				{
+				?>
+				<li class="liWhatsapp"><a href="<?=$whatsapp?>" target="_blank"><i class="fa fa-whatsapp"></i>Whatsapp</a></li>
 				<?
 				}
 				?>

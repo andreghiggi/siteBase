@@ -80,14 +80,12 @@ elseif($order == 3)
 	$strOrder .= " ORDER BY valor_produto DESC LIMIT $pag, $num_lista";
 elseif($order == 4)
 	$strOrder .= " ORDER BY nome ASC LIMIT $pag, $num_lista";
-
-	
 ?>
 <!-- static-right-social-area end-->
 <section class="slider-category-area">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-3 col-lg-3 col-md-3">paginatio
+			<div class="col-sm-3 col-lg-3 col-md-3">
 				<div class="left-sidebar">
 					<?
 					include("includes/menu.php");

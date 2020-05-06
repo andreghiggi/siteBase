@@ -12,26 +12,28 @@ if(isset($_GET['frete'])){
 	
 	$str = "SELECT A.*, B.qtde FROM produtos A
 		INNER JOIN carrinho B ON A.codigo = B.idproduto
-		WHERE idcadastro = '".$c_codigo."'
+		WHERE idcadastro = '".(isset($c_codigo)? $c_codigo:0)."'
 		AND idcarrinho = '".$_SESSION['idcarrinho']."'
 		ORDER BY A.nome";
 		
 	$resp = mysql_query($str);
-	while($row = mysqli_fetch_assoc($resp)){
+	while($row = mysql_fetch_assoc($resp)){
 		$altura += $row['altura'];
 		$largura += $row['largura'];
 		$comprimento += $row['comprimento'];
-		$peso += $row['peso'];
+		$peso += $row['peso']*$row['qtde'];
 	}
 	
 	if($altura < 2) $altura = 2;
 	if($largura < 11) $largura = 11;
 	if($comprimento < 16) $comprimento = 16;
 
-	$args = 'nCdEmpresa=18017487';
-	$args .= '&sDsSenha=N?XR4YS0EP';
-	$args .= '&nCdServico=04553';//.$servico;
-	$args .= '&sCepOrigem=91530000';//.$vetF['cep_origem'];
+	$frete = mysql_fetch_assoc(mysql_query('select * from config_frete'));
+
+	$args = 'nCdEmpresa='.$frete['empresa'];
+	$args .= '&sDsSenha='.$frete['senha'];
+	$args .= '&nCdServico='.$frete['SEDEX'];//.$servico;
+	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
 	$args .= '&sCepDestino='.$_GET['frete'];//.$c_cep;
 	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
 	$args .= '&nCdFormato=1';
@@ -39,7 +41,7 @@ if(isset($_GET['frete'])){
 	$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
 	$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
 	$args .= '&nVlDiametro=0';
-	$args .= '&sCdMaoPropria=N';
+	$args .= '&sCdMaoPropria='.strtoupper($frete['mao_propria']);
 	$args .= '&nVlValorDeclarado=0.00';
 	$args .= '&sCdAvisoRecebimento=N';	
 	$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
@@ -47,10 +49,10 @@ if(isset($_GET['frete'])){
 	$sedexDias = $resp->Servicos->cServico->PrazoEntrega;
 	$sedex = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
 
-	$args = 'nCdEmpresa=18017487';
-	$args .= '&sDsSenha=N?XR4YS0EP';
-	$args .= '&nCdServico=04596';//.$servico;
-	$args .= '&sCepOrigem=91530000';//.$vetF['cep_origem'];
+	$args = 'nCdEmpresa='.$frete['empresa'];
+	$args .= '&sDsSenha='.$frete['senha'];
+	$args .= '&nCdServico='.$frete['PAC'];//.$servico;
+	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
 	$args .= '&sCepDestino='.$_GET['frete'];//.$c_cep;
 	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
 	$args .= '&nCdFormato=1';
@@ -58,7 +60,7 @@ if(isset($_GET['frete'])){
 	$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
 	$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
 	$args .= '&nVlDiametro=0';
-	$args .= '&sCdMaoPropria=N';
+	$args .= '&sCdMaoPropria='.strtoupper($frete['mao_propria']);
 	$args .= '&nVlValorDeclarado=0.00';
 	$args .= '&sCdAvisoRecebimento=N';	
 	$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
@@ -74,7 +76,7 @@ if($_GET['cmd'] == "add")
 		$_SESSION["idcarrinho"] = uniqid();
 	}
 
-	$idcadastro = $c_codigo;
+	$idcadastro = /*$c_codigo*/ 0;
 	$idcarrinho = $_SESSION['idcarrinho'];
 	$idproduto = anti_injection($_GET['idproduto']);
 	$idtamanho = anti_injection($_GET['idtamanho']);
@@ -258,6 +260,10 @@ function avancarCarrinho(){
 	window.location.href = "endereco.php?frete="+$('#selectFrete').val()+"&destino=<?=$_GET['frete']?>";
 }
 
+$(document).ready(() => {
+	$('#cep-destino').mask('99999-999');
+});
+
 </script>
 <?php
 ?>
@@ -405,7 +411,7 @@ function avancarCarrinho(){
 							<td colspan="3">R$ <span class="total-price" id="subTotal"><?php echo number_format($total, 2, ',', '.');?></span></td>
 						</tr>
 						<tr class="<?php echo (isset($sedex))?'':'hidden';?>" id="linhaFrete">
-							<td colspan="2"><span>Prazo: <span id="diasFrete" class="total-price"></span> Dias</span></td>
+							<td colspan="2"><span>Prazo: <span id="diasFrete" class="total-price"><?php echo $sedexDias;?></span> Dias</span></td>
 							<td colspan="1" class="total"><span>Frete</span></td>
 							<td colspan="3">R$ <span class="total-price" id="valorFrete"><?php echo $sedex;?></span></td>
 						</tr>

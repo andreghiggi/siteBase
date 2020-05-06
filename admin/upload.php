@@ -168,7 +168,7 @@ class UploadHandler
     }
     
     private function handle_file_upload($uploaded_file, $name, $size, $type, $error) {
-        $name = preg_replace('/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $name));
+        $name = preg_replace('/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//IGNORE', $name));
         $name = str_replace(' ', '_', $name);
 
         $strpos = strpos($name, ".");

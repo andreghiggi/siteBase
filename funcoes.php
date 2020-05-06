@@ -12,11 +12,15 @@ $anob = date("Y");
 
 $ip = getenv("REMOTE_ADDR");
 
+/* PHP 5.6+ */
+/*
 function mysql_query($string){return mysqli_query($GLOBALS['banco'],$string);}
 function mysql_error(){return mysqli_error($GLOBALS['banco']);}
 function mysql_num_rows($result){return mysqli_num_rows($result);}
 function mysql_fetch_array($result){return mysqli_fetch_array($result);}
 function mysql_insert_id(){return mysqli_insert_id($GLOBALS['banco']);}
+*/
+
 
 function msg($string)
 {
@@ -75,7 +79,7 @@ function anti_injection($sql)
 {
 	// remove palavras que contenham sintaxe sql
 	$sql = preg_replace(preg_quote("/(from|select|insert|delete|where|drop table|show tables|#|*|--|\\)/"),"",$sql);
-	$sql = trim($sql);//limpa espaços vazio
+	$sql = trim($sql);//limpa espaï¿½os vazio
 	$sql = strip_tags($sql);//tira tags html e php
 	$sql = addslashes($sql);//Adiciona barras invertidas a uma string
 	return $sql;
@@ -224,7 +228,7 @@ function altera_nome_imagem($imagem)
 {
 	if($imagem != 'n')
 	{
-		$imagem = preg_replace('/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $imagem));
+		$imagem = preg_replace('/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//IGNORE', $imagem));
 		$imagem = str_replace(' ', '_', $imagem);
 
 		$strpos = strpos($imagem, ".");
@@ -243,7 +247,7 @@ function altera_nome_imagem($imagem)
 function calcula_frete($servico, $cep_origem, $cep_destino, $peso, $altura, $largura, $comprimento, $mao_propria)
 {
     ////////////////////////////////////////////////
-    // Código dos Serviços dos Correios
+    // Cï¿½digo dos Serviï¿½os dos Correios
     // 41106 PAC
     // 40010 SEDEX
     // 40045 SEDEX a Cobrar
@@ -254,7 +258,7 @@ function calcula_frete($servico, $cep_origem, $cep_destino, $peso, $altura, $lar
     
     // Carrega o XML de Retorno
     $xml = simplexml_load_file($correios);
-    // Verifica se não há erros
+    // Verifica se nï¿½o hï¿½ erros
     if($xml->cServico->Erro == '0')
 	{
         return $xml->cServico->Valor.';'.$xml->cServico->PrazoEntrega;
@@ -562,7 +566,7 @@ function verifica_varicacao_cores_tamanho($idproduto)
 {
 	$return = 0;
 
-	//variação de cor e tamanho
+	//variaï¿½ï¿½o de cor e tamanho
 	$strE = "SELECT * FROM produtos_estoque WHERE idproduto = '$idproduto' AND idtamanho > '0' AND idcor > '0'";
 	$rsE  = mysql_query($strE) or die(mysql_error());
 	$numE = mysql_num_rows($rsE);
@@ -570,7 +574,7 @@ function verifica_varicacao_cores_tamanho($idproduto)
 	if($numE)
 		$return = 1;
 
-	//variação de tamanho
+	//variaï¿½ï¿½o de tamanho
 	$strE = "SELECT * FROM produtos_estoque WHERE idproduto = '$idproduto' AND idtamanho > '0' AND idcor = '0'";
 	$rsE  = mysql_query($strE) or die(mysql_error());
 	$numE = mysql_num_rows($rsE);
@@ -578,7 +582,7 @@ function verifica_varicacao_cores_tamanho($idproduto)
 	if($numE)
 		$return = 2;
 
-	//variação de cor
+	//variaï¿½ï¿½o de cor
 	$strE = "SELECT * FROM produtos_estoque WHERE idproduto = '$idproduto' AND idtamanho = '0' AND idcor > '0'";
 	$rsE  = mysql_query($strE) or die(mysql_error());
 	$numE = mysql_num_rows($rsE);

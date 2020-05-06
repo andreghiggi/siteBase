@@ -14,6 +14,7 @@ else
 $idcor = $_POST['idcor'];
 $idtamanho = $_POST['idtamanho'];
 $estoque = $_POST['estoque'];
+$valor = $_POST['valor'];
 
 if($_POST['cmd'] == "add")
 {
@@ -24,7 +25,7 @@ if($_POST['cmd'] == "add")
     if($num)
         redireciona("produtos_estoque.php?ind_msg=4&idproduto=$idproduto");
 
-    $str = "INSERT INTO produtos_estoque (idproduto, idcor, idtamanho, estoque) VALUES ('$idproduto', '$idcor', '$idtamanho', '$estoque')";
+    $str = "INSERT INTO produtos_estoque (idproduto, idcor, idtamanho, estoque, valor) VALUES ('$idproduto', '$idcor', '$idtamanho', '$estoque' , '$valor')";
     $rs  = mysql_query($str) or die(mysql_error());
     
     redireciona("produtos_estoque.php?ind_msg=1&idproduto=$idproduto");
@@ -39,7 +40,7 @@ if($_POST['cmd'] == "edit")
     if($num)
         redireciona("produtos_estoque.php?ind_msg=4&idproduto=$idproduto");
 
-    $str = "UPDATE produtos_estoque SET idproduto = '$idproduto', idcor = '$idcor', idtamanho = '$idtamanho', estoque = '$estoque' WHERE codigo = '$codigo'";
+    $str = "UPDATE produtos_estoque SET idproduto = '$idproduto', idcor = '$idcor', idtamanho = '$idtamanho', estoque = '$estoque', valor = '$valor' WHERE codigo = '$codigo'";
     $rs  = mysql_query($str) or die(mysql_error());
     
     redireciona("produtos_estoque.php?ind_msg=2&idproduto=$idproduto");
@@ -136,7 +137,13 @@ function valida(ind)
         <section>
             <label for="estoque">Estoque:</label>
             <div>
-                <input type="number" id="estoque" name="estoque" value="<?=$vet['estoque']?>" required class="integer">
+                <input type="number" id="estoque" name="estoque" value="<?=isset($vet['estoque'])?$vet['estoque']:1;?>" required class="integer">
+            </div>
+        </section>
+        <section>
+            <label for="valor">Valor:</label>
+            <div>
+                <input type="number" id="valor" name="valor" min="0" value="<?=isset($vet['valor'])?$vet['valor']:0;?>" required class="decimal">
             </div>
         </section>
         <section>
@@ -205,6 +212,7 @@ function valida(ind)
             <th>Cor</th>
             <th>Tamanho</th>
             <th>Estoque</th>
+            <th>Valor</th>
             <th>Ações</th>
         </tr>
     </thead>
@@ -217,6 +225,7 @@ function valida(ind)
             <td><?=($vet['cor']) ? stripslashes($vet['cor']) : 'Não informado'?></td>
             <td><?=($vet['tamanho']) ? $vet['tamanho'] : 'Não informado'?></td>
             <td><?=$vet['estoque']?></td>
+            <td><?=$vet['valor']?></td>
             <td class="c">
                 <a class="btn i_pencil icon small" title="editar" href="produtos_estoque.php?ind=2&idproduto=<?=$idproduto?>&codigo=<?=$vet['codigo']?>" >editar</a>
                 <a class="btn i_trashcan icon small" title="excluir" href="produtos_estoque.php?cmd=del&idproduto=<?=$idproduto?>&codigo=<?=$vet['codigo']?>" onclick="javascript: if(!confirm('Deseja realmente excluir este registro?')) { return false }">excluir</a>

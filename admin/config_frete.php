@@ -2,24 +2,24 @@
 include('topo.inc.php'); 
 
 $cep_origem = $_POST['cep_origem'];
-$peso = $_POST['peso'];
-$comprimento = $_POST['comprimento'];
-$altura = $_POST['altura'];
-$largura = $_POST['largura'];
 $mao_propria = $_POST['mao_propria'];
+$empresa = $_POST['empresa'];
+$senha = $_POST['senha'];
+$pac = $_POST['pac'];
+$sedex = $_POST['sedex'];
 
 if($_POST['cmd'] == "add")
 {
-	$str = "INSERT INTO config_frete (cep_origem, peso, comprimento, altura, largura, mao_propria)
-		VALUES ('$cep_origem', '$peso', '$comprimento', '$altura', '$largura', '$mao_propria')";
+	$str = "INSERT INTO config_frete (cep_origem, mao_propria, empresa, senha, pac, sedex)
+		VALUES ('$cep_origem', '$mao_propria', '$empresa', '$senha', '$pac', '$sedex')";
 	$rs  = mysql_query($str) or die(mysql_error());
-			
+
 	redireciona("config_frete.php?ind_msg=1");
 }
 
 if($_POST['cmd'] == "edit")
 {
-	$str = "UPDATE config_frete SET cep_origem = '$cep_origem', peso = '$peso', comprimento = '$comprimento', altura = '$altura', largura = '$largura', mao_propria = '$mao_propria'";
+	$str = "UPDATE config_frete SET cep_origem = '$cep_origem', mao_propria = '$mao_propria', empresa = '$empresa', senha = '$senha', pac = '$pac', sedex = '$sedex'";
 	$rs  = mysql_query($str) or die(mysql_error());
 	
 	redireciona("config_frete.php?ind_msg=2");
@@ -62,9 +62,7 @@ function valida(ind)
 <div class="g12">
 	<h1>Configurações do frete</h1>
 	<p>Preencha os dados abaixo para configuração do cálculo de frete no site.</p>
-    <p><a class="btn i_wizard icon small" title="Desfazer configurações de frete" href="config_frete.php?cmd=clean" onclick="javascript: if(!confirm('Deseja realmente desfazer as configurações de frete?')) { return false }">Desfazer configurações de frete</a></p>
-
-	 <?=$msg?>
+   <?=$msg?>
     
 	<form name="form" id="form" method="post" autocomplete="off">
     <input type="hidden" name="cmd">
@@ -77,38 +75,40 @@ function valida(ind)
             </div>
         </section>
     	<section>
-            <label for="peso">Peso da embalagem:</label>
+            <label for="peso">Contrato:</label>
             <div>
-                <input type="text" id="peso" name="peso" value="<?=$vet['peso']?>" style="width:10%;" >
-                <br><span>Exemplo: 0.05 (50g) / 0.5 (500g) / 1 (1kg) / 1.5 (1.5kg)</span>
+                <input type="text" id="empresa" name="empresa" value="<?=$vet['empresa']?>" style="width:40%;" >
+                <br><span>Usuário do contrato.</span>
             </div>
         </section>
         <section>
-            <label for="comprimento">Comprimento da embalagem:</label>
+            <label for="comprimento">Senha:</label>
             <div>
-                <input type="text" id="comprimento" name="comprimento" value="<?=$vet['comprimento']?>" style="width:10%;" >
-                <br><span>Comprimento da encomenda (incluindo embalagem), em centímetros.</span>
+                <input type="text" id="senha" name="senha" value="<?=$vet['senha']?>" style="width:40%;" >
+                <br><span>Senha do contrato.</span>
             </div>
         </section>
         <section>
-            <label for="altura">Altura da embalagem:</label>
+            <label for="altura">PAC:</label>
             <div>
-                <input type="text" id="altura" name="altura" value="<?=$vet['altura']?>" style="width:10%;" >
-                <br><span>Altura da encomenda (incluindo embalagem), em centímetros.</span>
+                <input type="text" id="pac" name="pac" placeholder="04510" value="<?=$vet['PAC']?>" style="width:16%;" >
+                <br><span>Código para PAC (informado no contrato, valor padrão sem contrato 04510).</span>
             </div>
         </section>
         <section>
-            <label for="largura">Largura da embalagem:</label>
+            <label for="largura">SEDEX:</label>
             <div>
-                <input type="text" id="largura" name="largura" value="<?=$vet['largura']?>" style="width:10%;" >
-                <br><span>Largura da encomenda (incluindo embalagem), em centímetros.</span>
+                <input type="text" id="sedex" name="sedex" placeholder="04014" value="<?=$vet['SEDEX']?>" style="width:16%;" >
+                <br><span>Código para SEDEX (informado no contrato, valor padrão sem contrato 04014).</span>
             </div>
         </section>
         <section>
             <label for="textarea_auto">Mão própria?</span></label>
             <div>
-                <input type="radio" id="mao_propria_1" name="mao_propria" <?=($vet['mao_propria'] == FALSE || $vet['mao_propria'] == 's') ? "checked" : "" ?> value='s'><label for="mao_propria_1" class="radio">Sim</label>
-                <input type="radio" id="mao_propria_2" name="mao_propria" <?=($vet['mao_propria'] == 'n') ? "checked" : "" ?> value='n'><label for="mao_propria_2" class="radio">Não</label>
+                <select id="mao_propria_1" name="mao_propria">
+                    <option value="s" <?=($vet['mao_propria'] == 's') ? "selected" : "" ?> >Sim</option>
+                    <option value="n" <?=(!isset($vet['mao_propria']) || $vet['mao_propria'] == 'n') ? "selected" : "" ?> >Não</option>
+                </select>
                 <br><span>Aqui você informa se quer que a encomenda deva ser entregue somente para uma determinada pessoa após confirmação por RG.</span>
             </div>
         </section>

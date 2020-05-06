@@ -291,7 +291,7 @@ function valida_c()
 								<label>Senha <em>*</em></label>
 								<input type="password" name="senha" id="senha" >
 							</p>
-							<button id="botaoEnviar" type="submit" class="login" onclick="javascript: return valida_c();" disabled>
+							<button id="botaoEnviar" type="submit" class="login" onclick="javascript: return valida_c();">
 								<span>
 									<i class="fa fa-user"></i>
 									Cadastrar

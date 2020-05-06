@@ -99,11 +99,17 @@ function exibe_galerias(idproduto, idtamanho, idcor)
 				retorno = xmlhttp.responseText;
 				array_retorno = retorno.split("<br>");
 
+				console.log(array_retorno);
+
 				if(xmlhttp.responseText != "Erro")
 				{
 					document.getElementById('imagens').innerHTML = array_retorno[0];
 					document.getElementById('estoque').innerHTML = array_retorno[1];
 					document.getElementById('carrinho').innerHTML = array_retorno[2];
+					if(parseFloat(array_retorno[3]) > 0){
+						document.getElementById('prodValor').innerHTML = array_retorno[3];
+						document.getElementById('prodValorSemDesconto').classList.add("d-none");	
+					}
 				}
 				else
 				{

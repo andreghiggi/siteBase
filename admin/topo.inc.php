@@ -11,7 +11,11 @@ if ($_GET['arquivo'] == TRUE)
 {
     $file = 'upload/'.$_GET['arquivo'];
     header("Content-type: application/save");
-    header('Content-Disposition: attachment; filename="' . $file . '"');
+    header('Content-Disposition: attachment; filena<style>
+    .selector select{
+        height: 100%;
+    }
+</style>me="' . $file . '"');
     header('Expires: 0');
     header('Pragma: no-cache');
 
@@ -138,3 +142,8 @@ $n_email = $vetS['email'];
             </li>
         </ul>
 </header>
+<style>
+    .selector select{
+        height: 100%;
+    }
+</style>

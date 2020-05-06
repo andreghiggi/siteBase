@@ -24,17 +24,6 @@ if(!$num)
 	redireciona("index.php");
 ?>
 
-<div itemscope itemtype="http://schema.org/Product">
-	<meta itemprop="name" content="<?echo stripslashes($vet['nome'])?>">
-	<meta itemprop="brand" content="Opion calçados">
-	<meta itemprop="description" content="<?echo $vet['descricao']?>">
-	<meta itemprop="productID" content="<?echo $codigo?>">
-	<meta itemprop="price" content="<?echo $vet['valor_produto']?>">
-	<meta itemprop="priceCurrency" content="BRL">
-	<meta itemprop="availability" content="Em estoque">
-	<meta itemprop="condition" content="novo">
-</div>
-
 <section class="slider-category-area">
 	<div class="container">
 		<div class="row">
@@ -44,13 +33,13 @@ if(!$num)
 					<div class="row">
 						<div id="imagens" class="col-sm-5 col-lg-5 col-md-5">
 							<?
-							$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$codigo' AND idcor = '0' ORDER BY status DESC";
+							$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$codigo' ORDER BY status DESC";
 							$rsI  = mysql_query($strI) or die(mysql_error());
 							$numI = mysql_num_rows($rsI);
 
 							if($numI > 0)
 							{
-							    $array_imagens = array();
+								$array_imagens = array();
 							    while($vetI = mysql_fetch_array($rsI))
 							    {
 							        $array_imagens[] = $vetI['imagem'];
@@ -147,8 +136,8 @@ if(!$num)
 										if($vet['valor_desconto']){
 											$valor = $vet['valor_desconto'];
 											echo '
-											<small><strike>De: R$ '.(number_format($vet['valor_produto'], 2, ',', '.')).'</strike></smal><br>
-											<big><strong>Por: R$ '.(number_format($valor, 2, ',', '.')).'</strong></big>';
+											<small id="prodValorSemDesconto"><strike>De: R$ '.(number_format($vet['valor_produto'], 2, ',', '.')).'</strike></small><br>
+											<big><strong >Por: R$ <span id="prodValor">'.(number_format($valor, 2, ',', '.')).'</span></strong></big>';
 										}
 										else{
 											$valor = $vet['valor_produto'];
@@ -233,7 +222,7 @@ if(!$num)
 									?>
 									<div class="color">
 										<label>Cor :</label>
-										<select name="idcor" id="idcor" onchange="javascript: exibe_galerias(<?=$codigo?>, 0, this.value);">
+										<select name="idcor" id="idcor" >
 											<option value="" >Selecione uma cor</option>
 											<?
 											$strT = "SELECT DISTINCT B.*
@@ -352,7 +341,7 @@ if(!$num)
 								$imagem = img_produto_destaque($vet['codigo']);
 							?>
     						<!-- single-product-start -->
-    						<div class="col-lg-3 col-md-3">
+    						<div class="col-lg col-md">
 								<div class="single-product">
 									<div class="image-area">
 										<a href="produto.php?codigo=<?=$vet['codigo']?>">

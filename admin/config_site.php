@@ -1,8 +1,8 @@
 <?php 
 
-ini_set('display_errors',1);
+/*ini_set('display_errors',1);
 ini_set('display_startup_erros',1);
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 
 include('topo.inc.php'); 
 
@@ -11,6 +11,7 @@ $instagram = $_POST['instagram'];
 $twitter = $_POST['twitter'];
 $pinterest = $_POST['pinterest'];
 $google = $_POST['google'];
+$whatsapp = $_POST['whatsapp'];
 
 $logo = altera_nome_imagem($_POST['logo'][0]);
 $nome = addslashes($_POST['nome']);
@@ -28,8 +29,8 @@ $pac = $_POST['pac'];
 
 if($_POST['cmd'] == "add")
 {
-    $str = "INSERT INTO config_site (facebook, instagram, twitter, pinterest, google, logo, nome, email, telefone, endereco, url_maps, funcionamento, frete, devolucao, pagamento, pac)
-        VALUES ('$facebook', '$instagram', '$twitter', '$pinterest', '$google', '$logo', '$nome', '$email', '$telefone', '$endereco', '$url_maps', '$funcionamento', '$frete', '$devolucao', '$pagamento', '$pac')";
+    $str = "INSERT INTO config_site (whatsapp, facebook, instagram, twitter, pinterest, google, logo, nome, email, telefone, endereco, url_maps, funcionamento, frete, devolucao, pagamento, pac)
+        VALUES ('$whatsapp','$facebook', '$instagram', '$twitter', '$pinterest', '$google', '$logo', '$nome', '$email', '$telefone', '$endereco', '$url_maps', '$funcionamento', '$frete', '$devolucao', '$pagamento', '$pac')";
     $rs  = mysql_query($str) or die(mysql_error());
         
     redireciona("config_site.php?ind_msg=1");
@@ -37,7 +38,7 @@ if($_POST['cmd'] == "add")
 
 if($_POST['cmd'] == "edit")
 {
-    $str = "UPDATE config_site SET facebook = '$facebook', instagram = '$instagram', twitter = '$twitter', pinterest = '$pinterest', google = '$google',
+    $str = "UPDATE config_site SET whatsapp = '$whatsapp', facebook = '$facebook', instagram = '$instagram', twitter = '$twitter', pinterest = '$pinterest', google = '$google',
         nome = '$nome', email = '$email', telefone = '$telefone', endereco = '$endereco', url_maps = '$url_maps', funcionamento = '$funcionamento',
         frete = '$frete', devolucao = '$devolucao', pagamento = '$pagamento', pac = '$pac'";
     $rs  = mysql_query($str) or die(mysql_error());
@@ -128,6 +129,10 @@ function valida(ind)
             <label for="text_field">Google +:</label>
             <div><input type="url" id="google" name="google" value="<?=$vet['google']?>" placeholder="http://" ></div>
         </section>  
+        <section>
+            <label for="text_field">Whatsapp:</label>
+            <div><input type="url" id="whatsapp" name="whatsapp" value="<?=$vet['whatsapp']?>" placeholder="https://api.whatsapp.com/send?phone="></div>
+        </section> 
     </fieldset>
 
     <label>Dados da empresa</label> 

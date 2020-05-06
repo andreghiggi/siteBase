@@ -165,10 +165,17 @@ CREATE TABLE `como_comprar` (
 
 CREATE TABLE `config_frete` (
   `cep_origem` char(8) NOT NULL,
-  `peso` double NOT NULL,
-  `comprimento` double NOT NULL,
-  `altura` double NOT NULL,
-  `largura` double NOT NULL,
+  
+  `empresa` varchar(10) DEFAULT NULL,
+  `senha` varchar(10) DEFAULT NULL,
+  `PAC` varchar(5) DEFAULT NULL,
+  `SEDEX` varchar(5) DEFAULT NULL,
+
+  -- `peso` double NOT NULL,
+  -- `comprimento` double NOT NULL,
+  -- `altura` double NOT NULL,
+  -- `largura` double NOT NULL,
+
   `mao_propria` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -184,6 +191,7 @@ CREATE TABLE `config_site` (
   `twitter` varchar(150) DEFAULT NULL,
   `pinterest` varchar(150) DEFAULT NULL,
   `google` varchar(150) DEFAULT NULL,
+  `whatsapp` varchar(150) DEFAULT NULL,
   `logo` varchar(150) DEFAULT NULL,
   `nome` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
@@ -385,7 +393,10 @@ CREATE TABLE `produtos` (
   `visualizacoes` int(11) NOT NULL DEFAULT 0,
   `destaque` int(1) NOT NULL DEFAULT 2,
   `ind_cores` int(1) NOT NULL DEFAULT 1,
-  `status` int(1) NOT NULL DEFAULT 1
+  `status` int(1) NOT NULL DEFAULT 1,
+  `comprimento` int(11) NOT NULL DEFAULT 16,
+  `altura` int(11) NOT NULL DEFAULT 2,
+  `largura` int(11) NOT NULL DEFAULT 11,
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -411,7 +422,8 @@ CREATE TABLE `produtos_estoque` (
   `idproduto` int(11) NOT NULL,
   `idcor` int(11) NOT NULL,
   `idtamanho` int(11) NOT NULL,
-  `estoque` int(11) NOT NULL
+  `estoque` int(11) NOT NULL,
+  `valor` decimal(10,2) NOT NULL DEFAULT 0,
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -423,7 +435,7 @@ CREATE TABLE `produtos_estoque` (
 CREATE TABLE `produtos_imagens` (
   `codigo` int(11) UNSIGNED NOT NULL,
   `idproduto` int(11) NOT NULL,
-  `idcor` int(11) NOT NULL,
+  `idcor` int(11),
   `imagem` varchar(150) NOT NULL,
   `status` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -464,7 +476,7 @@ CREATE TABLE `publicidade` (
 
 CREATE TABLE `tamanhos` (
   `codigo` int(11) UNSIGNED NOT NULL,
-  `numero` int(2) NOT NULL
+  `numero` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

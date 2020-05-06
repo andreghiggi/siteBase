@@ -8,7 +8,7 @@ $idproduto = anti_injection($_GET['idproduto']);
 $idcor = anti_injection($_GET['idcor']);
 $idtamanho = anti_injection($_GET['idtamanho']);
 
-$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' AND idcor = '$idcor' ORDER BY status DESC";
+$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' ORDER BY status DESC";
 $rsI  = mysql_query($strI) or die(mysql_error());
 $numI = mysql_num_rows($rsI);
 
@@ -28,7 +28,7 @@ if($numI > 0)
         {
         	$class = 'class="tab-pane fade"';
         	if(!$i)
-        		$class = 'class="tab-pane fade in active"';
+        		$class = 'class="tab-pane active"';
         ?>
 		<div id="image<?=$i?>" <?=$class?>>
 			<a href="">
@@ -106,3 +106,6 @@ if($vetE['estoque'] > 0)
 <?
 }
 ?>
+
+<br>
+<? echo number_format($vetE['valor'], 2, ',', '.');?>
