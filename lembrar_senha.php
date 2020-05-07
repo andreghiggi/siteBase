@@ -1,12 +1,8 @@
 <?
 include("includes/header.php");
 
-if($_POST['cmd'] == "add")
-{
+if($_POST['cmd'] == "rec"){
 	$email = anti_injection($_POST['email']);
-	$senha = anti_injection($_POST['senha']);
-	$confirm_senha = anti_injection($_POST['confirm_senha']);
-	$senha_aux = @md5($senha);
 
 	$str = "SELECT * FROM cadastros WHERE email = '$email'";
 	$rs  = mysql_query($str) or die(mysql_error());
@@ -15,13 +11,15 @@ if($_POST['cmd'] == "add")
     if(!$num)
         redireciona("lembrar_senha.php?ind_msg=1");
 
-    $vet = mysql_fetch_array($rs);
-    $codigo = $vet['codigo'];	
+	$vet = mysql_fetch_array($rs);
+	
+	$codigo = $vet['codigo'];
+	$c = uniqid();
 
-    $str = "UPDATE cadastros SET senha = '$senha_aux' WHERE codigo = '$codigo'";
-    $rs  = mysql_query($str) or die(mysql_error());
-
-    $corpo = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	$_SESSION['codigo'] = $codigo;
+	$_SESSION['c'] = $c;
+	
+	$corpo = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -40,7 +38,7 @@ if($_POST['cmd'] == "add")
                             <tr>
                                 <td height="30" valign="top">
                                     Olá, '.$vet['nome'].'<br><br>
-                                    Sua nova senha de acesso ao nosso site é: <b>"'.$senha.'"</b>.<br>
+                                    Acesse <a href="'.$_SERVER["HTTP_REFERER"].'?c='.$c.'">aqui</a> para alterar a senha</b>.<br>
                                     Boas compras!
                                 </td>
                             </tr>
@@ -59,35 +57,24 @@ if($_POST['cmd'] == "add")
     $headers .= "Return-Path: ".$n_email."\n";
     
     //Envia o email
-    mail($vet['email'], $assunto, $corpo, $headers , "-r ".$n_email);
+	mail($vet['email'], $assunto, $corpo, $headers , "-r ".$n_email);
+	echo $_SERVER["HTTP_REFERER"].'?c='.$c;
+}
 
-    redireciona("login.php?ind_msg=4");
+if($_POST['cmd'] == "nova")
+{
+	if($_SESSION['c'] != $_POST['c'] || $_POST['senha'] != $_POST['confirm_senha']) return;
+
+	mysql_query('update cadastros set senha = "'.md5($_POST['senha']).'" where codigo = '.$_SESSION['codigo']);
+
+	var_dump($_SESSION['c'], $_SESSION['codigo']);
+
+   //redireciona("login.php?ind_msg=4");
 }
 ?>
 <script>
 function valida()
 {
-	if(document.form.email.value == '')
-	{
-		alert("Informe seu email");
-		document.form.email.focus();
-		return false;
-	}
-
-	if(document.form.senha.value == '' || document.form.confirm_senha.value == '')
-	{
-		alert("Informe a nova senha e confirme");
-		document.form.senha.focus();
-		return false;
-	}
-
-	if(document.form.senha.value != document.form.confirm_senha.value)
-	{
-		alert("As senhas informadas são diferentes");
-		document.form.senha.focus();
-		return false;
-	}
-
 	document.form.submit();
 }
 </script>
@@ -119,15 +106,20 @@ function valida()
 		<div class="row">
 			<div class="col-sm-6 col-lg-6 col-md-6">
 				<form name="form" id="form" method="post" >
-					<input type="hidden" name="cmd" id="cmd" value="add">
 					<div class="form-area">
 						<h2 class="form-heading">Lembrar senha</h2>
 						<div class="form-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							
+							<?php if(!isset($_GET['c'])): ?>
+							<input type="hidden" name="cmd" id="cmd" value="rec">
 							<p>
 								<label>Email <em>*</em></label>
 								<input type="text" name="email" id="email" required>
 							</p>
+
+							<?php else: ?>
+							<input type="hidden" name="cmd" id="cmd" value="nova">
+							<input type="hidden" name="c" id="c" value="<?php echo $_GET['c'];?>">
 							<p>
 								<label>Senha <em>*</em></label>
 								<input type="password" name="senha" id="senha" required>
@@ -139,6 +131,8 @@ function valida()
 							<p>
 								<a href="login.php">Voltar para a tela de login / cadastro</a>
 							</p>
+							<?php endif;?>
+
 							<button type="button" onclick="javascript: return valida();">
 								<span>
 									<i class="fa fa-lock"></i>
