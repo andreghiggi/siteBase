@@ -1,3 +1,6 @@
+alter table tamanho drop column `numero`;
+alter table tamanho add column `numero` varchar(10);
+
 alter table produtos_imagens drop idcor;
 alter table produtos_imagens add idcor int(11);
 
