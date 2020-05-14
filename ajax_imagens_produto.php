@@ -8,7 +8,10 @@ $idproduto = anti_injection($_GET['idproduto']);
 $idcor = anti_injection($_GET['idcor']);
 $idtamanho = anti_injection($_GET['idtamanho']);
 
-$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' ORDER BY status DESC";
+$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' and idcor= '$idcor' ORDER BY status DESC";
+if(mysql_num_rows($strI) == 0){
+	$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' ORDER BY status DESC";
+}
 $rsI  = mysql_query($strI) or die(mysql_error());
 $numI = mysql_num_rows($rsI);
 

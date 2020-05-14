@@ -96,10 +96,12 @@ if(!$num)
 								<h2 class="product-name">
 									<?=stripslashes($vet['nome'])?>
 								</h2>
-								<p class="model-condi">
-									<label>Código:</label>
-									<span><?=$vet['identificador'];?></span>
-								</p>
+								<?php if(isset($vet['ref']) && $vet['ref'] > 0):?>
+									<p class="model-condi">
+										<label>Ref.:</label>
+										<span><?=$vet['ref'];?></span>
+									</p>
+								<?php endif;?>
 								<p class="model-condi">
 									<label>Categoria:</label>
 									<span><?=stripslashes($vet['categoria'])?></span>
@@ -141,7 +143,7 @@ if(!$num)
 										}
 										else{
 											$valor = $vet['valor_produto'];
-											echo 'R$ '.number_format($valor, 2, ',', '.');
+											echo 'R$ <span id="prodValor">'.number_format($valor, 2, ',', '.').'</span>';
 										}
 										?>
 									</span>
@@ -358,17 +360,17 @@ if(!$num)
 												if(!$vet['valor_desconto'])
 												{
 												?>
-												<span class="new-price">
+												<div class="new-price">
 													R$ <?=number_format($vet['valor_produto'], 2, ',', '.')?>
-												</span>
+												</div>
 												<?
 												}
 												else
 												{
 												?>
-												<span class="new-price">
+												<div class="new-price">
 													R$ <?=number_format($vet['valor_desconto'], 2, ',', '.')?>
-												</span>
+												</div>
 												<span class="old-price">
 													R$ <?=number_format($vet['valor_produto'], 2, ',', '.')?>
 												</span>

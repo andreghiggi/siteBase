@@ -397,6 +397,7 @@ CREATE TABLE `produtos` (
   `comprimento` int(11) NOT NULL DEFAULT 16,
   `altura` int(11) NOT NULL DEFAULT 2,
   `largura` int(11) NOT NULL DEFAULT 11,
+  `ref` VARCHAR(20)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -423,7 +424,7 @@ CREATE TABLE `produtos_estoque` (
   `idcor` int(11) NOT NULL,
   `idtamanho` int(11) NOT NULL,
   `estoque` int(11) NOT NULL,
-  `valor` decimal(10,2) NOT NULL DEFAULT 0,
+  `valor` decimal(10,2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

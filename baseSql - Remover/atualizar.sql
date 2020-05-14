@@ -1,5 +1,5 @@
-alter table tamanho drop column `numero`;
-alter table tamanho add column `numero` varchar(10);
+alter table tamanhos drop column `numero`;
+alter table tamanhos add column `numero` varchar(10);
 
 alter table produtos_imagens drop idcor;
 alter table produtos_imagens add idcor int(11);
@@ -7,6 +7,7 @@ alter table produtos_imagens add idcor int(11);
 alter table produtos add column `comprimento` int(11) NOT NULL DEFAULT 16;
 alter table produtos add column `altura` int(11) NOT NULL DEFAULT 2;
 alter table produtos add column `largura` int(11) NOT NULL DEFAULT 11;
+ALTER TABLE `produtos` ADD `ref` VARCHAR(20) NOT NULL AFTER `largura`;
 
 alter table produtos_estoque add column `valor` decimal(10,2) NOT NULL DEFAULT 0;
 

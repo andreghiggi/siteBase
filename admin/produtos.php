@@ -30,6 +30,7 @@ $vet_imagem = $_POST['imagens'];
 $altura = $_POST['altura'];
 $largura = $_POST['largura'];
 $comprimento = $_POST['comprimento'];
+$ref = $_POST['ref'];
 
 if($_POST['cmd'] == "altProduto")
 {
@@ -46,8 +47,8 @@ if($_POST['cmd'] == "add")
     if($ind_cores == 1)
         $estoque = 0;
 
-    $str = "INSERT INTO produtos (idcategoria, idsubcategoria, idmarca, nome, descricao, informacoes, valor_produto, valor_desconto, peso, tags, estoque, destaque, ind_cores, status, altura, largura, comprimento)
-        VALUES ('$idcategoria', '$idsubcategoria', '$idmarca', '$nome', '$descricao', '$informacoes', '$valor_produto', '$valor_desconto', '$peso', '$tags', '$estoque', '$destaque', '$ind_cores', '$status', '$altura', '$largura', '$comprimento')";
+    $str = "INSERT INTO produtos (ref, idcategoria, idsubcategoria, idmarca, nome, descricao, informacoes, valor_produto, valor_desconto, peso, tags, estoque, destaque, ind_cores, status, altura, largura, comprimento)
+        VALUES ('$ref', '$idcategoria', '$idsubcategoria', '$idmarca', '$nome', '$descricao', '$informacoes', '$valor_produto', '$valor_desconto', '$peso', '$tags', '$estoque', '$destaque', '$ind_cores', '$status', '$altura', '$largura', '$comprimento')";
     $rs  = mysql_query($str) or die(mysql_error());
     $codigo = mysql_insert_id();
 
@@ -76,7 +77,7 @@ if($_POST['cmd'] == "edit")
 
     $str = "UPDATE produtos SET idcategoria = '$idcategoria', idsubcategoria = '$idsubcategoria', idmarca = '$idmarca', nome = '$nome', descricao = '$descricao',
         informacoes = '$informacoes', valor_produto = '$valor_produto', valor_desconto = '$valor_desconto', peso = '$peso', tags = '$tags', estoque = '$estoque',
-        destaque = '$destaque', ind_cores = '$ind_cores', status = '$status', altura = '$altura', comprimento = '$comprimento', largura = '$largura'
+        destaque = '$destaque', ind_cores = '$ind_cores', status = '$status', altura = '$altura', comprimento = '$comprimento', largura = '$largura', ref = '$ref'
         WHERE codigo = '$codigo'";
     $rs  = mysql_query($str) or die(mysql_error());
 
@@ -350,6 +351,10 @@ function editEstoque(self){
         <section>
             <label for="text_field">Nome:</label>
             <div><input type="text" id="nome" name="nome" value="<?=stripslashes($vet['nome'])?>" required></div>
+        </section>
+        <section>
+            <label for="text_field">Ref.:</label>
+            <div><input type="text" id="ref" name="ref" value="<?=stripslashes($vet['ref'])?>" maxlenght="20"></div>
         </section>
         <section>
             <label for="title">Valor do produto:</label>
