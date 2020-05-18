@@ -142,6 +142,7 @@ function imagem_destaque(idproduto, idcor, idimagem)
 </script>	    
 			
 <section id="content">
+<a href="produtos_estoque.php?idproduto=<?php echo $_GET['idproduto'];?>"><button>Voltar</button></a>
 <div class="g12">
     <h1>Upload de imagens > <?=stripslashes($vetP['nome'])?> > <?=stripslashes($vetC['titulo'])?></h1>
     <p></p>

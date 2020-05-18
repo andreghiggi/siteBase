@@ -84,6 +84,7 @@ function valida(ind)
 </script>	    
 			
 <section id="content">
+<a href="produtos.php"><button>voltar</button></a>
 <div class="g12">
     <h1>Estoque > <?=stripslashes($vetP['nome'])?></h1>
     <p></p>
@@ -137,7 +138,7 @@ function valida(ind)
         <section>
             <label for="estoque">Estoque:</label>
             <div>
-                <input type="number" id="estoque" name="estoque" value="<?=isset($vet['estoque'])?$vet['estoque']:1;?>" required class="integer">
+                <input type="number" id="estoque" name="estoque" min="0" value="<?=isset($vet['estoque'])?$vet['estoque']:1;?>" required class="integer">
             </div>
         </section>
         <section>
