@@ -135,7 +135,7 @@ elseif($order == 4)
 						}
 						?>
 						<div class="toolbar">
-							<div class="view-mode">
+							<!--<div class="view-mode">
 								<ul>
 									<li class="active">
 										<a data-toggle="tab" href="#grid">
@@ -148,35 +148,42 @@ elseif($order == 4)
 										</a>
 									</li>
 								 </ul>
-							</div>
-							<form name="form_l" id="form_l" method="post" action="loja.php?pagina=<?=$pagina?>">
+							</div>-->
+							<form name="form_l" id="form_l" method="post" action="loja.php?pagina=<?=$pagina?>" style="width:100%">
 								<input type="hidden" name="cmd" id="cmd" value="list">
 								<input type="hidden" name="idcategoria" id="idcategoria" value="<?=$idcategoria?>">
 								<input type="hidden" name="idsubcategoria" id="idsubcategoria" value="<?=$idsubcategoria?>">
 								<input type="hidden" name="idmarca" id="idmarca" value="<?=$idmarca?>">
 								<input type="hidden" name="tag" id="tag" value="<?=base64_encode($tag)?>">
 								<input type="hidden" name="chave" id="chave" value="<?=(isset($_POST['chave']))? base64_encode($chave) : $chave?>">
-								<div class="short-by">
-									<label>Ordenar por:</label>
-									<select name="order" id="order" onchange="javascript: document.form_l.submit();">
-										<option value="1" <?=(!$order || $order == 1) ? 'selected' : ''?>>Últimos cadastrados</option>
-										<option value="2" <?=($order == 2) ? 'selected' : ''?>>Menor preço</option>
-										<option value="3" <?=($order == 3) ? 'selected' : ''?>>Maior preço</option>
-										<option value="4" <?=($order == 4) ? 'selected' : ''?>>Ordem alfabética</option>
-									</select>
-								</div>
-								<div class="short-by" style="margin-top:4%">
-									<label>Marca:</label>
-									<select name="var_marca" id="var_marca" onchange="javascript: document.form_l.submit();">
-										<option value=""></option>
-										<?php
-											$resp = mysql_query('select codigo,titulo from marcas where codigo in (SELECT idmarca FROM produtos WHERE status = "1" '.$strWhere.' group by idmarca)');
-											while($row = mysql_fetch_array($resp)){
-												
-												echo '<option value="'.$row['codigo'].'" '.(($marca == $row['codigo'])?'SELECTED' : '').' >'.$row['titulo'].'</option>';
-											}
-										?>
-									</select>
+								
+								<div class="row">
+									<div class="col-5">
+										<div class="short-by">
+											<label>Ordenar por:</label>
+											<select name="order" id="order" onchange="javascript: document.form_l.submit();" style="height:100%">
+												<option value="1" <?=(!$order || $order == 1) ? 'selected' : ''?>>Últimos cadastrados</option>
+												<option value="2" <?=($order == 2) ? 'selected' : ''?>>Menor preço</option>
+												<option value="3" <?=($order == 3) ? 'selected' : ''?>>Maior preço</option>
+												<option value="4" <?=($order == 4) ? 'selected' : ''?>>Ordem alfabética</option>
+											</select>
+										</div>
+									</div>
+									<div class="col">
+										<div class="short-by">
+											<label>Marca:</label>
+											<select name="var_marca" id="var_marca" onchange="javascript: document.form_l.submit();"  style="height:100%">
+												<option value=""></option>
+												<?php
+													$resp = mysql_query('select codigo,titulo from marcas where codigo in (SELECT idmarca FROM produtos WHERE status = "1" '.$strWhere.' group by idmarca)');
+													while($row = mysql_fetch_array($resp)){
+														
+														echo '<option value="'.$row['codigo'].'" '.(($marca == $row['codigo'])?'SELECTED' : '').' >'.$row['titulo'].'</option>';
+													}
+												?>
+											</select>
+										</div>
+									</div>
 								</div>
 							</form>
 						</div>
@@ -204,7 +211,7 @@ elseif($order == 4)
 				    }
 				?>
 				<div class="row">
-					<div class="tab-content">
+					<div class="tab-content" style="width:100%">
 						<?
 						if(count($array_produtos) > 0)
 						{
@@ -225,11 +232,11 @@ elseif($order == 4)
 										<!--span class="new-box">
 											<span class="new-label">New</span>
 										</span-->
-										<div class="price-box">
+										<!--<div class="price-box">
 											<?
 											valor_produto($array_produtos[$i][2], $array_produtos[$i][3]);
 											?>
-										</div>
+										</div>-->
 									</div>
 									<div class="product-info">
 										<h2 class="product-name">

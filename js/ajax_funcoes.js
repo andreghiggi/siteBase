@@ -107,8 +107,15 @@ function exibe_galerias(idproduto, idtamanho, idcor)
 					document.getElementById('estoque').innerHTML = array_retorno[1];
 					document.getElementById('carrinho').innerHTML = array_retorno[2];
 					if(parseFloat(array_retorno[3]) > 0){
-						document.getElementById('prodValor').innerHTML = array_retorno[3];
-						document.getElementById('prodValorSemDesconto').classList.add("d-none");	
+						document.getElementById('prodValor').classList.add("d-none");
+						document.getElementById('prodValorSemDesconto').classList.add("d-none");
+						document.getElementById('estoqueValor').innerHTML = array_retorno[3];
+						document.getElementById('estoqueValor').classList.remove("d-none");
+					}
+					else{
+						document.getElementById('estoqueValor').classList.add("d-none");
+						document.getElementById('prodValor').classList.remove("d-none");
+						document.getElementById('prodValorSemDesconto').classList.remove("d-none");
 					}
 				}
 				else

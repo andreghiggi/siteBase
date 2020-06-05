@@ -365,7 +365,8 @@ elseif($_POST['chave'] == TRUE)
 											</ul>
 										</li>
 										<li><a href="contato.php">Contato</a></li>
-										<li><a href="login.php">Entre / Cadastre-se</a></li>
+										<?php if(!isset($_SESSION["user_codigo"])): ?><li><a href="login.php">Entre / Cadastre-se</a></li><?php endif;?>
+											<?php if(isset($_SESSION["user_codigo"])): ?><li><a href="logoff.php">Sair</a></li><?php endif;?>
 									</ul>
 								</nav>
 							</div>

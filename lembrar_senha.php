@@ -6,7 +6,9 @@ if($_POST['cmd'] == "rec"){
 
 	$str = "SELECT * FROM cadastros WHERE email = '$email'";
 	$rs  = mysql_query($str) or die(mysql_error());
-    $num = mysql_num_rows($rs);
+	$num = mysql_num_rows($rs);
+	
+
 
     if(!$num)
         redireciona("lembrar_senha.php?ind_msg=1");
@@ -58,7 +60,7 @@ if($_POST['cmd'] == "rec"){
     
     //Envia o email
 	mail($vet['email'], $assunto, $corpo, $headers , "-r ".$n_email);
-	echo $_SERVER["HTTP_REFERER"].'?c='.$c;
+	//echo $_SERVER["HTTP_REFERER"].'?c='.$c;
 }
 
 if($_POST['cmd'] == "nova")
@@ -67,9 +69,9 @@ if($_POST['cmd'] == "nova")
 
 	mysql_query('update cadastros set senha = "'.md5($_POST['senha']).'" where codigo = '.$_SESSION['codigo']);
 
-	var_dump($_SESSION['c'], $_SESSION['codigo']);
+	//var_dump($_SESSION['c'], $_SESSION['codigo']);
 
-   //redireciona("login.php?ind_msg=4");
+   redireciona("login.php?ind_msg=4");
 }
 ?>
 <script>
@@ -93,7 +95,7 @@ function valida()
 			{
 			?>
 			<div class="page-heading">
-				<p style="color: #DF0101">O email informado já foi cadastrado por outro usuário!</p>
+				<p style="color: #DF0101">Email não cadastrado!</p>
 			</div>
 			<?
 			}

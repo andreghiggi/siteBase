@@ -94,8 +94,10 @@ function valida(ind)
         <section>
             <label for="textarea_auto">Status:</span></label>
             <div>
-                <input type="radio" id="status_1" name="status" <?=($vet['status'] == FALSE || $vet['status'] == 1) ? "checked" : "" ?> value="1"><label for="status_1" class="radio">Ativo</label>
-                <input type="radio" id="status_2" name="status" <?=($vet['status'] == 2) ? "checked" : "" ?> value="2"><label for="status_2" class="radio">Inativo</label>
+                <select name="status">
+                    <option value="1" <?=($vet['status'] == FALSE || $vet['status'] == 1) ? "selected" : "" ?> >Ativo</option>
+                    <option <?=($vet['status'] == 2) ? "checked" : "" ?> value="2">Inativo</option>
+                </select>
             </div>
         </section>
         <section>

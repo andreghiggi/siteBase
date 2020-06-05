@@ -146,6 +146,7 @@ if(!$num)
 											echo 'R$ <span id="prodValor">'.number_format($valor, 2, ',', '.').'</span>';
 										}
 										?>
+										<span id="estoqueValor" class="d-none"></span>
 									</span>
 								</div>
 

@@ -88,7 +88,8 @@ if($_POST['cmd'] == "login")
     $str = "SELECT * FROM cadastros WHERE email = '$email' AND senha = '$senha_aux'";
     $rs  = mysql_query($str) or die(mysql_error());
     $num = mysql_num_rows($rs);
-    $vet = mysql_fetch_array($rs);
+	$vet = mysql_fetch_array($rs);
+
     
     if ($num > 0) 
     {
@@ -100,10 +101,10 @@ if($_POST['cmd'] == "login")
 	    	redireciona("carrinho.php?cmd=".$_SESSION['cart_cmd']."&idproduto=".$_SESSION['cart_idproduto']."");
 	    }
         
-        redireciona("index.php");
+		redireciona("index.php");
     } 
     
-    redireciona("login.php?ind_msg=3");
+	redireciona("login.php?ind_msg=3");
 }
 ?>
 <script>

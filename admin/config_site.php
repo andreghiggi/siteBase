@@ -89,8 +89,10 @@ function valida(ind)
         <section>
             <label for="textarea_auto">PAC gratuíto?</span></label>
             <div>
-                <input type="radio" id="pac_1" name="pac" <?=($vet['pac'] == FALSE || $vet['pac'] == 1) ? "checked" : "" ?> value="1"><label for="pagamento_1" class="radio">SIM</label>
-                <input type="radio" id="pac_2" name="pac" <?=($vet['pac'] == 2) ? "checked" : "" ?> value="2"><label for="pagamento_2" class="radio">NÃO</label>
+                <select name="pac">
+                    <option value="1" <?=($vet['pac'] == FALSE || $vet['pac'] == 1) ? "selected" : "" ?> >SIM</option>
+                    <option value="2" <?=($vet['pac'] == 2) ? "selected" : "" ?> >NÃO</option>
+                </select>
             </div>
         </section>
     </fieldset>
@@ -100,9 +102,11 @@ function valida(ind)
         <section>
             <label for="textarea_auto">Tipo:</span></label>
             <div>
-                <input type="radio" id="pagamento_1" name="pagamento" <?=($vet['pagamento'] == FALSE || $vet['pagamento'] == 1) ? "checked" : "" ?> value="1"><label for="pagamento_1" class="radio">Apenas módulo de pagamento</label>
-                <input type="radio" id="pagamento_2" name="pagamento" <?=($vet['pagamento'] == 2) ? "checked" : "" ?> value="2"><label for="pagamento_2" class="radio">Apenas pagamento presencial</label>
-                <input type="radio" id="pagamento_3" name="pagamento" <?=($vet['pagamento'] == 3) ? "checked" : "" ?> value="3"><label for="pagamento_3" class="radio">Ambos</label>
+                <select name="pagamento">
+                    <option value="1" <?=($vet['pagamento'] == FALSE || $vet['pagamento'] == 1) ? "selected" : "" ?> >Apenas módulo de pagamento</option>
+                    <option value="2" <?=($vet['pagamento'] == 2) ? "selected" : "" ?> >Apenas pagamento presencial</option>
+                    <option value="3" <?=($vet['pagamento'] == 3) ? "selected" : "" ?> >Ambos</option>
+                </select>
             </div>
         </section>
     </fieldset>
