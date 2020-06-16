@@ -99,8 +99,6 @@ function exibe_galerias(idproduto, idtamanho, idcor)
 				retorno = xmlhttp.responseText;
 				array_retorno = retorno.split("<br>");
 
-				console.log(array_retorno);
-
 				if(xmlhttp.responseText != "Erro")
 				{
 					document.getElementById('imagens').innerHTML = array_retorno[0];
@@ -108,9 +106,9 @@ function exibe_galerias(idproduto, idtamanho, idcor)
 					document.getElementById('carrinho').innerHTML = array_retorno[2];
 					if(parseFloat(array_retorno[3]) > 0){
 						document.getElementById('prodValor').classList.add("d-none");
-						document.getElementById('prodValorSemDesconto').classList.add("d-none");
 						document.getElementById('estoqueValor').innerHTML = array_retorno[3];
 						document.getElementById('estoqueValor').classList.remove("d-none");
+						document.getElementById('prodValorSemDesconto').classList.add("d-none");
 					}
 					else{
 						document.getElementById('estoqueValor').classList.add("d-none");

@@ -250,10 +250,10 @@ function calcFrete(self){
 	$('#linhaSubTotal').removeClass('hidden');
 	$('#linhaFrete').removeClass('hidden');
 	$('#btnProximo').removeClass('hidden');
-	$('#valorFrete').text(parseFloat($(self).val().split(':')[0]).toFixed(2));
+	$('#valorFrete').text(parseFloat($(self).val().split(':')[0]).toFixed(2).toString().replace('.',','));
 	$('#diasFrete').text($(self).val().split(':')[1]);
 	let valorfinal = parseFloat($('#subTotal').text().replace('.','').replace(',','.')) + parseFloat($(self).val().split(':')[0]);
-	$('#valorFinal').text(valorfinal.toFixed(2));
+	$('#valorFinal').text(valorfinal.toFixed(2).toString().replace('.',','));
 }
 
 function avancarCarrinho(){
@@ -278,7 +278,7 @@ $(document).ready(() => {
 		INNER JOIN carrinho B ON A.codigo = B.idproduto
 		LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
 		LEFT JOIN cores D ON B.idcor = D.codigo
-		WHERE idcadastro = '$idcadastro'
+		WHERE (idcadastro = '$idcadastro' or idcadastro = 0)
 		AND idcarrinho = '$idcarrinho'
 		ORDER BY A.nome";
 	$rs  = mysql_query($str) or die(mysql_error());
@@ -413,7 +413,7 @@ $(document).ready(() => {
 						<tr class="<?php echo (isset($sedex))?'':'hidden';?>" id="linhaFrete">
 							<td colspan="2"><span>Prazo: <span id="diasFrete" class="total-price"><?php echo $sedexDias;?></span> Dias</span></td>
 							<td colspan="1" class="total"><span>Frete</span></td>
-							<td colspan="3">R$ <span class="total-price" id="valorFrete"><?php echo $sedex;?></span></td>
+							<td colspan="3">R$ <span class="total-price" id="valorFrete"><?php echo number_format($sedex, 2, ',', '.');?></span></td>
 						</tr>
 						<tr>
 							<td colspan="3" class="total"><span>Total</span></td>

@@ -70,10 +70,10 @@ if($_POST['cmd'] == "add")
     $_SESSION["user_verifica"] = "st_ecommerce";
     $_SESSION["user_codigo"] = $codigo;
 
-    if($_SESSION['cart_cmd'])
-    {
-    	redireciona("carrinho.php?cmd=".$_SESSION['cart_cmd']."&idproduto=".$_SESSION['cart_idproduto']."");
-    }
+    if($_SESSION["idcarrinho"])
+	{
+		echo "<script>location.href='carrinho.php'</script>";
+	}
 
     redireciona("index.php");
 }
@@ -96,9 +96,9 @@ if($_POST['cmd'] == "login")
         $_SESSION["user_verifica"] = "st_ecommerce";
     	$_SESSION["user_codigo"] = $vet["codigo"];
 
-    	if($_SESSION['cart_cmd'])
+    	if($_SESSION["idcarrinho"])
 	    {
-	    	redireciona("carrinho.php?cmd=".$_SESSION['cart_cmd']."&idproduto=".$_SESSION['cart_idproduto']."");
+	    	echo "<script>location.href='carrinho.php'</script>";
 	    }
         
 		redireciona("index.php");

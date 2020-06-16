@@ -22,3 +22,5 @@ alter table config_frete add column `empresa` varchar(10) DEFAULT NULL;
 alter table config_frete add column `senha` varchar(10) DEFAULT NULL;
 alter table config_frete add column `PAC` varchar(5) DEFAULT NULL;
 alter table config_frete add column `SEDEX` varchar(5) DEFAULT NULL;
+
+ALTER TABLE `produtos` ADD `ref` VARCHAR(20) NOT NULL AFTER `largura`; 
