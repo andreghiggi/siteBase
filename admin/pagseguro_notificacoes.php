@@ -91,14 +91,14 @@ function valida(ind)
         <section>
             <label for="altura">PAC:</label>
             <div>
-                <input type="text" id="pac" name="pac" placeholder="04510" value="<?=$vet['PAC'];?>" style="width:16%;" >
+                <input type="text" id="pac" name="pac" placeholder="04510" value="<?=$vet['PAC']?>" style="width:16%;" >
                 <br><span>Código para PAC (informado no contrato, valor padrão sem contrato 04510).</span>
             </div>
         </section>
         <section>
             <label for="largura">SEDEX:</label>
             <div>
-                <input type="text" id="sedex" name="sedex" placeholder="04014" value="<?=$vet['SEDEX'];?>" style="width:16%;" >
+                <input type="text" id="sedex" name="sedex" placeholder="04014" value="<?=$vet['SEDEX']?>" style="width:16%;" >
                 <br><span>Código para SEDEX (informado no contrato, valor padrão sem contrato 04014).</span>
             </div>
         </section>

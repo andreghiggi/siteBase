@@ -24,12 +24,12 @@ if(!$num)
 	redireciona("index.php");
 ?>
 
-<section class="slider-category-area mt-3">
+<section class="slider-category-area">
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-9 col-lg-9 col-md-9">
 				<!-- breadcrumb-start -->
-				<div class="product-description-area mb-3">
+				<div class="product-description-area">
 					<div class="row">
 						<div id="imagens" class="col-sm-5 col-lg-5 col-md-5">
 							<?
@@ -93,7 +93,7 @@ if(!$num)
 						</div>
 						<div class="col-sm-7 col-lg-7 col-md-7">
 							<div class="product-description">
-								<h2>
+								<h2 class="product-name">
 									<?=stripslashes($vet['nome'])?>
 								</h2>
 								<?php if(isset($vet['ref']) && $vet['ref'] > 0):?>
@@ -263,6 +263,9 @@ if(!$num)
 											{
 											?>
 											<span><?=$vet['estoque']?> Itens</span>
+											<span class="stock-success">
+												Em estoque
+											</span>
 											<?
 											}
 											else
@@ -281,13 +284,13 @@ if(!$num)
 									</div>
 								</div>
 
-								<div id="carrinho" class="">
+								<div id="carrinho" class="action-button button-exclusive">
 								<?
 								if($vet['ind_cores'] == 2 && $vet['estoque'] > 0)
 								{
 								?>
-									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="btn btn-warning">
-										<span>Adicionar ao carrinho</span>
+									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="add-to-cart">
+										<span>+ Adicionar ao carrinho</span>
 									</a>
 								<?
 								}
@@ -328,9 +331,8 @@ if(!$num)
 				if($num > 0)
 				{
 				?>
-					<br><br><br>
     			<!-- other-product-start-->
-    			<div class="other-product-area mt-4">
+    			<div class="other-product-area">
     				<div class="area-title">
 						<h2>Outros produtos</h2>
 					</div>

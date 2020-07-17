@@ -66,7 +66,7 @@ if($_POST['cmd'] == "address")
 	    $rs  = mysql_query($str) or die(mysql_error());
     }
 
-    redireciona("meus_dados.php?ind_msg=3");
+    redireciona("endereco.php");
 }
 ?>
 <script>

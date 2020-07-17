@@ -1,6 +1,12 @@
 <?
 include("includes/header.php");
 
+$urlPagamento = "pagto.php";
+
+if(mysql_fetch_assoc(mysql_query('select status from pagseguro_configuracao'))['status'])
+	$urlPagamento = "pagto-pagseguro.php";
+
+
 if(!$_SESSION['user_verifica'])
 {
 	redireciona("login.php?ind_msg=2");
@@ -66,31 +72,12 @@ if(!$_SESSION['user_verifica'])
 					<i class="fa fa-angle-left"></i>
 					Voltar para o carrinho de compras
 				</a>
-				
-				<?
-				if($n_pagamento == 3)
-				{
-				?>				
-				<a class="standard-checkout" href="forma.php">
-					<span>
-						Escolher forma de pagamento
-						<i class="fa fa-angle-right"></i>
-					</span>
-				</a>
-				<?
-				}
-				else
-				{
-				?>
-				<a class="standard-checkout" href="pagto.php">
+				<a class="standard-checkout" href="<?=$urlPagamento?>">
 					<span>
 						Finalizar compra
 						<i class="fa fa-angle-right"></i>
 					</span>
 				</a>
-				<?	
-				}
-				?>
 				<br><br><br>
 			</div>
             <?
