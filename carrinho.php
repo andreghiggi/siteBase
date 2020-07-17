@@ -12,8 +12,7 @@ if(isset($_GET['frete'])){
 	
 	$str = "SELECT A.*, B.qtde FROM produtos A
 		INNER JOIN carrinho B ON A.codigo = B.idproduto
-		WHERE idcadastro = '".(isset($c_codigo)? $c_codigo:0)."'
-		AND idcarrinho = '".$_SESSION['idcarrinho']."'
+		WHERE idcarrinho = '".$_SESSION['idcarrinho']."'
 		ORDER BY A.nome";
 		
 	$resp = mysql_query($str);
@@ -401,6 +400,8 @@ $(document).ready(() => {
 										window.location.href = "carrinho.php?frete="+$('#cep-destino').val();
 									}
 								</script>
+								<b>Informe o CEP para continuar</b>
+								<br><br>
 								<input id="cep-destino" type="text" class="form-control" placeholder="00000-000" value="<?if(isset($_GET['frete'])) echo $_GET['frete']?>">
 								<br>
 								<div class="btn btn-primary" onclick="carregarFrete()">Calcular</div>

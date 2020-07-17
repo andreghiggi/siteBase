@@ -41,8 +41,8 @@ else
 if($vetE['estoque'] > 0)
 {
 ?>
-<a href="carrinho.php?cmd=add&idproduto=<?=$idproduto?>&idtamanho=<?=$idtamanho?>&idcor=<?=$idcor?>" class="add-to-cart">
-	<span>+ Adicionar ao carrinho</span>
+<a href="carrinho.php?cmd=add&idproduto=<?=$idproduto?>&idtamanho=<?=$idtamanho?>&idcor=<?=$idcor?>" class="btn btn-dark mt-2 mb-3">
+	<span>Adicionar ao carrinho</span>
 </a>
 <?
 }

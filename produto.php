@@ -130,7 +130,7 @@ if(!$num)
 								}
 								?>
 
-								<p><?php echo nl2br($vet['descricao']);?></p>
+								
 
 								<div class="price-box-area">
 									<span class="new-price">
@@ -154,6 +154,7 @@ if(!$num)
 								$variacao = verifica_varicacao_cores_tamanho($codigo);
 								?>
 								<br>
+								
 								<div class="product-attributes">
 									<?
 									if($variacao == 1)
@@ -286,17 +287,21 @@ if(!$num)
 								if($vet['ind_cores'] == 2 && $vet['estoque'] > 0)
 								{
 								?>
-									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="btn btn-warning">
+									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="btn btn-dark mt-2 mb-3">
 										<span>Adicionar ao carrinho</span>
 									</a>
 								<?
 								}
 								?>
 								</div>
+
+								<p><?php echo nl2br($vet['descricao']);?></p>
 							</div>
 						</div>
 					</div>
 				</div>
+
+
 
 				<?
 				if($vet['informacoes'])

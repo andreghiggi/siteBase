@@ -60,7 +60,7 @@ if($_POST['cmd'] == "rec"){
     
     //Envia o email
 	mail($vet['email'], $assunto, $corpo, $headers , "-r ".$n_email);
-	//echo $_SERVER["HTTP_REFERER"].'?c='.$c;
+	echo '<script>alert("Email enviado");location.href = "index.php"</script>';
 }
 
 if($_POST['cmd'] == "nova")
