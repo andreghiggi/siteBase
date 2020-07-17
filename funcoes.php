@@ -19,7 +19,7 @@ if(intval(explode('-',phpversion())[0]) > 5){
 	function mysql_num_rows($result){return mysqli_num_rows($result);}
 	function mysql_fetch_array($result){return mysqli_fetch_array($result);}
 	function mysql_insert_id(){return mysqli_insert_id($GLOBALS['banco']);}
-	function mysql_fetch_assoc($resul){return mysqli_fetch_assoc($result);}
+	function mysql_fetch_assoc($result){return mysqli_fetch_assoc($result);}
 }
 
 
