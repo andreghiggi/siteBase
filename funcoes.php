@@ -1,7 +1,7 @@
 <?
 // Reporta erros simples
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-ini_set('display_errors', '1');
+#error_reporting(E_ERROR | E_WARNING | E_PARSE);
+#ini_set('display_errors', '1');
 
 $datahj 	= date("Y-m-d");
 $datahora 	= date("Y-m-d H:i:s");
