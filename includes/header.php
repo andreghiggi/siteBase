@@ -233,8 +233,7 @@ elseif($_POST['chave'] == TRUE)
 						INNER JOIN carrinho B ON A.codigo = B.idproduto
 						LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
 						LEFT JOIN cores D ON B.idcor = D.codigo
-						WHERE idcadastro = '$idcadastro'
-						AND idcarrinho = '$idcarrinho'
+						where idcarrinho = '$idcarrinho'
 						ORDER BY A.nome";
 					$rs  = mysql_query($str) or die(mysql_error());
 					$num = mysql_num_rows($rs);
@@ -276,7 +275,7 @@ elseif($_POST['chave'] == TRUE)
 						<div class="shopping-cart">
 							<ul>
 								<li>
-									<a href="#">
+									<a href="carrinho.php">
 										<b>Carrinho de compras</b>
 										<span class="item">
 											<?=$num?> produtos(s) -
@@ -310,17 +309,6 @@ elseif($_POST['chave'] == TRUE)
 										<?
 										}
 										?>
-										<!--div class="cart-img-details">
-											<div class="cart-img-photo">
-												<a href="#"><img src="img/product/total-cart2.jpg" alt=""></a>
-											</div>
-											<div class="cart-img-contaent">
-												<a href="#"><h4>Aenean eu tristique</h4></a>
-												<span class="quantity">1X</span>
-												<span>€70.00</span>
-											</div>
-											<div class="pro-del"><a href="#"><i class="fa fa-times-circle"></i></a>
-											</div>
 										</div-->
 										<div class="cart-inner-bottom">
 											<p class="total">Total: <span class="amount">R$ <?=number_format($total, 2, ',', '.')?></span></p>

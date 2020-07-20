@@ -1,10 +1,7 @@
 <?
 include("includes/header.php");
 
-include("PagSeguroArquivos/pagseguro_integracao.php");
-
-$ModeloPagseguro = new ModeloPagseguro();
-$v = $ModeloPagseguro->setsessionPagseguro();
+#include("PagSeguroArquivos/pagseguro_integracao.php");
 
 if(!$_SESSION['user_verifica'])
 {
@@ -25,18 +22,6 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 
 	if($_SESSION['pagamento'])
 		$pagamento = $_SESSION['pagamento'];
-	
-	/*if($_SESSION['idpedido'])
-	{
-		$str = "DELETE FROM pedidos WHERE codigo = '".$_SESSION['idpedido']."'";
-		$rs  = mysql_query($str) or die(mysql_error());
-		
-		$str = "DELETE FROM pedidos_detalhe WHERE idpedido = '".$_SESSION['idpedido']."'";
-		$rs  = mysql_query($str) or die(mysql_error());
-		
-		$str = "DELETE FROM frete WHERE idpedido = '".$_SESSION['idpedido']."'";
-		$rs  = mysql_query($str) or die(mysql_error());
-	}*/
 	
 	$valor_compra = subtotal_carrinho($c_codigo, $_SESSION['idcarrinho'], $_SESSION['c_servico'], $c_cep, $n_pac);
 	
@@ -77,10 +62,10 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 		$valor = $vet['valor_pedido'] * $qtde;
 
 		if(!$tamanho)
-			$tamanho = 'Não informado';
+			$tamanho = '';
 
 		if(!$cor)
-			$cor = 'Não informada';
+			$cor = '';
 
 		$str_cores = '';
 		if($idtamanho > 0 || $idcor > 0)
@@ -102,44 +87,8 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 	$valor_frete = 0;
 	$prazo_entrega = 0;
 
-	if($config_frete > 0 && $c_idendereco > 0 && $n_pac == 2)
-	{
-		$frete = calcula_frete($_SESSION['c_servico'], $vetF['cep_origem'], $c_cep, $vetF['peso'], $vetF['altura'], $vetF['largura'], $vetF['comprimento'], $vetF['mao_propria']);
-		$array_frete = explode(";", $frete);
-
-		$valor_frete = str_replace(",", ".", $array_frete[0]);
-		$prazo_entrega = $array_frete[1];
-
-		$tr_frete .= '
-			<tr>
-				<td><b>Valor frete</b></td>
-				<td>R$ '.number_format($valor_frete, 2, ',', '.').'</td>
-			</tr>';
-	}
-
-	$_SESSION['frete'] = str_replace(".", ",", $valor_frete);
-
-	if($servico == 41106)
-		$servico = "PAC";
-	elseif($servico == 40010)
-		$servico = "SEDEX";
-
-	$str = "INSERT INTO frete (idpedido, cep_destino, servico, valor, prazo) VALUES ('$idpedido', '$c_cep', '$servico', '$valor_frete', '$prazo_entrega')";
+	$str = "INSERT INTO frete (idpedido, cep_destino, servico, valor, prazo) VALUES ('$idpedido', '".$_SESSION['f_cepDestino']."', '".$_SESSION['f_servico']."', '".$_SESSION['f_valor']."', '".$_SESSION['f_prazo']."')";
 	$rs  = mysql_query($str) or die(mysql_error());
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	$tr_total = '
 		<table width="93%" border="1" align="center" cellpadding="0" cellspacing="0">
@@ -293,59 +242,11 @@ $valor = number_format($valor, 2, ',', '.');
 
 
           
-<?php 
-	$valor_frete = 0;
-	$prazo_entrega = 0;
-	
-	$altura = 0;
-	$largura = 0;
-	$comprimento = 0;
-	$peso = 0;
-	
-	
-	$str = "SELECT A.*, B.qtde FROM produtos A
-		INNER JOIN carrinho B ON A.codigo = B.idproduto
-		WHERE idcadastro = '".(isset($c_codigo)? $c_codigo:0)."'
-		AND idcarrinho = '".$_SESSION['idcarrinho']."'
-		ORDER BY A.nome";
-		
-	$resp = mysql_query($str);
-	while($row = mysql_fetch_assoc($resp)){
-		$altura += $row['altura'];
-		$largura += $row['largura'];
-		$comprimento += $row['comprimento'];
-		$peso += $row['peso']*$row['qtde'];
-	}
-	
-	if($altura < 2) $altura = 2;
-	if($largura < 11) $largura = 11;
-	if($comprimento < 16) $comprimento = 16;
-
-	$frete = mysql_fetch_assoc(mysql_query('select * from config_frete'));
-    $endereco = mysql_fetch_assoc(mysql_query('select * from cadastros_enderecos WHERE idcadastro = ' . $c_codigo));
-    
-	$args = 'nCdEmpresa='.$frete['empresa'];
-	$args .= '&sDsSenha='.$frete['senha'];
-	$args .= '&nCdServico='.$frete['SEDEX'];//.$servico;
-	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
-	$args .= '&sCepDestino='.$endereco['cep'];//.$c_cep;
-	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
-	$args .= '&nCdFormato=1';
-	$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
-	$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
-	$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
-	$args .= '&nVlDiametro=0';
-	$args .= '&sCdMaoPropria='.strtoupper($frete['mao_propria']);
-	$args .= '&nVlValorDeclarado=0.00';
-	$args .= '&sCdAvisoRecebimento=N';	
-	$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
-	$resp = new SimpleXMLElement($ret);
-	$sedexDias = $resp->Servicos->cServico->PrazoEntrega;
-	$sedex = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
+<?php
+	$sedexDias = $_SESSION['f_prazo'];
+	$sedex = $_SESSION['f_valor'];
 
 include 'modelo/templates/comprador.php';
-
-
 
 ?>
 
@@ -365,7 +266,6 @@ include 'modelo/templates/comprador.php';
 							<th>Valor</th>
 							<th>Qtde</th>
 							<th>Total</th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -417,13 +317,10 @@ $id_p = 0;
 							<span class="price">R$ <?=number_format($vet['valor_pedido'], 2, ',', '.')?></span>
 						</td>
 						<td>
-							<input type="number" name="qtde_<?=$vet['codigo']?>_<?=$vet['idtamanho']?>_<?=$vet['idcor']?>" id="qtde_<?=$vet['codigo']?>_<?=$vet['idtamanho']?>_<?=$vet['idcor']?>" value="<?=$vet['qtde']?>" placeholder="1" onchange="javascript: qtde_prod(<?=$vet['codigo']?>, <?=$vet['idtamanho']?>, <?=$vet['idcor']?>);">
+							<span class="price"><?=$vet['qtde']?></span>
 						</td>
 						<td>
 							<span class="price">R$ <?=number_format($valor, 2, ',', '.')?></span>
-						</td>
-						<td>
-						
 						</td>
 					</tr>
 					<?
@@ -432,14 +329,9 @@ $id_p = 0;
 					?>
 					</tbody>
 					<tfoot>
-						<tr class="<?php echo (isset($sedex))?'':'hidden';?>" id="linhaSubTotal">
-							<td colspan="3" class="total"><span>SubTotal</span></td>
-							<td colspan="3">R$ <span class="total-price" id="totalValue"><?php echo number_format($total, 2, ',', '.');?></span></td>
-						</tr>
-						<tr class="<?php echo (isset($sedex))?'':'hidden';?>" id="linhaFrete">
-							<td colspan="2"><span>Prazo: <span id="diasFrete" class="total-price"><?php echo $sedexDias;?></span> Dias</span></td>
-							<td colspan="1" class="total"><span>Frete</span></td>
-							<td colspan="3">R$ <span class="total-price" id="valorFrete"><?php echo $sedex;?></span></td>
+						<tr>
+							<td colspan="3" class="total"><span>Frete por <?=$_SESSION['f_tipo'];?></span></td>
+							<td colspan="3">R$ <span class="total-price" id="valorFinal"><?php echo number_format($sedex, 2, ',', '.');?></span></td>
 						</tr>
 						<tr>
 							<td colspan="3" class="total"><span>Total</span></td>
@@ -447,24 +339,12 @@ $id_p = 0;
 						</tr>
 						<tr>
 						    <td colspan="6">
-						        
-						    
-
-		<br clear="all"/>
-		          <?php include 'modelo/templates/pagamento.php'; ?>
-        <br clear="all"/>
+						        <br clear="all"/>
+								<?php include 'modelo/templates/pagamento.php'; ?>
+								<br clear="all"/>
 						    </td>
 						</tr>
-						<tr style="display:none;">
-							<td colspan="3" style="text-align: left;">
-							
-							</td>
-							<td></td>
-							<td colspan="2" class="text-left">
-							    <?php include 'modelo/env.php'; ?>   
-								<div class="btn btn-primary" >Pagar</div>
-							</td>
-						</tr>
+						
 					</tfoot>
 				</table>
 			</div>

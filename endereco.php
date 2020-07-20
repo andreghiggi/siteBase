@@ -12,6 +12,15 @@ if(!$_SESSION['user_verifica'])
 	redireciona("login.php?ind_msg=2");
 }
 
+if(isset($_GET['frete'])){
+	$tmp = explode(':',$_GET['frete']);
+	$_SESSION['f_valor'] = $tmp[0];
+	$_SESSION['f_prazo'] = $tmp[1];
+	$_SESSION['f_cepDestino'] = $_GET['destino'];
+	$_SESSION['f_tipo'] = $tmp[2] == 1? 'pac':'sedex';
+	$_SESSION['f_servico'] = mysql_fetch_assoc(mysql_query('select '.($tmp[2] == 1? 'PAC':'SEDEX').' from config_frete'))[($tmp[2] == 1? 'PAC':'SEDEX')];
+}
+
 ?>
 <!-- static-right-social-area end-->
 <div class="container">
@@ -62,8 +71,8 @@ if(!$_SESSION['user_verifica'])
                 Estado: <?=$c_estado?><br>
                 CEP: <?=$c_cep?>
             </p>
-            <div class="cart-button">
-				<a  href="meus_dados.php">
+            <div class="">
+				<a href="meus_dados.php">
 					<i class="fa fa-angle-left"></i>
 					Alterar endereço de entrega
 				</a>
@@ -72,10 +81,12 @@ if(!$_SESSION['user_verifica'])
 					<i class="fa fa-angle-left"></i>
 					Voltar para o carrinho de compras
 				</a>
-				<a class="standard-checkout" href="<?=$urlPagamento?>">
+				<a class="btn btn-dark float-right" href="<?=$urlPagamento?>">
 					<span>
-						Finalizar compra
-						<i class="fa fa-angle-right"></i>
+						<strong>
+							Finalizar compra&nbsp;
+							<i class="fa fa-angle-right"></i>
+						</strong>
 					</span>
 				</a>
 				<br><br><br>
@@ -86,11 +97,13 @@ if(!$_SESSION['user_verifica'])
         	{
         	?>
             <p>O endereço de entrega não consta no sistema, favor informar no link abaixo.</p>
-            <div class="cart-button">
-	            <a class="standard-checkout" href="meus_dados.php" style="float:left;">
+            <div class="">
+	            <a class="btn btn-dark float-left" href="meus_dados.php">
 					<span>
-						Cadastrar endereço de entrega
-						<i class="fa fa-angle-right"></i>
+						<strong>
+							Cadastrar endereço de entrega&nbsp;
+							<i class="fa fa-angle-right"></i>
+						</strong>
 					</span>
 				</a>
 				<br><br><br>

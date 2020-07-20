@@ -277,11 +277,11 @@ $(document).ready(() => {
 		INNER JOIN carrinho B ON A.codigo = B.idproduto
 		LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
 		LEFT JOIN cores D ON B.idcor = D.codigo
-		WHERE (idcadastro = '$idcadastro' or idcadastro = 0)
-		AND idcarrinho = '$idcarrinho'
+		WHERE idcarrinho = '$idcarrinho'
 		ORDER BY A.nome";
 	$rs  = mysql_query($str) or die(mysql_error());
 	$num = mysql_num_rows($rs);
+
 	?>
 	<!-- page-heading start-->
 	<div class="row">

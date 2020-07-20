@@ -2,7 +2,8 @@
 
 <div class="col-md-12">
   <div class="groupData" id="paymentMethods">
-    <div class="col-md-12">
+    
+	<!--<div class="col-md-12">
       <div id="paymentMethodsOptions">
         <?php //<div class="field radio col-md-6" >?>
         <div class="col-md-6" style="text-align:center">
@@ -14,9 +15,9 @@
         </div>
         <br clear="all"/>
       </div>
-    </div>
+    </div>-->
 
-  <div id="creditCardData" class="paymentMethodGroup" dataMethod="creditCard" style="display:none;">
+  <div id="creditCardData" class="paymentMethodGroup" dataMethod="creditCard" >
 
     <div id="cardData" style="text-align: center;">
 
