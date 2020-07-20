@@ -367,28 +367,28 @@ function editEstoque(self){
         <section>
             <label for="estoque">Peso do produto:</label>
             <div>
-                <input type="text" id="peso" name="peso" value="<?=$vet['peso']?>" style="width:10%;" >
+                <input type="text" id="peso" name="peso" value="<?=$vet['peso']?>" style="width:10%;" required>
                 <br><span>Informe o peso para o cálculo do frete. Exemplo: 0.05 (50g) / 0.5 (500g) / 1 (1kg) / 1.5 (1.5kg)</span>
             </div>
         </section>
         <section>
             <label for="estoque">Altura (cm):</label>
             <div>
-                <input type="number" id="altura" name="altura" value="<?= isset($vet['altura'])? $vet['altura']:3; ?>" style="width:10%;" min="3">
+                <input type="number" id="altura" name="altura" value="<?= isset($vet['altura'])? $vet['altura']:3; ?>" style="width:10%;" min="3" required>
                 <br><span>Valor mínimo 3 cm</span>
             </div>
         </section>
         <section>
             <label for="estoque">Largura (cm):</label>
             <div>
-                <input type="number" id="largura" name="largura" value="<?=isset($vet['largura'])?$vet['largura']:11;?>" style="width:10%;" min="11">
+                <input type="number" id="largura" name="largura" value="<?=isset($vet['largura'])?$vet['largura']:11;?>" style="width:10%;" min="11" required>
                 <br><span>Valor mínimo 11 cm</span>
             </div>
         </section>
         <section>
             <label for="estoque">Comprimento (cm):</label>
             <div>
-                <input type="number" id="comprimento" name="comprimento" value="<?=isset($vet['comprimento'])?$vet['comprimento']:16;?>" style="width:10%;" min="16">
+                <input type="number" id="comprimento" name="comprimento" value="<?=isset($vet['comprimento'])?$vet['comprimento']:16;?>" style="width:10%;" min="16" required>
                 <br><span>Valor mínimo 16 cm</span>
             </div>
         </section>
