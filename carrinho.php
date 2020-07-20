@@ -359,7 +359,17 @@ $(document).ready(() => {
 							if($vet['ind_cores'] == 1)
 							{
 							?>
-							<small>Tamanho: <?=($vet['numero']) ? $vet['numero'] : 'Não informado'?> - Cor: <?=($vet['cor']) ? $vet['cor'] : 'Não informado'?></small>
+								<small>
+								<?if($vet['numero']):?>
+									Tamanho: <?=$vet['numero']?>
+								<?endif;?>
+								<?if($vet['numero'] && $vet['cor']):?> 
+									- 
+								<?endif;?>
+								<?if($vet['cor']):?>
+									Cor: <?=$vet['cor']?>
+								<?endif;?>
+								</small>
 							<?
 							}
 							?>

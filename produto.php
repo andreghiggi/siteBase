@@ -260,13 +260,7 @@ if(!$num)
 										<br>
 										<p class="pquantityavailable">
 											<?
-											if($vet['estoque'] > 0)
-											{
-											?>
-											<span><?=$vet['estoque']?> Itens</span>
-											<?
-											}
-											else
+											if($vet['estoque'] <= 0)
 											{
 											?>
 											<span class="stock-fail">

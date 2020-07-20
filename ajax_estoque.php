@@ -16,16 +16,7 @@ $vetE = mysql_fetch_array($rsE);
 <br>
 <p class="pquantityavailable">
 <?
-if($vetE['estoque'] > 0)
-{
-?>
-<span><?=$vetE['estoque']?> Itens</span>
-<span class="stock-success">
-	Em estoque
-</span>
-<?
-}
-else
+if($vetE['estoque'] <= 0)
 {
 ?>
 <span class="stock-fail">
