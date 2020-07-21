@@ -4,7 +4,7 @@ include('env.php');
 
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'https://'.$_GET['url']);
+curl_setopt($ch, CURLOPT_URL, 'https://'.urldecode($_GET['url']));
 
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

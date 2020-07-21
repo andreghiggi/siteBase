@@ -435,15 +435,8 @@ include("includes/footer.php");
 
 <?php
   $pagConf = mysql_fetch_assoc(mysql_query('select * from pagseguro_configuracao'));
-  if($pagConf['sandbox']){
-    echo '<script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>';
-    $getSession = 'ws.sandbox.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token'];
-  }
-  else{
-    echo '<script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>';
-    $getSession = 'ws.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token'];
-  }
-
+  echo '<script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>';
+  $getSession = urlencode('ws.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token']);
 ?>
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
