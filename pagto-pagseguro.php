@@ -728,10 +728,12 @@ $("input[type='text']").on('blur', function(e) {
         url: 'modelo/pagamentoCartao.php',
         cache: false,
         data: {
+            pagEmail:"<?php echo $pagConf['email'];?>",
+        		pagToken:"<?php echo $pagConf['token']?>",
             id: <?php echo $id_p ?>,
             idcadastro: <?php echo $idcadastro ?>,
             idcarrinho: '<?php echo $idcarrinho ?>',
-            valor: '<?php echo 1/*$total+$frete*/ ?>',
+            valor: '<?php echo $total+$frete ?>',
           email: $("#senderEmail").val(),
           nome: $("#senderName").val(),
           cpf: $("#senderCPF").val(),
@@ -769,7 +771,6 @@ $("input[type='text']").on('blur', function(e) {
         success: function(data) {
           console.log('success_data',data);
           if (data.error) {
-            console.log();
             if (data.error.code == "53037") {
               //$("#creditCardPaymentButton").click();
             } else {
