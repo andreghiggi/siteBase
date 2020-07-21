@@ -276,11 +276,12 @@ include 'modelo/templates/comprador.php';
 						$idcarrinho = $_SESSION['idcarrinho'];
 	$idcadastro = $c_codigo;
 $id_p = 0;
-	$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.codigo as Bcodigo, B.idtamanho, B.idcor, C.numero, D.titulo AS cor
+	$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.codigo as Bcodigo, B.idtamanho, B.idcor, C.numero, D.titulo AS cor, E.valor AS precoVariacao
 		FROM produtos A
 		INNER JOIN carrinho B ON A.codigo = B.idproduto
 		LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
 		LEFT JOIN cores D ON B.idcor = D.codigo
+    LEFT JOIN produtos_estoque E on E.idproduto = A.codigo and E.idcor = D.codigo and E.idtamanho = C.codigo
 		WHERE (idcadastro = '$idcadastro' or idcadastro = 0)
 		AND idcarrinho = '$idcarrinho'
 		ORDER BY A.nome";
@@ -295,7 +296,8 @@ $id_p = 0;
 						    $id_p = $vet['Bcodigo'];
 							$imagem = img_produto_destaque($vet['codigo'], $vet['idcor']);
 
-							$valor = $vet['valor_pedido'] * $vet['qtde'];
+							$preco = $vet['precoVariacao'] == 0? $vet['valor_pedido']:$vet['precoVariacao'];
+							$valor = $preco * $vet['qtde'];
 							$valor_compras += $valor;
 							$total += $valor;
 					?>
@@ -324,7 +326,7 @@ $id_p = 0;
 							?>
 						</td>
 						<td>
-							<span class="price">R$ <?=number_format($vet['valor_pedido'], 2, ',', '.')?></span>
+							<span class="price">R$ <?=number_format($vet['precoVariacao'] == 0 ? $vet['valor_pedido']:$vet['precoVariacao'], 2, ',', '.')?></span>
 						</td>
 						<td>
 							<span class="price"><?=$vet['qtde']?></span>
@@ -431,13 +433,18 @@ include("includes/footer.php");
 
 <?php */ ?>
 
-<?php if(false): ?>
-<script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
-<?php else: ?>
-<script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
-<?php endif; ?>
+<?php
+  $pagConf = mysql_fetch_assoc(mysql_query('select * from pagseguro_configuracao'));
+  if($pagConf['sandbox']){
+    echo '<script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>';
+    $getSession = 'ws.sandbox.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token'];
+  }
+  else{
+    echo '<script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>';
+    $getSession = 'ws.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token'];
+  }
 
-
+?>
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="js/jquery.mask.min.js"></script>
@@ -454,7 +461,7 @@ include("includes/footer.php");
   $(document).ready(function() {
     $.ajax({
       type: 'GET',
-      url: 'modelo/getSession.php',
+      url: 'modelo/getSession.php?url=<?=$getSession?>',
       cache: false,
       success: function(data) {
         PagSeguroDirectPayment.setSessionId(data);
@@ -506,13 +513,48 @@ $("input[type='text']").on('blur', function(e) {
   }
 </script>
 
+<?php 
+	$idcadastro = $c_codigo;
+
+	$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.idtamanho, B.idcor, C.numero, D.titulo AS cor, E.valor AS precoVariacao
+		FROM produtos A
+		INNER JOIN carrinho B ON A.codigo = B.idproduto
+		LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
+		LEFT JOIN cores D ON B.idcor = D.codigo
+    LEFT JOIN produtos_estoque E on E.idproduto = A.codigo and E.idcor = D.codigo and E.idtamanho = C.codigo
+		WHERE idcarrinho = '$idcarrinho'
+		ORDER BY A.nome";
+	$rs  = mysql_query($str) or die(mysql_error());
+	$num = mysql_num_rows($rs);
+
+						$total = 0;
+						$_itens = array();
+						while($vet = mysql_fetch_array($rs))
+						{
+						    $dados = array();
+						    $dados['id'] = $vet["codigo"];
+						    $dados['description'] = $vet["nome"];
+						    $dados['amount'] = $vet["valor_pedido"];
+						    $dados['quantity'] = $vet["qtde"];
+						    
+						    array_push($_itens, $dados);
+                $preco = $vet['precoVariacao'] == 0? $vet['valor_pedido']:$vet['precoVariacao'];
+                $valor = $preco * $vet['qtde'];
+							  $valor_compras += $valor;
+							  $total += $valor;
+						}
+						
+						$itens = json_encode($_itens);
+
+?>
+
 <script>
 
   function parcelasDisponiveis() {
       console.log('parcelas_disponiveis');
     PagSeguroDirectPayment.getInstallments({
         
-      amount: (($("#totalValue").html()).replace(",", ".")),
+      amount: <?php echo $total;?>,
       brand: $("#creditCardBrand").val(),
       maxInstallmentNoInterest: 2,
 
@@ -556,24 +598,14 @@ $("input[type='text']").on('blur', function(e) {
   });
 
   function brandCard() {
+
+    console.log(PagSeguroDirectPayment);
     
     PagSeguroDirectPayment.getBrand({
       cardBin: $("#cardNumber").val(),
       success: function(response) {
           console.log('response', response);
         $("#creditCardBrand").val(response.brand.name);
-        //$("#cardNumber").css('border', '1px solid #999');
-
-        /*if (response.brand.expirable) {
-          $("#expiraCartao").css('display', 'block');
-        } else {
-          $("#expiraCartao").css('display', 'none');
-        }
-        if (response.brand.cvvSize > 0) {
-          $("#cvvCartao").css('display', 'block');
-        } else {
-          $("#cvvCartao").css('display', 'none');
-        }*/
 
         $("#bandeiraCartao").attr('src', 'https://stc.sandbox.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/' + response.brand.name + '.png');
 
@@ -589,7 +621,6 @@ $("input[type='text']").on('blur', function(e) {
       },
 
       complete: function(response) {
-				console.log(response);
       }
 
     }).catch(err => console.log(err));
@@ -601,39 +632,7 @@ $("input[type='text']").on('blur', function(e) {
       $("#modal-body").html("");
       $("#aguarde").modal("show");
   }
-<?php 
-	$idcadastro = $c_codigo;
 
-	$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.idtamanho, B.idcor, C.numero, D.titulo AS cor
-		FROM produtos A
-		INNER JOIN carrinho B ON A.codigo = B.idproduto
-		LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
-		LEFT JOIN cores D ON B.idcor = D.codigo
-		WHERE (idcadastro = '$idcadastro' or idcadastro = 0)
-		AND idcarrinho = '$idcarrinho'
-		ORDER BY A.nome";
-	$rs  = mysql_query($str) or die(mysql_error());
-	$num = mysql_num_rows($rs);
-
-						$total = 0;
-						$_itens = array();
-						while($vet = mysql_fetch_array($rs))
-						{
-						    $dados = array();
-						    $dados['id'] = $vet["codigo"];
-						    $dados['description'] = $vet["nome"];
-						    $dados['amount'] = $vet["valor_pedido"];
-						    $dados['quantity'] = $vet["qtde"];
-						    
-						    array_push($_itens, $dados);
-							$valor = $vet['valor_pedido'] * $vet['qtde'];
-							$valor_compras += $valor;
-							$total += $valor;
-						}
-						
-						$itens = json_encode($_itens);
-
-?>
   function pagarBoleto(senderHash) {
   	showModal();
     $.ajax({

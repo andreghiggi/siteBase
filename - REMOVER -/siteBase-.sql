@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb4
+-- version 4.9.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 21/07/2020 às 09:11
--- Versão do servidor: 10.3.22-MariaDB-0+deb10u1
--- Versão do PHP: 5.6.40-29+0~20200514.35+debian9~1.gbpcc49a4
+-- Tempo de geração: 13-Abr-2020 às 16:50
+-- Versão do servidor: 10.2.31-MariaDB-log
+-- versão do PHP: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `siteBase_data`
+-- Banco de dados: `eletrotonon_data`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `acessos`
+-- Estrutura da tabela `acessos`
 --
 
 CREATE TABLE `acessos` (
@@ -36,7 +38,7 @@ CREATE TABLE `acessos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `banners`
+-- Estrutura da tabela `banners`
 --
 
 CREATE TABLE `banners` (
@@ -48,7 +50,7 @@ CREATE TABLE `banners` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `blog`
+-- Estrutura da tabela `blog`
 --
 
 CREATE TABLE `blog` (
@@ -64,7 +66,7 @@ CREATE TABLE `blog` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `blog_categorias`
+-- Estrutura da tabela `blog_categorias`
 --
 
 CREATE TABLE `blog_categorias` (
@@ -76,7 +78,7 @@ CREATE TABLE `blog_categorias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `cadastros`
+-- Estrutura da tabela `cadastros`
 --
 
 CREATE TABLE `cadastros` (
@@ -95,7 +97,7 @@ CREATE TABLE `cadastros` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `cadastros_enderecos`
+-- Estrutura da tabela `cadastros_enderecos`
 --
 
 CREATE TABLE `cadastros_enderecos` (
@@ -114,7 +116,7 @@ CREATE TABLE `cadastros_enderecos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `campanha`
+-- Estrutura da tabela `campanha`
 --
 
 CREATE TABLE `campanha` (
@@ -130,7 +132,7 @@ CREATE TABLE `campanha` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `carrinho`
+-- Estrutura da tabela `carrinho`
 --
 
 CREATE TABLE `carrinho` (
@@ -147,7 +149,7 @@ CREATE TABLE `carrinho` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `como_comprar`
+-- Estrutura da tabela `como_comprar`
 --
 
 CREATE TABLE `como_comprar` (
@@ -158,22 +160,29 @@ CREATE TABLE `como_comprar` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `config_frete`
+-- Estrutura da tabela `config_frete`
 --
 
 CREATE TABLE `config_frete` (
   `cep_origem` char(8) NOT NULL,
-  `mao_propria` char(1) NOT NULL,
+  
   `empresa` varchar(10) DEFAULT NULL,
   `senha` varchar(10) DEFAULT NULL,
   `PAC` varchar(5) DEFAULT NULL,
-  `SEDEX` varchar(5) DEFAULT NULL
+  `SEDEX` varchar(5) DEFAULT NULL,
+
+  -- `peso` double NOT NULL,
+  -- `comprimento` double NOT NULL,
+  -- `altura` double NOT NULL,
+  -- `largura` double NOT NULL,
+
+  `mao_propria` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `config_site`
+-- Estrutura da tabela `config_site`
 --
 
 CREATE TABLE `config_site` (
@@ -182,6 +191,7 @@ CREATE TABLE `config_site` (
   `twitter` varchar(150) DEFAULT NULL,
   `pinterest` varchar(150) DEFAULT NULL,
   `google` varchar(150) DEFAULT NULL,
+  `whatsapp` varchar(150) DEFAULT NULL,
   `logo` varchar(150) DEFAULT NULL,
   `nome` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
@@ -192,14 +202,13 @@ CREATE TABLE `config_site` (
   `frete` varchar(50) NOT NULL,
   `devolucao` varchar(50) NOT NULL,
   `pagamento` int(1) NOT NULL DEFAULT 1 COMMENT '1 = módulo de pagto, 2 = presencial, 3 = ambos',
-  `pac` int(1) NOT NULL DEFAULT 1 COMMENT '1 = gratuito, 2 = cobrado',
-  `whatsapp` varchar(150) DEFAULT NULL
+  `pac` int(1) NOT NULL DEFAULT 1 COMMENT '1 = gratuito, 2 = cobrado'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `cores`
+-- Estrutura da tabela `cores`
 --
 
 CREATE TABLE `cores` (
@@ -210,7 +219,7 @@ CREATE TABLE `cores` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `empresa`
+-- Estrutura da tabela `empresa`
 --
 
 CREATE TABLE `empresa` (
@@ -221,7 +230,7 @@ CREATE TABLE `empresa` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `faq`
+-- Estrutura da tabela `faq`
 --
 
 CREATE TABLE `faq` (
@@ -233,7 +242,7 @@ CREATE TABLE `faq` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `frete`
+-- Estrutura da tabela `frete`
 --
 
 CREATE TABLE `frete` (
@@ -248,43 +257,7 @@ CREATE TABLE `frete` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `juno_configuracao`
---
-
-CREATE TABLE `juno_configuracao` (
-  `id` int(11) NOT NULL,
-  `recipient_token` varchar(200) DEFAULT NULL,
-  `sandbox` tinyint(1) NOT NULL DEFAULT 1,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `name` varchar(80) NOT NULL,
-  `document` varchar(16) NOT NULL,
-  `email` varchar(80) NOT NULL,
-  `birthDate` varchar(10) NOT NULL,
-  `phone` varchar(16) NOT NULL,
-  `bussinesArea` varchar(4) NOT NULL,
-  `linesOfBussines` varchar(100) NOT NULL,
-  `companyType` varchar(30) NOT NULL,
-  `street` varchar(80) NOT NULL,
-  `number` varchar(10) NOT NULL,
-  `complement` varchar(80) NOT NULL,
-  `neighborhood` varchar(80) NOT NULL,
-  `city` varchar(80) NOT NULL,
-  `state` varchar(2) NOT NULL,
-  `postCode` text NOT NULL,
-  `bankNumber` varchar(10) NOT NULL,
-  `agencyNumber` varchar(10) NOT NULL,
-  `accountNumber` varchar(30) NOT NULL,
-  `accountComplementNumber` varchar(3) NOT NULL,
-  `accountType` varchar(8) NOT NULL,
-  `accountHolder_name` varchar(80) NOT NULL,
-  `accountHolder_document` varchar(16) NOT NULL,
-  `type` varchar(10) NOT NULL DEFAULT 'PAYMENT'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `logCompra`
+-- Estrutura da tabela `logCompra`
 --
 
 CREATE TABLE `logCompra` (
@@ -310,7 +283,7 @@ CREATE TABLE `logCompra` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `marcas`
+-- Estrutura da tabela `marcas`
 --
 
 CREATE TABLE `marcas` (
@@ -321,7 +294,7 @@ CREATE TABLE `marcas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `newsletter`
+-- Estrutura da tabela `newsletter`
 --
 
 CREATE TABLE `newsletter` (
@@ -332,22 +305,7 @@ CREATE TABLE `newsletter` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pagseguro_configuracao`
---
-
-CREATE TABLE `pagseguro_configuracao` (
-  `id` int(11) NOT NULL,
-  `email` varchar(500) NOT NULL,
-  `token` varchar(500) NOT NULL,
-  `urlnotificacao` varchar(500) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT 1,
-  `sandbox` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `pedidos`
+-- Estrutura da tabela `pedidos`
 --
 
 CREATE TABLE `pedidos` (
@@ -368,7 +326,7 @@ CREATE TABLE `pedidos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedidos_detalhe`
+-- Estrutura da tabela `pedidos_detalhe`
 --
 
 CREATE TABLE `pedidos_detalhe` (
@@ -385,7 +343,7 @@ CREATE TABLE `pedidos_detalhe` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedidos_enderecos`
+-- Estrutura da tabela `pedidos_enderecos`
 --
 
 CREATE TABLE `pedidos_enderecos` (
@@ -405,7 +363,7 @@ CREATE TABLE `pedidos_enderecos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `politica_troca`
+-- Estrutura da tabela `politica_troca`
 --
 
 CREATE TABLE `politica_troca` (
@@ -416,7 +374,7 @@ CREATE TABLE `politica_troca` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos`
+-- Estrutura da tabela `produtos`
 --
 
 CREATE TABLE `produtos` (
@@ -436,15 +394,16 @@ CREATE TABLE `produtos` (
   `destaque` int(1) NOT NULL DEFAULT 2,
   `ind_cores` int(1) NOT NULL DEFAULT 1,
   `status` int(1) NOT NULL DEFAULT 1,
-  `altura` int(11) NOT NULL DEFAULT 2,
   `comprimento` int(11) NOT NULL DEFAULT 16,
-  `largura` int(11) NOT NULL DEFAULT 11
+  `altura` int(11) NOT NULL DEFAULT 2,
+  `largura` int(11) NOT NULL DEFAULT 11,
+  `ref` VARCHAR(20)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos_categorias`
+-- Estrutura da tabela `produtos_categorias`
 --
 
 CREATE TABLE `produtos_categorias` (
@@ -456,7 +415,7 @@ CREATE TABLE `produtos_categorias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos_estoque`
+-- Estrutura da tabela `produtos_estoque`
 --
 
 CREATE TABLE `produtos_estoque` (
@@ -465,27 +424,27 @@ CREATE TABLE `produtos_estoque` (
   `idcor` int(11) NOT NULL,
   `idtamanho` int(11) NOT NULL,
   `estoque` int(11) NOT NULL,
-  `valor` decimal(10,2) NOT NULL DEFAULT 0.00
+  `valor` decimal(10,2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos_imagens`
+-- Estrutura da tabela `produtos_imagens`
 --
 
 CREATE TABLE `produtos_imagens` (
   `codigo` int(11) UNSIGNED NOT NULL,
   `idproduto` int(11) NOT NULL,
+  `idcor` int(11),
   `imagem` varchar(150) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT 0,
-  `idcor` int(11) DEFAULT NULL
+  `status` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos_subcategorias`
+-- Estrutura da tabela `produtos_subcategorias`
 --
 
 CREATE TABLE `produtos_subcategorias` (
@@ -498,7 +457,7 @@ CREATE TABLE `produtos_subcategorias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `publicidade`
+-- Estrutura da tabela `publicidade`
 --
 
 CREATE TABLE `publicidade` (
@@ -513,18 +472,18 @@ CREATE TABLE `publicidade` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tamanhos`
+-- Estrutura da tabela `tamanhos`
 --
 
 CREATE TABLE `tamanhos` (
   `codigo` int(11) UNSIGNED NOT NULL,
-  `numero` varchar(10) DEFAULT NULL
+  `numero` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `termos_uso`
+-- Estrutura da tabela `termos_uso`
 --
 
 CREATE TABLE `termos_uso` (
@@ -535,7 +494,7 @@ CREATE TABLE `termos_uso` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `testemunhos`
+-- Estrutura da tabela `testemunhos`
 --
 
 CREATE TABLE `testemunhos` (
@@ -547,7 +506,7 @@ CREATE TABLE `testemunhos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuarios`
+-- Estrutura da tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -558,10 +517,17 @@ CREATE TABLE `usuarios` (
   `status` int(1) NOT NULL COMMENT '1 = Ativo, 2 = Inativo'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`codigo`, `nome`, `login`, `senha`, `status`) VALUES
+(1, 'Administrador', 'admin', 'e99a18c428cb38d5f260853678922e03', 1);
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `video`
+-- Estrutura da tabela `video`
 --
 
 CREATE TABLE `video` (
@@ -570,24 +536,24 @@ CREATE TABLE `video` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Índices de tabelas apagadas
+-- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `acessos`
+-- Índices para tabela `acessos`
 --
 ALTER TABLE `acessos`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `idusuario` (`idusuario`);
 
 --
--- Índices de tabela `banners`
+-- Índices para tabela `banners`
 --
 ALTER TABLE `banners`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `blog`
+-- Índices para tabela `blog`
 --
 ALTER TABLE `blog`
   ADD PRIMARY KEY (`codigo`),
@@ -595,32 +561,32 @@ ALTER TABLE `blog`
   ADD KEY `idusuario` (`idusuario`);
 
 --
--- Índices de tabela `blog_categorias`
+-- Índices para tabela `blog_categorias`
 --
 ALTER TABLE `blog_categorias`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `cadastros`
+-- Índices para tabela `cadastros`
 --
 ALTER TABLE `cadastros`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `cadastros_enderecos`
+-- Índices para tabela `cadastros_enderecos`
 --
 ALTER TABLE `cadastros_enderecos`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `idcadastro` (`idcadastro`);
 
 --
--- Índices de tabela `campanha`
+-- Índices para tabela `campanha`
 --
 ALTER TABLE `campanha`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `carrinho`
+-- Índices para tabela `carrinho`
 --
 ALTER TABLE `carrinho`
   ADD PRIMARY KEY (`codigo`),
@@ -629,68 +595,56 @@ ALTER TABLE `carrinho`
   ADD KEY `idcor` (`idcor`);
 
 --
--- Índices de tabela `como_comprar`
+-- Índices para tabela `como_comprar`
 --
 ALTER TABLE `como_comprar`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `cores`
+-- Índices para tabela `cores`
 --
 ALTER TABLE `cores`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `empresa`
+-- Índices para tabela `empresa`
 --
 ALTER TABLE `empresa`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `faq`
+-- Índices para tabela `faq`
 --
 ALTER TABLE `faq`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `frete`
+-- Índices para tabela `frete`
 --
 ALTER TABLE `frete`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `idfatura` (`idpedido`);
 
 --
--- Índices de tabela `juno_configuracao`
---
-ALTER TABLE `juno_configuracao`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices de tabela `logCompra`
+-- Índices para tabela `logCompra`
 --
 ALTER TABLE `logCompra`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `marcas`
+-- Índices para tabela `marcas`
 --
 ALTER TABLE `marcas`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `newsletter`
+-- Índices para tabela `newsletter`
 --
 ALTER TABLE `newsletter`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `pagseguro_configuracao`
---
-ALTER TABLE `pagseguro_configuracao`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices de tabela `pedidos`
+-- Índices para tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`codigo`),
@@ -698,7 +652,7 @@ ALTER TABLE `pedidos`
   ADD KEY `idcarrinho` (`idcarrinho`);
 
 --
--- Índices de tabela `pedidos_detalhe`
+-- Índices para tabela `pedidos_detalhe`
 --
 ALTER TABLE `pedidos_detalhe`
   ADD PRIMARY KEY (`codigo`),
@@ -706,7 +660,7 @@ ALTER TABLE `pedidos_detalhe`
   ADD KEY `idtamanho` (`idtamanho`,`idcor`);
 
 --
--- Índices de tabela `pedidos_enderecos`
+-- Índices para tabela `pedidos_enderecos`
 --
 ALTER TABLE `pedidos_enderecos`
   ADD PRIMARY KEY (`codigo`),
@@ -714,13 +668,13 @@ ALTER TABLE `pedidos_enderecos`
   ADD KEY `idpedido` (`idpedido`);
 
 --
--- Índices de tabela `politica_troca`
+-- Índices para tabela `politica_troca`
 --
 ALTER TABLE `politica_troca`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `produtos`
+-- Índices para tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`codigo`),
@@ -729,237 +683,260 @@ ALTER TABLE `produtos`
   ADD KEY `idsubcategoria` (`idsubcategoria`);
 
 --
--- Índices de tabela `produtos_categorias`
+-- Índices para tabela `produtos_categorias`
 --
 ALTER TABLE `produtos_categorias`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `produtos_estoque`
+-- Índices para tabela `produtos_estoque`
 --
 ALTER TABLE `produtos_estoque`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `idproduto` (`idproduto`,`idcor`,`idtamanho`);
 
 --
--- Índices de tabela `produtos_imagens`
+-- Índices para tabela `produtos_imagens`
 --
 ALTER TABLE `produtos_imagens`
   ADD PRIMARY KEY (`codigo`),
-  ADD KEY `idproduto` (`idproduto`);
+  ADD KEY `idproduto` (`idproduto`),
+  ADD KEY `idcor` (`idcor`);
 
 --
--- Índices de tabela `produtos_subcategorias`
+-- Índices para tabela `produtos_subcategorias`
 --
 ALTER TABLE `produtos_subcategorias`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `idcategoria` (`idcategoria`);
 
 --
--- Índices de tabela `publicidade`
+-- Índices para tabela `publicidade`
 --
 ALTER TABLE `publicidade`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `tamanhos`
+-- Índices para tabela `tamanhos`
 --
 ALTER TABLE `tamanhos`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `termos_uso`
+-- Índices para tabela `termos_uso`
 --
 ALTER TABLE `termos_uso`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `testemunhos`
+-- Índices para tabela `testemunhos`
 --
 ALTER TABLE `testemunhos`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `usuarios`
+-- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- Índices de tabela `video`
+-- Índices para tabela `video`
 --
 ALTER TABLE `video`
   ADD PRIMARY KEY (`codigo`);
 
 --
--- AUTO_INCREMENT de tabelas apagadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
 -- AUTO_INCREMENT de tabela `acessos`
 --
 ALTER TABLE `acessos`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `blog`
 --
 ALTER TABLE `blog`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `blog_categorias`
 --
 ALTER TABLE `blog_categorias`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `cadastros`
 --
 ALTER TABLE `cadastros`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `cadastros_enderecos`
 --
 ALTER TABLE `cadastros_enderecos`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `campanha`
 --
 ALTER TABLE `campanha`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `carrinho`
 --
 ALTER TABLE `carrinho`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `como_comprar`
 --
 ALTER TABLE `como_comprar`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `cores`
 --
 ALTER TABLE `cores`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `empresa`
 --
 ALTER TABLE `empresa`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `faq`
 --
 ALTER TABLE `faq`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `frete`
 --
 ALTER TABLE `frete`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de tabela `juno_configuracao`
---
-ALTER TABLE `juno_configuracao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de tabela `logCompra`
 --
 ALTER TABLE `logCompra`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `newsletter`
 --
 ALTER TABLE `newsletter`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de tabela `pagseguro_configuracao`
---
-ALTER TABLE `pagseguro_configuracao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `pedidos_detalhe`
 --
 ALTER TABLE `pedidos_detalhe`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `pedidos_enderecos`
 --
 ALTER TABLE `pedidos_enderecos`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `politica_troca`
 --
 ALTER TABLE `politica_troca`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `produtos_categorias`
 --
 ALTER TABLE `produtos_categorias`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `produtos_estoque`
 --
 ALTER TABLE `produtos_estoque`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `produtos_imagens`
 --
 ALTER TABLE `produtos_imagens`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `produtos_subcategorias`
 --
 ALTER TABLE `produtos_subcategorias`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `publicidade`
 --
 ALTER TABLE `publicidade`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `tamanhos`
 --
 ALTER TABLE `tamanhos`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `termos_uso`
 --
 ALTER TABLE `termos_uso`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `testemunhos`
 --
 ALTER TABLE `testemunhos`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de tabela `video`
 --
 ALTER TABLE `video`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

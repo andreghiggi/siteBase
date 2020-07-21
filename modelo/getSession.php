@@ -4,7 +4,7 @@ include('env.php');
 
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'https://ws.sandbox.pagseguro.uol.com.br/v2/sessions?email=gabrielsouzaweb@gmail.com&token=4F85DE139E4349F8AB2532E3791F17BF');
+curl_setopt($ch, CURLOPT_URL, 'https://'.$_GET['url']);
 
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

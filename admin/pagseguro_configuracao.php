@@ -5,11 +5,12 @@ $email = $_POST['email'];
 $token = $_POST['token'];
 $urlnotificacao = $_POST['urlnotificacao'];
 $status = $_POST['status'];
+$sandbox = $_POST['sandbox'];
 
 if($_POST['cmd'] == "add")
 {
-	$str = "INSERT INTO pagseguro_configuracao (email, token, urlnotificacao,status)
-		VALUES ('$email', '$token', '$urlnotificacao', '$status')";
+	$str = "INSERT INTO pagseguro_configuracao (email, token, urlnotificacao,status,sandbox)
+		VALUES ('$email', '$token', '$urlnotificacao', '$status', '$sandbox')";
 	$rs  = mysql_query($str) or die(mysql_error());
 
 	redireciona("pagseguro_configuracao.php?ind_msg=1");
@@ -17,7 +18,7 @@ if($_POST['cmd'] == "add")
 
 if($_POST['cmd'] == "edit")
 {
-	$str = "UPDATE pagseguro_configuracao SET email = '$email', token = '$token', urlnotificacao = '$urlnotificacao', status='$status'";
+	$str = "UPDATE pagseguro_configuracao SET email = '$email', token = '$token', urlnotificacao = '$urlnotificacao', status='$status', sandbox = '$sandbox'";
 	$rs  = mysql_query($str) or die(mysql_error());
 	
 	redireciona("pagseguro_configuracao.php?ind_msg=2");
@@ -95,6 +96,16 @@ function valida(ind)
 				<select id="status" name="status">
 					<option value="0" <?=$vet['status'] == 0?'Selected':'';?>>Inativo</option>
 					<option value="1" <?=$vet['status'] == 1?'Selected':'';?>>Ativo</option>
+				</select>
+			</div>
+		</section>
+
+		<section>
+			<label>Sandbox</label>
+			<div>
+				<select id="sandbox" name="ssandbox">
+					<option value="0" <?=$vet['sandbox'] == 0?'Selected':'';?>>Inativo</option>
+					<option value="1" <?=$vet['sandbox'] == 1?'Selected':'';?>>Ativo</option>
 				</select>
 			</div>
 		</section>
