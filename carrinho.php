@@ -1,7 +1,17 @@
 <?
 include("includes/header.php");
 
-if(isset($_GET['frete'])){
+$cepSalvo = false;
+
+if( isset($_SESSION['cep']) && ( !isset($_GET['frete']) || $_GET['frete'] == $_SESSION['cep'] ) ){
+	$sedexDias = $_SESSION['sedexDias'];
+	$sedex = $_SESSION['sedex'];
+	$pacDias = $_SESSION['pacDias'];
+	$pac = $_SESSION['pac'];
+	$cepSalvo = $_SESSION['cep'];
+}
+elseif(isset($_GET['frete'])){
+	$cepSalvo = $_GET['frete'];
 	$valor_frete = 0;
 	$prazo_entrega = 0;
 	
@@ -33,7 +43,7 @@ if(isset($_GET['frete'])){
 	$args .= '&sDsSenha='.$frete['senha'];
 	$args .= '&nCdServico='.$frete['SEDEX'];//.$servico;
 	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
-	$args .= '&sCepDestino='.$_GET['frete'];//.$c_cep;
+	$args .= '&sCepDestino='.$cepSalvo;//.$c_cep;
 	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
 	$args .= '&nCdFormato=1';
 	$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
@@ -52,7 +62,7 @@ if(isset($_GET['frete'])){
 	$args .= '&sDsSenha='.$frete['senha'];
 	$args .= '&nCdServico='.$frete['PAC'];//.$servico;
 	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
-	$args .= '&sCepDestino='.$_GET['frete'];//.$c_cep;
+	$args .= '&sCepDestino='.$cepSalvo;//.$c_cep;
 	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
 	$args .= '&nCdFormato=1';
 	$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
@@ -66,6 +76,12 @@ if(isset($_GET['frete'])){
 	$resp = new SimpleXMLElement($ret);
 	$pacDias = $resp->Servicos->cServico->PrazoEntrega;
 	$pac = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
+
+	$_SESSION['sedexDias'] = intval($sedexDias);
+	$_SESSION['sedex'] = $sedex;
+	$_SESSION['pacDias'] = intval($pacDias);
+	$_SESSION['pac'] = $pac;
+	$_SESSION['cep'] = $cepSalvo;
 }
 
 if($_GET['cmd'] == "add")
@@ -206,7 +222,7 @@ if($_GET['cmd'] == 'edit_qtde')
 	$str = "UPDATE carrinho SET qtde = '$qtde' WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto' $strWhere";
 	$rs  = mysql_query($str) or die(mysql_error());
 	
-	if(isset($_GET['frete']))
+	if(isset($cepSalvo))
 		redireciona("carrinho.php?frete");
 	else
 		redireciona("carrinho.php");
@@ -256,7 +272,7 @@ function calcFrete(self){
 }
 
 function avancarCarrinho(){
-	window.location.href = "endereco.php?frete="+$('#selectFrete').val()+"&destino=<?=$_GET['frete']?>";
+	window.location.href = "endereco.php?frete="+$('#selectFrete').val()+"&destino=<?=$cepSalvo?>";
 }
 
 $(document).ready(() => {
@@ -396,7 +412,7 @@ $(document).ready(() => {
 					<tfoot>
 						<tr>
 							<td colspan="3" style="text-align: left;">
-								<?if(isset($_GET['frete'])):?>
+								<?if(isset($cepSalvo)):?>
 									<select class="form-control" style="width:50%" onchange="calcFrete(this)" id="selectFrete">
 										<option value="<?=$pac.':'.$pacDias.':1'?>">PAC</option>
 										<option value="<?=$sedex.':'.$sedexDias.':2'?>" selected>SEDEX</option>
@@ -413,7 +429,7 @@ $(document).ready(() => {
 								</script>
 								<b>Informe o CEP para continuar</b>
 								<br><br>
-								<input id="cep-destino" type="text" class="form-control" placeholder="00000-000" value="<?if(isset($_GET['frete'])) echo $_GET['frete']?>">
+								<input id="cep-destino" type="text" class="form-control" placeholder="00000-000" value="<?if(isset($cepSalvo)) echo $cepSalvo?>">
 								<br>
 								<div class="btn btn-primary" onclick="carregarFrete()">Calcular</div>
 							</td>

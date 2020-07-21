@@ -547,7 +547,7 @@ $("input[type='text']").on('blur', function(e) {
       console.log('parcelas_disponiveis');
     PagSeguroDirectPayment.getInstallments({
         
-      amount: <?php echo $total;?>,
+      amount: <?php echo $total+$sedex;?>,
       brand: $("#creditCardBrand").val(),
       maxInstallmentNoInterest: 2,
 
@@ -731,7 +731,7 @@ $("input[type='text']").on('blur', function(e) {
             id: <?php echo $id_p ?>,
             idcadastro: <?php echo $idcadastro ?>,
             idcarrinho: '<?php echo $idcarrinho ?>',
-            valor: '<?php echo $total ?>',
+            valor: '<?php echo 1/*$total+$frete*/ ?>',
           email: $("#senderEmail").val(),
           nome: $("#senderName").val(),
           cpf: $("#senderCPF").val(),
@@ -769,6 +769,7 @@ $("input[type='text']").on('blur', function(e) {
         success: function(data) {
           console.log('success_data',data);
           if (data.error) {
+            console.log();
             if (data.error.code == "53037") {
               //$("#creditCardPaymentButton").click();
             } else {
@@ -797,10 +798,7 @@ $("input[type='text']").on('blur', function(e) {
               success: function(status) {
 
                 if (status == "7") {
-                  //alert(data);
-                  $("#modal-title").html("<font color='red'>Erro</font>");
-
-                  $("#modal-body").html("Erro ao processar o seu pagamento.<br/> Não se preocupe pois esse valor <b>não será debitado de sua conta ou não constará em sua fatura</b><br /><br />Verifique se você possui limite suficiente para efetuar a transação e/ou tente um cartão diferente");
+                  alert("Erro ao processar o seu pagamento.<br />Verifique se você possui limite suficiente para efetuar a transação e/ou tente um cartão diferente");
 
                 } else {
                 	$('#pagamentoCarregando').addClass('hidden');
