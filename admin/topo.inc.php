@@ -1,8 +1,8 @@
 <?
 session_start();
 
-include("../s_acessos.php");
 include("../funcoes.php");
+include("../s_acessos.php");
 include("verifica.php");
 
 error_reporting(0);
