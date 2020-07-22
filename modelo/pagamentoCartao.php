@@ -176,7 +176,7 @@ var_dump($xml2);die('fim1');*/
    var_dump($xml);*/
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "https://ws.pagseguro.uol.com.br/v2/transactions/?email=" . $_POST['pagEmail'] . "&token=" . $_POST['pagToken']);
+curl_setopt($ch, CURLOPT_URL, $urlPagseguro . "transactions/?email=". $emailPagseguro . "&token=" . $tokenPagseguro);
 curl_setopt($ch, CURLOPT_POST, true );
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);

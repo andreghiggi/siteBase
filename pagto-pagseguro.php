@@ -435,6 +435,7 @@ include("includes/footer.php");
 
 <?php
   $pagConf = mysql_fetch_assoc(mysql_query('select * from pagseguro_configuracao'));
+  
   echo '<script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>';
   $getSession = urlencode('ws.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token']);
 ?>

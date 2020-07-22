@@ -1,13 +1,12 @@
 <?
-/*
+
 ini_set('display_errors',1);
 ini_set('display_startup_erros',1);
-*/
 
 session_start();
 
-include("s_acessos.php");
 include("funcoes.php");
+include("s_acessos.php");
 
 error_reporting(0);
 
