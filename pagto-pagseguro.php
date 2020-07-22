@@ -174,12 +174,12 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 
 	/*$_SESSION['idcarrinho_auxiliar'] = $_SESSION['idcarrinho'];
 	$_SESSION['idpedido_auxiliar'] = $_SESSION['idpedido'];
-	$_SESSION['pagamento_auxiliar'] = $_SESSION['pagamento'];
+	$_SESSION['pagamento_auxiliar'] = $_SESSION['pagamento'];*/
 
 	unset($_SESSION['finalizar_pagto']);
 	unset($_SESSION['idcarrinho']);
 	unset($_SESSION['idpedido']);
-	unset($_SESSION['pagamento']);*/
+	unset($_SESSION['pagamento']);
 	
 	redireciona("index.php");
 }
@@ -415,7 +415,8 @@ $id_p = 0;
       	<div id="pagamentoConcluido" class="hidden">
       		<h2 class="text-success mt-3"><strong>Seu pagamento foi aprovado!</strong></h2><br>
       		<p>Você receberar mais informações sobre o seu pedido no email cadastrado.</p>
-      		<a href="index.php" class="btn btn-info float-right">Ok</a>
+          <p><strong>Clique no OK para finalizar a compra!</strong></p>
+      		<a href="?fin=<?php echo $_SESSION['finalizar'];?>" class="btn btn-info float-right">Ok</a>
       	</div>
       </div>
 
