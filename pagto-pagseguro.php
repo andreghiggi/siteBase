@@ -560,18 +560,20 @@ $("input[type='text']").on('blur', function(e) {
 
         var options = '';
         for (var i in installments) {
-
           var optionItem     = installments[i];
           var optionQuantity = optionItem.quantity;
           var optionAmount   = optionItem.installmentAmount;
           var optionLabel    = (optionQuantity + " x R$ " + (optionAmount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,').replace(".", ',')));
+
+          if(options == ''){
+            $("#installmentValue").val(optionAmount);
+          }
 
           options += ('<option value="' + optionItem.quantity + '" valorparcela="' + optionAmount +'">'+ optionLabel +'</option>');
 
         };
 
         $("#installmentQuantity").html(options);
-
       },
 
       error: function(response) {
