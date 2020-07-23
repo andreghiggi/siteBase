@@ -39,7 +39,7 @@ elseif(isset($_GET['frete'])){
 
 	$frete = mysql_fetch_assoc(mysql_query('select * from config_frete'));
 
-	$args = 'nCdEmpresa='.$frete['empresa'];
+	/*$args = 'nCdEmpresa='.$frete['empresa'];
 	$args .= '&sDsSenha='.$frete['senha'];
 	$args .= '&nCdServico='.$frete['SEDEX'];//.$servico;
 	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
@@ -81,7 +81,7 @@ elseif(isset($_GET['frete'])){
 	$_SESSION['sedex'] = $sedex;
 	$_SESSION['pacDias'] = intval($pacDias);
 	$_SESSION['pac'] = $pac;
-	$_SESSION['cep'] = $cepSalvo;
+	$_SESSION['cep'] = $cepSalvo;*/
 }
 
 if($_GET['cmd'] == "add")
@@ -187,7 +187,7 @@ if($_GET['cmd'] == 'del')
 	$idcarrinho = $_SESSION['idcarrinho'];
 	$idproduto = anti_injection($_GET['idproduto']);
 
-	$str = "DELETE FROM carrinho WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto'";
+	$str = "DELETE FROM carrinho WHERE codigo = '$idproduto'";
 	$rs  = mysql_query($str) or die(mysql_error());
 
 	redireciona("carrinho.php?ind_msg=1");
@@ -288,7 +288,7 @@ $(document).ready(() => {
 	$idcarrinho = $_SESSION['idcarrinho'];
 	$idcadastro = $c_codigo;
 
-	$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.idtamanho, B.idcor, C.numero, D.titulo AS cor, E.valor AS precoVariacao
+	$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.idtamanho, B.idcor, B.codigo as prodCar ,C.numero, D.titulo AS cor, E.valor AS precoVariacao
 		FROM produtos A
 		INNER JOIN carrinho B ON A.codigo = B.idproduto
 		LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
@@ -401,7 +401,7 @@ $(document).ready(() => {
 							<span class="price">R$ <?=number_format($valor, 2, ',', '.')?></span>
 						</td>
 						<td>
-							<a href="carrinho.php?cmd=del&idproduto=<?=$vet['codigo']?>" onclick="return confirm('Deseja realmente excluir este produto do carrinho?');"><i class="fa fa-trash-o"></i></a>
+							<a href="carrinho.php?cmd=del&idproduto=<?=$vet['prodCar']?>" onclick="return confirm('Deseja realmente excluir este produto do carrinho?');"><i class="fa fa-trash-o"></i></a>
 						</td>
 					</tr>
 					<?
@@ -414,8 +414,17 @@ $(document).ready(() => {
 							<td colspan="3" style="text-align: left;">
 								<?if(isset($cepSalvo)):?>
 									<select class="form-control" style="width:50%" onchange="calcFrete(this)" id="selectFrete">
+										<?php 
+											$cep_origem = mysql_fetch_assoc(mysql_query('select cep_origem from config_frete'))['cep_origem'];
+											var_dump($cep_origem);
+											if($cep_origem != str_replace('-','',$_GET['frete'])):
+										?>
 										<option value="<?=$pac.':'.$pacDias.':1'?>">PAC</option>
 										<option value="<?=$sedex.':'.$sedexDias.':2'?>" selected>SEDEX</option>
+											<?else:?>
+										<option selected disabled>Selecione</option>
+										<option value="0:0:0">Retirar na loja</option>
+											<?endif;?>
 									</select>
 									<br>
 								<?endif;?>

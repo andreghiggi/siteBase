@@ -1,7 +1,9 @@
 <?
-include("includes/header.php");
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
 
-#include("PagSeguroArquivos/pagseguro_integracao.php");
+include("includes/header.php");
 
 if(!$_SESSION['user_verifica'])
 {
@@ -11,7 +13,6 @@ if(!$_SESSION['user_verifica'])
 if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 {
 	
-	//$_SESSION['finalizar'] = -1;
 	$idcadastro = $c_codigo;
 	$idcarrinho = $_SESSION['idcarrinho'];
 
@@ -25,7 +26,7 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 	
 	$valor_compra = subtotal_carrinho($c_codigo, $_SESSION['idcarrinho'], $_SESSION['c_servico'], $c_cep, $n_pac);
 	
-	$str = "INSERT INTO pedidos (idcadastro, idcarrinho, valor, pagamento, data_geracao, `status`) VALUES ('$idcadastro', '$idcarrinho', '$valor_compra', '1', CURDATE(), '1')";
+	$str = "INSERT INTO pedidos (idcadastro, idcarrinho, valor, pagamento, data_geracao, `status`, entrega, codRastreio) VALUES ('$idcadastro', '$idcarrinho', '$valor_compra', '1', CURDATE(), '1', '".($_SESSION['f_servico'] == 0?'0':'1')."', '')";
 	$rs  = mysql_query($str) or die(mysql_error());
 	$idpedido = mysql_insert_id();
 	
@@ -181,10 +182,11 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 	unset($_SESSION['idpedido']);
 	unset($_SESSION['pagamento']);
 	
-	redireciona("index.php");
+	
 }
 else{
-	$_SESSION['finalizar'] = uniqid();
+  $_SESSION['finalizar'] = uniqid();
+  var_dump($_SESSION['finalizar']);
 }
 
 $idpedido = $_SESSION['idpedido_auxiliar'];
@@ -403,7 +405,6 @@ $id_p = 0;
 	</div>
 </div>
 
-<!--<div class="btn" onclick="$('#myModal').modal();">modal</div>-->
 <div class="modal" id="myModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -412,18 +413,17 @@ $id_p = 0;
       	<div id="pagamentoCarregando">
       		<span class="mb-3"><strong>Carregando...</strong></span><br><span class="spinner-border spinner-border-lg text-primary"></span>
       	</div>
-      	<div id="pagamentoConcluido" class="hidden">
+      	<!--<div id="pagamentoConcluido" class="hidden">
       		<h2 class="text-success mt-3"><strong>Seu pagamento foi aprovado!</strong></h2><br>
       		<p>Você receberar mais informações sobre o seu pedido no email cadastrado.</p>
           <p><strong>Clique no OK para finalizar a compra!</strong></p>
       		<a href="?fin=<?php echo $_SESSION['finalizar'];?>" class="btn btn-info float-right">Ok</a>
-      	</div>
+      	</div>-->
       </div>
 
     </div>
   </div>
 </div>
-
 
 <?
 include("includes/footer.php");
@@ -810,8 +810,10 @@ $("input[type='text']").on('blur', function(e) {
                   location.reload();
 
                 } else {
-                	$('#pagamentoCarregando').addClass('hidden');
-                	$('#pagamentoConcluido').removeClass('hidden');
+                  alert('Pagamento realizado com successo!');
+                  location.href="index.php";
+                  //$('#pagamentoCarregando').addClass('hidden');
+                  //$('#pagamentoConcluido').removeClass('hidden');
                 }
 
               }

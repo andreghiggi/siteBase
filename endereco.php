@@ -17,8 +17,13 @@ if(isset($_GET['frete'])){
 	$_SESSION['f_valor'] = $tmp[0];
 	$_SESSION['f_prazo'] = $tmp[1];
 	$_SESSION['f_cepDestino'] = $_GET['destino'];
-	$_SESSION['f_tipo'] = $tmp[2] == 1? 'pac':'sedex';
-	$_SESSION['f_servico'] = mysql_fetch_assoc(mysql_query('select '.($tmp[2] == 1? 'PAC':'SEDEX').' from config_frete'))[($tmp[2] == 1? 'PAC':'SEDEX')];
+	if($tmp[2] > 0){
+		$_SESSION['f_tipo'] = $tmp[2] == 1? 'pac':'sedex';
+		$_SESSION['f_servico'] = mysql_fetch_assoc(mysql_query('select '.($tmp[2] == 1? 'PAC':'SEDEX').' from config_frete'))[($tmp[2] == 1? 'PAC':'SEDEX')];
+	}
+	else{
+		$_SESSION['f_servico'] = 0;
+	}
 }
 
 ?>
