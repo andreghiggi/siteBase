@@ -934,6 +934,9 @@ function tratarError(id) {
     $("#modal-body").append("<p>Verifique o código de área informado</p>");
     $("#creditCardHolderAreaCode").css('border', '2px solid red');
 
+  } else if (id == '53041') {
+    alert('O cartão informado não possui saldo suficiente');
+
   } else if (id == '53122') {
     $("#modal-body").append("<p>Enquanto na sandbox do PagSeguro, o e-mail deve ter o domínio '@sandbox.pagseguro.com.br' (ex.: comprador@sandbox.pagseguro.com.br)</p>");
 
