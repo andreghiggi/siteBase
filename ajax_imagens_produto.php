@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-include("s_acessos.php");
 include("funcoes.php");
+include("s_acessos.php");
 
 $idproduto = anti_injection($_GET['idproduto']);
 $idcor = anti_injection($_GET['idcor']);

@@ -1,7 +1,7 @@
 <?
-
 ini_set('display_errors',1);
 ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
 
 session_start();
 
@@ -227,11 +227,12 @@ elseif($_POST['chave'] == TRUE)
 					$idcarrinho = $_SESSION['idcarrinho'];
 					$idcadastro = $c_codigo;;
 
-					$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.idtamanho, B.idcor, C.numero AS tamanho, D.titulo AS cor
+					$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.idtamanho, B.idcor, C.numero AS tamanho, D.titulo AS cor, E.valor AS precoVariacao
 						FROM produtos A
 						INNER JOIN carrinho B ON A.codigo = B.idproduto
 						LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
 						LEFT JOIN cores D ON B.idcor = D.codigo
+						LEFT JOIN produtos_estoque E on E.idproduto = A.codigo and E.idcor = D.codigo and E.idtamanho = C.codigo
 						where idcarrinho = '$idcarrinho'
 						ORDER BY A.nome";
 					$rs  = mysql_query($str) or die(mysql_error());
@@ -247,7 +248,8 @@ elseif($_POST['chave'] == TRUE)
 						{
 							$imagem = img_produto_destaque($vet['codigo'], $vet['idcor']);
 
-							$valor = $vet['valor_pedido'] * $vet['qtde'];
+							$preco = $vet['precoVariacao'] == 0? $vet['valor_pedido']:$vet['precoVariacao'];
+							$valor = $preco * $vet['qtde'];
 							$total += $valor;
 
 							if($valor_frete_02 > $valor_frete)
