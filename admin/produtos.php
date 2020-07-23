@@ -81,6 +81,8 @@ if($_POST['cmd'] == "edit")
         WHERE codigo = '$codigo'";
     $rs  = mysql_query($str) or die(mysql_error());
 
+    var_dump(mysql_error());
+
     if(is_array($vet_imagem))
     {
         $strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$codigo' AND status = '1'";
@@ -100,7 +102,7 @@ if($_POST['cmd'] == "edit")
         }
     }
     
-    redireciona("produtos.php?ind_msg=2");
+    #redireciona("produtos.php?ind_msg=2");
 }
 
 if($_GET['cmd'] == "del")

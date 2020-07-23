@@ -46,7 +46,7 @@ if($_POST['cmd'] == "add")
                             <tr>
                                 <td height="30" valign="top">
                                     Olá, '.$_POST['nome'].'<br><br>
-                                    Obrigado por se cadastrar em nosso site, sua senha de acesso é <b>"'.$_POST['senha'].'"</b>.<br>
+                                    Obrigado por se cadastrar em nosso site.<br>
                                     Boas compras!
                                 </td>
                             </tr>
@@ -233,7 +233,8 @@ function valida_c()
 <div class="login-register-form">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-6 col-lg-6 col-md-6">
+			
+			<div class="col-sm-6 col-lg-6 col-md-6 mx-auto" id="l_area">
 				<form name="form_l" id="form_l" method="post">
 					<input type="hidden" name="cmd" id="cmd" value="login">
 					<div class="form-area">
@@ -242,26 +243,28 @@ function valida_c()
 							<p>Informe login e senha para acessar a ára do cliente no menu superior do site.</p>
 							<p>
 								<label>Email <em>*</em></label>
-								<input type="text" name="email" id="email" >
+								<input class="form-control" type="text" name="email" id="email" >
 							</p>
 							<p>
 								<label>Senha <em>*</em></label>
-								<input type="password" name="senha" id="senha" >
+								<input class="form-control" type="password" name="senha" id="senha" >
 							</p>
-							<p>
+							<div class="float-right mt-4 btn btn-link">
 								<a href="lembrar_senha.php">Esqueceu a senha?</a>
-							</p>
-							<button type="submit" onclick="javascript: return valida_l();">
+							</div>
+							<div class="float-right mt-4 btn btn-link" onclick="$('#l_area').hide();$('#c_area').show();">Cadastrar</div>
+							<div class="btn btn-dark mt-4" onclick="javascript: return valida_l();">
 								<span>
 									<i class="fa fa-lock"></i>
 									Entrar
 								</span>
-							</button>
+							</div>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="col-sm-6 col-lg-6 col-md-6">
+
+			<div class="col-sm-6 col-lg-6 col-md-6 mx-auto" id="c_area" style="display:none;">
 				<div class="form-area">
 					<form name="form_c" id="form_c" method="post">
 						<input type="hidden" name="cmd" id="cmd" value="add">
@@ -292,16 +295,18 @@ function valida_c()
 								<label>Senha <em>*</em></label>
 								<input type="password" name="senha" id="senha" >
 							</p>
-							<button id="botaoEnviar" type="submit" class="login" onclick="javascript: return valida_c();">
+							<div id="botaoEnviar" type="submit" class="btn btn-dark mt-4" onclick="javascript: return valida_c();">
 								<span>
 									<i class="fa fa-user"></i>
 									Cadastrar
 								</span>
-							</button>
+							</div>
+							<div class="btn btn-link mt-4 float-right" onclick="$('#c_area').hide();$('#l_area').show();">Voltar</div>
 						</div>
 					</form>
 				</div>
-			</div>			
+			</div>	
+
 		</div>
 	</div>
 </div>
