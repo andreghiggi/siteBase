@@ -806,7 +806,8 @@ $("input[type='text']").on('blur', function(e) {
               success: function(status) {
 
                 if (status == "7") {
-                  alert("Erro ao processar o seu pagamento.<br />Verifique se você possui limite suficiente para efetuar a transação e/ou tente um cartão diferente");
+                  alert("Erro ao processar o seu pagamento! Verifique se você possui limite suficiente para efetuar a transação e/ou tente um cartão diferente");
+                  location.reload();
 
                 } else {
                 	$('#pagamentoCarregando').addClass('hidden');
