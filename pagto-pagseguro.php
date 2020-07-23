@@ -526,17 +526,19 @@ $("input[type='text']").on('blur', function(e) {
 						$_itens = array();
 						while($vet = mysql_fetch_array($rs))
 						{
-						    $dados = array();
-						    $dados['id'] = $vet["codigo"];
-						    $dados['description'] = $vet["nome"];
-						    $dados['amount'] = $vet["valor_pedido"];
-						    $dados['quantity'] = $vet["qtde"];
-						    
-						    array_push($_itens, $dados);
-                $preco = $vet['precoVariacao'] == 0? $vet['valor_pedido']:$vet['precoVariacao'];
-                $valor = $preco * $vet['qtde'];
-							  $valor_compras += $valor;
-							  $total += $valor;
+              $preco = $vet['precoVariacao'] == 0? $vet['valor_pedido']:$vet['precoVariacao'];
+
+              $dados = array();
+              $dados['id'] = $vet["codigo"];
+              $dados['description'] = $vet["nome"];
+              $dados['amount'] = $preco;
+              $dados['quantity'] = $vet["qtde"];
+              
+              array_push($_itens, $dados);
+              
+              $valor = $preco * $vet['qtde'];
+              $valor_compras += $valor;
+              $total += $valor;
 						}
 						
 						$itens = json_encode($_itens);
@@ -604,7 +606,7 @@ $("input[type='text']").on('blur', function(e) {
           console.log('response', response);
         $("#creditCardBrand").val(response.brand.name);
 
-        $("#bandeiraCartao").attr('src', 'https://stc.sandbox.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/' + response.brand.name + '.png');
+        $("#bandeiraCartao").attr('src', 'https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/' + response.brand.name + '.png');
 
 
         parcelasDisponiveis();
@@ -737,7 +739,7 @@ $("input[type='text']").on('blur', function(e) {
             id: <?php echo $id_p ?>,
             idcadastro: <?php echo $idcadastro ?>,
             idcarrinho: '<?php echo $idcarrinho ?>',
-            valor: '<?php echo $total+$frete ?>',
+            valor: '<?php echo $total+$sedex ?>',
           email: $("#senderEmail").val(),
           nome: $("#senderName").val(),
           cpf: $("#senderCPF").val(),
@@ -751,6 +753,7 @@ $("input[type='text']").on('blur', function(e) {
           cidade: $("#shippingAddressCity").val(),
           estado: $("#shippingAddressState").val(),
           itens: '<?php echo $itens ?>',
+          frete: <?php echo $sedex;?>,
           pais: "BRA",
           senderHash: senderHash,
 
@@ -936,6 +939,7 @@ function tratarError(id) {
 
   } else if (id == '53041') {
     alert('O cartão informado não possui saldo suficiente');
+    location.reload();
 
   } else if (id == '53122') {
     $("#modal-body").append("<p>Enquanto na sandbox do PagSeguro, o e-mail deve ter o domínio '@sandbox.pagseguro.com.br' (ex.: comprador@sandbox.pagseguro.com.br)</p>");

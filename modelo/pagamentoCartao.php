@@ -155,7 +155,7 @@ $xml = "<payment>
       <postalCode>" . $_POST['cepPagamento'] . "</postalCode>
     </address>
     <type>1</type>
-    <cost>0.00</cost>
+    <cost>". $_POST['frete'] ."</cost>
     <addressRequired>true</addressRequired>
   </shipping>
   <extraAmount>0.00</extraAmount>
