@@ -46,12 +46,25 @@ if(!$_SESSION['user_verifica'])
 											$rsF  = mysql_query($strF) or die(mysql_error());
 											$vetF = mysql_fetch_array($rsF);
 
+											$strP = "
+												select B.valor as valorEstoque, C.valor_desconto as valorDesconto, C.valor_produto as valorProduto from pedidos_detalhe A 
+												inner join produtos_estoque B on B.idproduto = A.idproduto and B.idcor = A.idcor and B.idtamanho = B.idtamanho
+												inner join produtos C on C.codigo = A.idproduto
+												where A.idpedido = ".$idpedido."
+											";
+											$rsP = mysql_query($strP) or die(mysql_error());
+											$vetP = mysql_fetch_assoc($rsP);
+
+											if($valor == 0) $valor = $vetP['valorProduto'];
+											if($vetP['valorDesconto'] > 0) $valor = $vetP['valorDesconto'];
+											if($vetP['valorEstoque'] > 0) $valor = $vetP['valorEstoque'];
+
 											$valor += $vetF['valor'];
 										?>
 										<tr>
 											<td><a href="pedido.php?idpedido=<?=$vet['codigo']?>">#<?=$vet['codigo']?></a></td>
 											<td><?=ConverteData($vet['data_geracao'])?></td>
-											<td>R$ <?=number_format($vet['valor'], 2, ',', '.')?></td>
+											<td>R$ <?=number_format($valor, 2, ',', '.')?></td>
 											<td>
 												<?
 												if($vet['status'] == 0)

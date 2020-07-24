@@ -47,7 +47,23 @@ $vet = mysql_fetch_array($rs);
 										$vetF = mysql_fetch_array($rsF);
 
 										$data_entrega = date("d/m/Y", mktime(0, 0, 0, substr($vet['data_geracao'], 5, 2), substr($vet['data_geracao'], 8, 2) + $vetF['prazo'], substr($vet['data_geracao'], 0, 4)));
-										$total = $vet['valor'] + $vetF['valor'];
+										
+										$total = $vet['valor'];
+
+										$strP = "
+												select B.valor as valorEstoque, C.valor_desconto as valorDesconto, C.valor_produto as valorProduto from pedidos_detalhe A 
+												inner join produtos_estoque B on B.idproduto = A.idproduto and B.idcor = A.idcor and B.idtamanho = B.idtamanho
+												inner join produtos C on C.codigo = A.idproduto
+												where A.idpedido = ".$idpedido."
+											";
+											$rsP = mysql_query($strP) or die(mysql_error());
+											$vetP = mysql_fetch_assoc($rsP);
+
+											if($valor == 0) $valor = $vetP['valorProduto'];
+											if($vetP['valorDesconto'] > 0) $valor = $vetP['valorDesconto'];
+											if($vetP['valorEstoque'] > 0) $valor = $vetP['valorEstoque'];
+
+											$valor += $vetF['valor'];
 										?>
 										<tr>
 											<td>
@@ -80,7 +96,7 @@ $vet = mysql_fetch_array($rs);
 								                Estado: <?=$vetE['estado']?><br>
 								                CEP: <?=$vetE['cep']?><br><br>
 												
-								                <b>Subtotal:</b> R$ <?=number_format($vet['valor'], 2, ',', '.')?><br>
+								                <!--<b>Subtotal:</b> R$ <?=number_format($vet['valor'], 2, ',', '.')?><br>
 								                <?
 												if($config_frete > 0)
 												{
@@ -89,7 +105,7 @@ $vet = mysql_fetch_array($rs);
 												<b>Prazo de entrega:</b> <?=$data_entrega?> (<?=$vetF['servico']?>)<br>
 												<?
 												}
-												?>
+												?>-->
 												<b>TOTAL:</b> R$ <?=number_format($total, 2, ',', '.')?><br><br>
 												
 												<b>Código de Rastreio:</b> <?php echo $vet['codRastreio'];?><br><br>

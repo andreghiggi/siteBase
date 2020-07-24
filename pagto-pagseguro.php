@@ -167,8 +167,8 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
     $headers .= "Return-Path: ".$n_email."\n";  
 	
 	//Envia o email
-	//mail($c_email, $assunto, $corpo, $headers ,"-r ".$n_email);
-	//mail($n_email, $assunto, $corpo, $headers);
+	mail($c_email, $assunto, $corpo, $headers ,"-r ".$n_email);
+	mail($n_email, $assunto, $corpo, $headers);
 
 	/*$_SESSION['idcarrinho_auxiliar'] = $_SESSION['idcarrinho'];
 	$_SESSION['idpedido_auxiliar'] = $_SESSION['idpedido'];
