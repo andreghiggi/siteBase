@@ -49,43 +49,51 @@ elseif(isset($_GET['frete'])){
 
 	$frete = mysql_fetch_assoc(mysql_query('select * from config_frete'));
 
-	$args = 'nCdEmpresa='.$frete['empresa'];
-	$args .= '&sDsSenha='.$frete['senha'];
-	$args .= '&nCdServico='.$frete['SEDEX'];//.$servico;
-	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
-	$args .= '&sCepDestino='.$cepSalvo;//.$c_cep;
-	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
-	$args .= '&nCdFormato=1';
-	$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
-	$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
-	$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
-	$args .= '&nVlDiametro=0';
-	$args .= '&sCdMaoPropria='.strtoupper($frete['mao_propria']);
-	$args .= '&nVlValorDeclarado=0.00';
-	$args .= '&sCdAvisoRecebimento=N';	
-	$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
-	$resp = new SimpleXMLElement($ret);
-	$sedexDias = $resp->Servicos->cServico->PrazoEntrega;
-	$sedex = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
+	if($cep_origem != $_GET['frete']){
+		$args = 'nCdEmpresa='.$frete['empresa'];
+		$args .= '&sDsSenha='.$frete['senha'];
+		$args .= '&nCdServico='.$frete['SEDEX'];//.$servico;
+		$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
+		$args .= '&sCepDestino='.$cepSalvo;//.$c_cep;
+		$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
+		$args .= '&nCdFormato=1';
+		$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
+		$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
+		$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
+		$args .= '&nVlDiametro=0';
+		$args .= '&sCdMaoPropria='.strtoupper($frete['mao_propria']);
+		$args .= '&nVlValorDeclarado=0.00';
+		$args .= '&sCdAvisoRecebimento=N';	
+		$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
+		$resp = new SimpleXMLElement($ret);
+		$sedexDias = $resp->Servicos->cServico->PrazoEntrega;
+		$sedex = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
 
-	$args = 'nCdEmpresa='.$frete['empresa'];
-	$args .= '&sDsSenha='.$frete['senha'];
-	$args .= '&nCdServico='.$frete['PAC'];//.$servico;
-	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
-	$args .= '&sCepDestino='.$cepSalvo;//.$c_cep;
-	$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
-	$args .= '&nCdFormato=1';
-	$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
-	$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
-	$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
-	$args .= '&nVlDiametro=0';
-	$args .= '&sCdMaoPropria='.strtoupper($frete['mao_propria']);
-	$args .= '&nVlValorDeclarado=0.00';
-	$args .= '&sCdAvisoRecebimento=N';	
-	$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
-	$resp = new SimpleXMLElement($ret);
-	$pacDias = $resp->Servicos->cServico->PrazoEntrega;
-	$pac = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
+		$args = 'nCdEmpresa='.$frete['empresa'];
+		$args .= '&sDsSenha='.$frete['senha'];
+		$args .= '&nCdServico='.$frete['PAC'];//.$servico;
+		$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
+		$args .= '&sCepDestino='.$cepSalvo;//.$c_cep;
+		$args .= '&nVlPeso='.$peso;//.$vetF['peso'];
+		$args .= '&nCdFormato=1';
+		$args .= '&nVlComprimento='.$comprimento;//.$vetF['comprimento'];
+		$args .= '&nVlAltura='.$altura;//.$vetF['altura'];
+		$args .= '&nVlLargura='.$largura;//.$vetF['largura'];
+		$args .= '&nVlDiametro=0';
+		$args .= '&sCdMaoPropria='.strtoupper($frete['mao_propria']);
+		$args .= '&nVlValorDeclarado=0.00';
+		$args .= '&sCdAvisoRecebimento=N';	
+		$ret = file_get_contents('http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?'.$args);
+		$resp = new SimpleXMLElement($ret);
+		$pacDias = $resp->Servicos->cServico->PrazoEntrega;
+		$pac = doubleval(str_replace(',','.',$resp->Servicos->cServico->Valor[0]));
+	}
+	else{
+		$sedexDias = 0;
+		$sedex = 0;
+		$pacDias = 0;
+		$pac = 0;
+	}
 
 	$_SESSION['sedexDias'] = intval($sedexDias);
 	$_SESSION['sedex'] = $sedex;
