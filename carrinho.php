@@ -13,7 +13,7 @@ if( isset($_SESSION['cep']) && ( !isset($_GET['frete']) || $_GET['frete'] == $_S
 elseif(isset($_GET['frete'])){
 	$cepSalvo = $_GET['frete'];
 	$valor_frete = 0;
-	$prazo_entrega = 0
+	$prazo_entrega = 0;
 	$altura = 0;
 	$largura = 0;
 	$comprimento = 0;
