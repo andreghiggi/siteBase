@@ -129,8 +129,77 @@ if(!$num)
 								<?
 								}
 								?>
-
 								
+								<? if(
+									$vet['subcategoria'] == 'CAPAS EXCLUSIVAS' ||
+									$vet['subcategoria'] == 'CAPAS EXCLUSIVAS SEM NOME' ||
+									$vet['subcategoria'] == 'CAPAS CATÁLOGO' ||
+									$vet['categoria'] == 'KIT PERSONALIZADO - CAPA + CARREGADOR PORTÁTIL' ||
+									$vet['categoria'] == 'KIT PERSONALIZADOS - CAPA + CARREGADOR PORTÁTIL + CANECA' ||
+									$vet['categoria'] == 'CAPAS EXCLUSIVAS'									
+									)
+								{ ?>
+								<div>
+									<div class="row">
+										<div class="col">
+											<script>
+												function selectModelo(self){
+													$('.modelo').addClass('hidden');
+													$('.marca-'+$(self).val()).removeClass('hidden');
+													$('#selectModelo').val(-1);
+												}
+											</script>
+											<select onchange="selectModelo(this)"  class="form-control w-50">
+											<option disabled selected>Marca</option>
+											<?
+												$resp = mysql_query('select * from marcas where codigo in (select marca from modelos)');
+												while($row = mysql_fetch_array($resp)){
+													echo '<option value="'.$row['codigo'].'">'.$row['titulo'].'</option>';
+												}
+											?>
+											</select>
+										</div>
+									</div>
+									<div class="row mt-3">
+										<div class="col">
+											<select id="selectModelo" class="form-control w-50">
+												<option disabeld selected value="-1">Modelo</option>
+												<?
+													$resp = mysql_query('select * from modelos');
+
+													while($row = mysql_fetch_array($resp)){
+														echo '<option value="'.$row['id'].'" class="modelo marca-'.$row['marca'].' hidden">'.$row['modelo'].'</option>';
+													}
+												?>
+											</select>
+										</div>
+									</div>
+									<div class="row mt-3 mb-4">
+										<div class="col">
+											<input type="text" class="form-control" style="width: 50%" placeholder="Seu Nome">
+										</div>
+									</div>
+								</div>
+								<? } ?>
+								<? if(
+									$vet['subcategoria'] == 'CANECAS PERSONALIZADAS' ||
+									$vet['subcategoria'] == 'CARREGADORES PORTÁTEIS PERSONALIZADOS' ||
+									$vet['subcategoria'] == 'CAPAS CATÁLOGO' ||
+									$vet['categoria'] == 'KIT PERSONALIZADO - CAPA + CARREGADOR PORTÁTIL' ||
+									$vet['categoria'] == 'KIT PERSONALIZADOS - CAPA + CARREGADOR PORTÁTIL + CANECA' ||
+									$vet['categoria'] == 'CAPAS EXCLUSIVAS'									
+									)
+								{ ?>
+
+								<div>
+									<div class="row">
+										<input type="text" class="form-control" style="width: 50%" placeholder="Seu Nome">
+									</div>
+								</div>
+
+								<? } ?>
+
+								<p><?php echo nl2br($vet['descricao']);?></p>
 
 								<div class="price-box-area">
 									<span class="new-price">
@@ -154,7 +223,6 @@ if(!$num)
 								$variacao = verifica_varicacao_cores_tamanho($codigo);
 								?>
 								<br>
-								
 								<div class="product-attributes">
 									<?
 									if($variacao == 1)
@@ -260,7 +328,13 @@ if(!$num)
 										<br>
 										<p class="pquantityavailable">
 											<?
-											if($vet['estoque'] <= 0)
+											if($vet['estoque'] > 0)
+											{
+											?>
+											<span><?=$vet['estoque']?> Itens</span>
+											<?
+											}
+											else
 											{
 											?>
 											<span class="stock-fail">
@@ -281,21 +355,17 @@ if(!$num)
 								if($vet['ind_cores'] == 2 && $vet['estoque'] > 0)
 								{
 								?>
-									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="btn btn-dark mt-2 mb-3">
+									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="btn btn-warning">
 										<span>Adicionar ao carrinho</span>
 									</a>
 								<?
 								}
 								?>
 								</div>
-
-								<p><?php echo nl2br($vet['descricao']);?></p>
 							</div>
 						</div>
 					</div>
 				</div>
-
-
 
 				<?
 				if($vet['informacoes'])

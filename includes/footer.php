@@ -3,9 +3,31 @@
 	<section class="footer-area">
 		<div class="container">
 			<div class="row">
-				<!--<div class="footer" style="display: flex">-->
-    				
-    				<div class="col-md">
+				<div class="footer">
+    				<div class="col-sm-3 col-lg-3 col-md-3">
+    					<?
+    					$strT = "SELECT * FROM testemunhos ORDER BY RAND() LIMIT 1";
+					    $rsT  = mysql_query($strT) or die(mysql_error());
+					    $numT = mysql_num_rows($rsT);
+					    $vetT = mysql_fetch_array($rsT);
+
+						if($numT > 0)
+						{
+    					?>
+    					<div class="static-book">
+    						<div class="footer-title">
+    							<h2>Testemunhos</h2>
+    						</div>
+    						<div class="footer-content">
+    							“<?=stripslashes($vetT['mensagem'])?>”
+    							<span class="author">- <?=stripslashes($vetT['nome'])?> -</span>
+    						</div>
+    					</div>
+    					<?
+    					}
+    					?>
+    				</div>
+    				<div class="col-sm-3 col-lg-2 col-md-2">
     					<div class="my-account">
     						<div class="footer-title">
     							<h2>Área do cliente</h2>
@@ -19,8 +41,7 @@
     						</div>
     					</div>
     				</div>
-    				
-    				<div class="col-md">
+    				<div class="col-lg-2 col-md-2 hidden-sm">
     					<div class="information-area">
     						<div class="footer-title">
     							<h2>Sobre a loja</h2>
@@ -37,8 +58,7 @@
     						</div>
     					</div>
     				</div>
-    				
-    				<div class="col-md">
+    				<div class="col-sm-3 col-lg-2 col-md-2">
     					<div class="footer-menu-area">
     						<div class="footer-title">
     							<h2>Loja</h2>
@@ -54,8 +74,7 @@
     						</div>
     					</div>
     				</div>
-    				
-    				<div class="col-md">
+    				<div class="col-sm-3 col-lg-3 col-md-3">
     					<div class="store-information-area">
     						<div class="footer-title">
     							<h2>Informações da loja</h2>
@@ -63,14 +82,16 @@
     						<div class="store-content">
     							<ul>
     								<li><?=$n_endereco?></li>
-    								<li>Telefone de contato: <?=$n_telefone?></li>
+    								<li>Telefone de contato: <span><br>(54) 9 9706-9211<br>(54) 3538-0924</span></li>
     								<li>Email:<a href="<?=$n_email?>"><?=$n_email?></a></li>
     							</ul>
     						</div>
+    						<div class="footer-payment">
+    							<img alt="" src="img/payment.png">
+    						</div>
     					</div>
     				</div>
-    				
-    			<!--</div>-->
+    			</div>
 			</div>
 		</div>
 	</section>
@@ -154,9 +175,9 @@
     <script src="js/scripts.js"></script>
     <script src="js/ajax_funcoes.js"></script>
     
-  	<!-- mask
-  ============================================ -->
-  	<script src="js/jquery.mask.min.js"></script>
+   	<!-- Mask
+	============================================ -->           
+    <script src="js/jquery.mask.min.js"></script>
 
     <!-- Adicionando Javascript -->
 	<script type="text/javascript" >

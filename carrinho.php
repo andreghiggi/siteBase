@@ -1,6 +1,10 @@
 <?
 include("includes/header.php");
 
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
 $cepSalvo = false;
 
 $cep_origem = mysql_fetch_assoc(mysql_query('select cep_origem from config_frete'))['cep_origem'];
