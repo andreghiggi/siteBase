@@ -6,7 +6,7 @@ $cepSalvo = false;
 $cep_origem = mysql_fetch_assoc(mysql_query('select cep_origem from config_frete'))['cep_origem'];
 
 if( isset($_SESSION['cep']) && ( !isset($_GET['frete']) || $_GET['frete'] == $_SESSION['cep'] ) ){
-	if($cep_origem != $_SESSION['cep']){
+	if($cep_origem != str_replace('-','',$_SESSION['cep'])){
 		$sedexDias = $_SESSION['sedexDias'];
 		$sedex = $_SESSION['sedex'];
 		$pacDias = $_SESSION['pacDias'];
@@ -49,7 +49,7 @@ elseif(isset($_GET['frete'])){
 
 	$frete = mysql_fetch_assoc(mysql_query('select * from config_frete'));
 
-	if($cep_origem != $_GET['frete']){
+	if($cep_origem != str_replace('-','',$_GET['frete'])){
 		$args = 'nCdEmpresa='.$frete['empresa'];
 		$args .= '&sDsSenha='.$frete['senha'];
 		$args .= '&nCdServico='.$frete['SEDEX'];//.$servico;
