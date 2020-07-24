@@ -18,7 +18,7 @@ if( isset($_SESSION['cep']) && ( !isset($_GET['frete']) || $_GET['frete'] == $_S
 		$sedex = 0;
 		$pacDias = 0;
 		$pac = 0;
-		$cepSalvo = 0;
+		$cepSalvo = $cep_origem;
 	}
 }
 elseif(isset($_GET['frete'])){
