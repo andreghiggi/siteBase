@@ -17,6 +17,7 @@ if(intval(explode('-',phpversion())[0]) > 5){
 	function mysql_insert_id(){return mysqli_insert_id($GLOBALS['banco']);}
 	function mysql_fetch_assoc($result){return mysqli_fetch_assoc($result);}
 	function mysql_connect($local, $user, $senha,$db){return mysqli_connect($local, $user, $senha,$db);}
+	function mysql_select_db($db){return mysqli_select_db($db,$GLOBALS['banco']);}
 }
 
 

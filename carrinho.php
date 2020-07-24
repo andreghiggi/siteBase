@@ -39,7 +39,7 @@ elseif(isset($_GET['frete'])){
 
 	$frete = mysql_fetch_assoc(mysql_query('select * from config_frete'));
 
-	/*$args = 'nCdEmpresa='.$frete['empresa'];
+	$args = 'nCdEmpresa='.$frete['empresa'];
 	$args .= '&sDsSenha='.$frete['senha'];
 	$args .= '&nCdServico='.$frete['SEDEX'];//.$servico;
 	$args .= '&sCepOrigem='.$frete['cep_origem'];//.$vetF['cep_origem'];
@@ -81,7 +81,7 @@ elseif(isset($_GET['frete'])){
 	$_SESSION['sedex'] = $sedex;
 	$_SESSION['pacDias'] = intval($pacDias);
 	$_SESSION['pac'] = $pac;
-	$_SESSION['cep'] = $cepSalvo;*/
+	$_SESSION['cep'] = $cepSalvo;
 }
 
 if($_GET['cmd'] == "add")
