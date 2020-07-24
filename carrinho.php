@@ -3,12 +3,23 @@ include("includes/header.php");
 
 $cepSalvo = false;
 
+$cep_origem = mysql_fetch_assoc(mysql_query('select cep_origem from config_frete'))['cep_origem'];
+
 if( isset($_SESSION['cep']) && ( !isset($_GET['frete']) || $_GET['frete'] == $_SESSION['cep'] ) ){
-	$sedexDias = $_SESSION['sedexDias'];
-	$sedex = $_SESSION['sedex'];
-	$pacDias = $_SESSION['pacDias'];
-	$pac = $_SESSION['pac'];
-	$cepSalvo = $_SESSION['cep'];
+	if($cep_origem != $_SESSION['cep']){
+		$sedexDias = $_SESSION['sedexDias'];
+		$sedex = $_SESSION['sedex'];
+		$pacDias = $_SESSION['pacDias'];
+		$pac = $_SESSION['pac'];
+		$cepSalvo = $_SESSION['cep'];
+	}
+	else{
+		$sedexDias = 0;
+		$sedex = 0;
+		$pacDias = 0;
+		$pac = 0;
+		$cepSalvo = 0;
+	}
 }
 elseif(isset($_GET['frete'])){
 	$cepSalvo = $_GET['frete'];
@@ -414,9 +425,8 @@ $(document).ready(() => {
 								<?if(isset($cepSalvo)):?>
 									<select class="form-control" style="width:50%" onchange="calcFrete(this)" id="selectFrete">
 										<?php 
-											$cep_origem = mysql_fetch_assoc(mysql_query('select cep_origem from config_frete'))['cep_origem'];
-											var_dump($cep_origem);
-											if($cep_origem != str_replace('-','',$_GET['frete'])):
+
+											if($cep_origem != str_replace('-','',$_GET['frete']) && $cep_origem != $cepSalvo):
 										?>
 										<option value="<?=$pac.':'.$pacDias.':1'?>">PAC</option>
 										<option value="<?=$sedex.':'.$sedexDias.':2'?>" selected>SEDEX</option>
