@@ -179,7 +179,7 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 	unset($_SESSION['idpedido']);
 	unset($_SESSION['pagamento']);
 	
-	
+  echo "<script>alert('Pagamento realizado com sucesso!');location.href='index.php';</script>";
 }
 else{
   $_SESSION['finalizar'] = uniqid();
@@ -806,8 +806,7 @@ $("input[type='text']").on('blur', function(e) {
                   location.reload();
 
                 } else {
-                  alert('Pagamento realizado com successo!');
-                  location.href="index.php";
+                  location.href="pagto-pagseguro.php?fin=<?php echo $_SESSION['finalizar'];?>";
                   //$('#pagamentoCarregando').addClass('hidden');
                   //$('#pagamentoConcluido').removeClass('hidden');
                 }
