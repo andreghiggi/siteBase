@@ -120,6 +120,9 @@ $numP = mysql_num_rows($rsP);
                 <th>Descrição</th>
                 <th>Valor</th>
                 <th>Qtde</th>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Nome</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -129,6 +132,9 @@ $numP = mysql_num_rows($rsP);
         {
             $imagem = img_produto_destaque($vetP['idproduto'], $vetP['idcor']);
             $valor += $vetP['valor'];
+
+            $marca = mysql_fetch_assoc(mysql_query('select titulo from marcas where id ='.$vetP['marca']))['titulo'];
+            $modelo = mysql_fetch_assoc(mysql_query('select modelo from modelo where id ='.$vetP['modelo']))['modelo'];
         ?>
             <tr>
                 <td><a href="../upload/<?=$imagem?>" class="thickbox"><img src="../upload/thumbnails/<?=$imagem?>"></a></td>
@@ -144,6 +150,9 @@ $numP = mysql_num_rows($rsP);
                 </td>
                 <td>R$ <?=number_format(($vetP['valor'] / $vetP['qtde']), 2, ',', '.')?></td>
                 <td><?=$vetP['qtde']?></td>
+                <td><?=$marca?></td>
+                <td><?=$modelo?></td>
+                <td><?=$vetP['nome']?></td>
                 <td>R$ <?=number_format($vetP['valor'], 2, ',', '.')?></td>                
             </tr>                                   
         <?
