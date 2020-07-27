@@ -435,6 +435,8 @@ include("includes/footer.php");
 
 <?php
   require_once('modelo/env.php');
+
+  $pagConf = mysql_fetch_assoc(mysql_query('select * from pagseguro_configuracao'));
   
   echo '<script type="text/javascript" src="'.$scriptPagseguro.'"></script>';
   $getSession = urlencode($urlPagseguro.'sessions?email='.$pagConf['email'].'&token='.$pagConf['token']);
