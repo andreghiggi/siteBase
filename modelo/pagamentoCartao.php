@@ -185,8 +185,6 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml; chars
 $data = curl_exec($ch);
 $dataXML = simplexml_load_string($data);
 
-var_dump($data,$urlPagseguro);
-
 header('Content-Type: application/json; charset=UTF-8');
 echo json_encode($dataXML);
  	
