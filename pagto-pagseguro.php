@@ -458,8 +458,7 @@ include("includes/footer.php");
       url: 'modelo/getSession.php?url=<?=$getSession?>',
       cache: false,
       success: function(data) {
-        console.log(data);
-        PagSeguroDirectPayment.setSessionId(data);
+        console.log(PagSeguroDirectPayment.setSessionId(data));
       },
       error: function(err) {
         console.log('gs:',err);
@@ -551,7 +550,6 @@ $("input[type='text']").on('blur', function(e) {
 <script>
 
   function parcelasDisponiveis() {
-      console.log('parcelas_disponiveis');
     PagSeguroDirectPayment.getInstallments({
         
       amount: <?php echo $total+$sedex;?>,
@@ -584,10 +582,6 @@ $("input[type='text']").on('blur', function(e) {
 
       error: function(response) {
         console.log('error', response);
-      },
-
-      complete: function(response) {
-          console.log('response', response);
       }
     });
   }
