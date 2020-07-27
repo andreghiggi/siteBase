@@ -434,10 +434,10 @@ include("includes/footer.php");
 <?php */ ?>
 
 <?php
-  $pagConf = mysql_fetch_assoc(mysql_query('select * from pagseguro_configuracao'));
+  require_once('modelo/env.php');
   
-  echo '<script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>';
-  $getSession = urlencode('ws.sandbox.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token']);
+  echo '<script type="text/javascript" src="'.$scriptPagseguro.'"></script>';
+  $getSession = urlencode($urlPagseguro.'sessions?email='.$pagConf['email'].'&token='.$pagConf['token']);
 ?>
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

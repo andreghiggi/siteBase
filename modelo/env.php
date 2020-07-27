@@ -20,8 +20,8 @@ if ((mysql_num_rows($result) > 0)) {
 
 if ($sandBox != 1) {
 	$scriptPagseguro = "https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js";
-	$urlPagseguro = "https://ws.pagseguro.uol.com.br/v2/";
+	$urlPagseguro = "ws.pagseguro.uol.com.br/v2/";
 } else {
 	$scriptPagseguro = "https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js";
-	$urlPagseguro = "https://ws.sandbox.pagseguro.uol.com.br/v2/";
+	$urlPagseguro = "ws.sandbox.pagseguro.uol.com.br/v2/";
 }
