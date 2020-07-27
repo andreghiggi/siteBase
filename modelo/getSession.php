@@ -11,7 +11,5 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, true);
 $data = curl_exec($ch);
 $xml = new SimpleXMLElement($data);
 
-var_dump($data);
-
 echo $xml->id;
 curl_close($ch);
