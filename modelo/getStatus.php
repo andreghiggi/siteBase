@@ -5,7 +5,7 @@
 	sleep(5);
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL, $urlPagseguro . "transactions/". $_POST['id'] . "?email=". $emailPagseguro . "&token=" . $tokenPagseguro);
+	curl_setopt($ch, CURLOPT_URL, 'https://'.$urlPagseguro . "transactions/". $_POST['id'] . "?email=". $emailPagseguro . "&token=" . $tokenPagseguro);
 
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml; charset=ISO-8859-1'));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
