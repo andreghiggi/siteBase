@@ -103,7 +103,7 @@ function valida(ind)
 		<section>
 			<label>Sandbox</label>
 			<div>
-				<select id="sandbox" name="ssandbox">
+				<select id="sandbox" name="sandbox">
 					<option value="0" <?=$vet['sandbox'] == 0?'Selected':'';?>>Inativo</option>
 					<option value="1" <?=$vet['sandbox'] == 1?'Selected':'';?>>Ativo</option>
 				</select>

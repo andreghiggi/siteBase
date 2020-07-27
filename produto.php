@@ -24,6 +24,17 @@ if(!$num)
 	redireciona("index.php");
 ?>
 
+<script>
+	function addProduto(idproduto){
+		console.log($('#selectModelo').val(),$('#selectMarca').val(),$('#nome').val());
+		let modelo = $('#selectModelo').val() != undefined? "&modelo="+$('#selectModelo').val():'';
+		let marca = $('#selectMarca').val() != undefined? "&marca="+$('#selectMarca').val():'';
+		let nome = $('#nome').val() != undefined? "&nome="+$('#nome').val():'';
+		let caminho = "carrinho.php?cmd=add&idproduto="+idproduto+modelo+marca+nome;
+		location.href = caminho;
+	}
+</script>
+
 <section class="slider-category-area mt-3">
 	<div class="container">
 		<div class="row">
@@ -149,7 +160,7 @@ if(!$num)
 													$('#selectModelo').val(-1);
 												}
 											</script>
-											<select onchange="selectModelo(this)"  class="form-control w-50">
+											<select onchange="selectModelo(this)"  class="form-control w-50" id="selectMarca">
 											<option disabled selected>Marca</option>
 											<?
 												$resp = mysql_query('select * from marcas where codigo in (select marca from modelos)');
@@ -176,7 +187,7 @@ if(!$num)
 									</div>
 									<div class="row mt-3 mb-4">
 										<div class="col">
-											<input type="text" class="form-control" style="width: 50%" placeholder="Seu Nome">
+											<input type="text" class="form-control" style="width: 50%" id="nome" placeholder="Seu Nome" maxlength="120">
 										</div>
 									</div>
 								</div>
@@ -193,7 +204,7 @@ if(!$num)
 
 								<div>
 									<div class="row">
-										<input type="text" class="form-control" style="width: 50%" placeholder="Seu Nome">
+										<input type="text" class="form-control" style="width: 50%" id="nome" placeholder="Seu Nome" maxlength="120">
 									</div>
 								</div>
 
@@ -355,7 +366,8 @@ if(!$num)
 								if($vet['ind_cores'] == 2 && $vet['estoque'] > 0)
 								{
 								?>
-									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="btn btn-warning">
+									<!--href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>"-->
+									<a class="btn btn-warning" onclick="addProduto(<?=$vet['codigo']?>);">
 										<span>Adicionar ao carrinho</span>
 									</a>
 								<?
@@ -400,8 +412,10 @@ if(!$num)
 					<br><br><br>
     			<!-- other-product-start-->
     			<div class="other-product-area mt-4">
-    				<div class="area-title">
-						<h2>Outros produtos</h2>
+    				<div class="row">
+						<div class="area-title">
+							<h2>Outros produtos</h2>
+						</div>
 					</div>
     				<div class="row">
     					<div class="new-product-carosul">

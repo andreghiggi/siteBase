@@ -114,6 +114,9 @@ if($_GET['cmd'] == "add")
 	$idproduto = anti_injection($_GET['idproduto']);
 	$idtamanho = anti_injection($_GET['idtamanho']);
 	$idcor = anti_injection($_GET['idcor']);
+	$idmarca = isset($_GET['marca'])?$_GET['marca']:0;
+	$idmodelo = isset($_GET['modelo'])?$_GET['modelo']:0;
+	$nome = $_GET['nome'];
 
 	if(!$idproduto)
 	{
@@ -122,7 +125,7 @@ if($_GET['cmd'] == "add")
 
 	if(!$idtamanho && !$idcor)
 	{
-		$str = "SELECT qtde FROM carrinho WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto'";
+		$str = "SELECT qtde FROM carrinho WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto' AND modelo = '$idmodelo' AND marca = '$idmarca' AND nome = '$nome'";
 		$rs  = mysql_query($str) or die(mysql_error());
 		$num = mysql_num_rows($rs);
 
@@ -141,7 +144,7 @@ if($_GET['cmd'] == "add")
 				redireciona("loja.php?ind_msg=1");
 			}
 
-			$str = "UPDATE carrinho SET qtde = '$qtde' WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto'";
+			$str = "UPDATE carrinho SET qtde = '$qtde' WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto'  AND modelo = '$idmodelo' AND marca = '$idmarca' AND nome = '$nome'";
 			$rs  = mysql_query($str) or die(mysql_error());
 		}
 		else
@@ -151,13 +154,14 @@ if($_GET['cmd'] == "add")
 			else
 				$valor = $vetP['valor_produto'];
 
-			$str = "INSERT INTO carrinho (idcarrinho, idcadastro, idproduto, valor) VALUES ('$idcarrinho', '$idcadastro', '$idproduto', '$valor')";
+			
+			$str = "INSERT INTO carrinho (idcarrinho,idcadastro,idproduto,valor,modelo,marca,nome) VALUES ('$idcarrinho','$idcadastro','$idproduto','$valor','$idmodelo','$idmarca','$nome')";
 			$rs  = mysql_query($str) or die(mysql_error());
 		}
 	}
 	else
 	{
-		$str = "SELECT qtde FROM carrinho WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto' AND idtamanho = '$idtamanho' AND idcor = '$idcor'";
+		$str = "SELECT qtde FROM carrinho WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto' AND idtamanho = '$idtamanho' AND idcor = '$idcor'  AND modelo = '$idmodelo' AND marca = '$idmarca' AND nome = '$nome'";
 		$rs  = mysql_query($str) or die(mysql_error());
 		$num = mysql_num_rows($rs);
 
@@ -185,13 +189,13 @@ if($_GET['cmd'] == "add")
 				redireciona("loja.php?ind_msg=1");
 			}
 
-			$str = "UPDATE carrinho SET qtde = '$qtde' WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto' AND idtamanho = '$idtamanho' AND idcor = '$idcor'";
+			$str = "UPDATE carrinho SET qtde = '$qtde' WHERE idcarrinho = '$idcarrinho' AND idproduto = '$idproduto' AND idtamanho = '$idtamanho' AND idcor = '$idcor'  AND modelo = '$idmodelo' AND marca = '$idmarca' AND nome = '$nome'";
 			$rs  = mysql_query($str) or die(mysql_error());
 		}
 		else
 		{
-			$str = "INSERT INTO carrinho (idcarrinho, idcadastro, idproduto, idtamanho, idcor, valor)
-				VALUES ('$idcarrinho', '$idcadastro', '$idproduto', '$idtamanho', '$idcor', '$valor')";
+			$str = "INSERT INTO carrinho (idcarrinho, idcadastro, idproduto, idtamanho, idcor, valor,modelo,marca,nome)
+				VALUES ('$idcarrinho', '$idcadastro', '$idproduto', '$idtamanho', '$idcor', '$valor','$idmodelo','$idmarca','$nome')";
 			$rs  = mysql_query($str) or die(mysql_error());
 		}
 	}

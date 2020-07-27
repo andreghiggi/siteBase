@@ -418,42 +418,42 @@ elseif($_POST['chave'] == TRUE)
 				if($facebook)
 				{
 				?>
-				<li class="liFacebook"><a href="<?=$facebook?>" target="_blank"><i class="fa fa-facebook"></i>Nosso Facebook</a></li>
+				<li class="liFacebook"><a href="<?=$facebook?>" target="_blank"></a></li>
 				<?
 				}
 
 				if($instagram)
 				{
 				?>
-				<li class="liInstagram"><a href="<?=$instagram?>" target="_blank"><i class="fa fa-instagram"></i>Nosso Instagram</a></li>
+				<li class="liInstagram"><a href="<?=$instagram?>" target="_blank"></a></li>
 				<?
 				}
 
 				if($twitter)
 				{
 				?>
-				<li class="liTwitter"><a href="<?=$twitter?>" target="_blank"><i class="fa fa-twitter"></i>Nosso Twitter</a></li>
+				<li class="liTwitter"><a href="<?=$twitter?>" target="_blank"></a></li>
 				<?
 				}
 
 				if($pinterest)
 				{
 				?>
-				<li class="liPinterest"><a href="<?=$pinterest?>" target="_blank"><i class="fa fa-pinterest-p"></i>Nosso Pinterest</a></li>
+				<li class="liPinterest"><a href="<?=$pinterest?>" target="_blank"></a></li>
 				<?
 				}
 
 				if($google)
 				{
 				?>
-				<li class="liGoogle"><a href="<?=$google?>" target="_blank"><i class="fa fa-google-plus"></i>Nosso Google Plus</a></li>
+				<li class="liGoogle"><a href="<?=$google?>" target="_blank"></a></li>
 				<?
 				}
 
 				if($whatsapp)
 				{
 				?>
-				<li class="liWhatsapp"><a href="<?=$whatsapp?>" target="_blank"><i class="fa fa-whatsapp"></i>Whatsapp</a></li>
+				<li class="liWhatsapp"><a href="<?=$whatsapp?>" target="_blank"></a></li>
 				<?
 				}
 				?>

@@ -33,7 +33,7 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
     	VALUES ('$idpedido', '$c_codigo', '$c_endereco', '$c_numero', '$c_complemento', '$c_referencia', '$c_bairro', '$c_cidade', '$c_estado', '$c_cep')";
 	$rs  = mysql_query($str) or die(mysql_error());
 			
-	$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.idtamanho, B.idcor, C.numero AS tamanho, D.titulo AS cor
+	$str = "SELECT A.*, B.qtde, B.valor AS valor_pedido, B.idtamanho, B.idcor, C.numero AS tamanho, D.titulo AS cor, B.modelo as modelo, B.marca as marca, B.nome as nome
 		FROM produtos A
 		INNER JOIN carrinho B ON A.codigo = B.idproduto
 		LEFT JOIN tamanhos C ON B.idtamanho = C.codigo
@@ -57,7 +57,10 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 		$cor = addslashes($vet['cor']);
 		$produto = addslashes($vet['nome']);
 		$qtde = $vet['qtde'];	
-		$valor = $vet['valor_pedido'] * $qtde;
+    $valor = $vet['valor_pedido'] * $qtde;
+    $modelo = $vet['modelo'];
+    $nome = $vet['nome'];
+    $marca = $vet['marca'];
 
 		if(!$tamanho)
 			$tamanho = '';
@@ -71,7 +74,7 @@ if($_GET['fin'] == $_SESSION['finalizar'] && $_GET['fin'] != null)
 		
 		$total += $valor;
 		
-		$strF = "INSERT INTO pedidos_detalhe (idpedido, idproduto, idtamanho, idcor, descricao, valor, qtde) VALUES ('$idpedido', '$idproduto', '$idtamanho', '$idcor', '$produto', '$valor', '$qtde')";
+		$strF = "INSERT INTO pedidos_detalhe (idpedido, idproduto, idtamanho, idcor, descricao, valor, qtde,modelo,marca,nome) VALUES ('$idpedido', '$idproduto', '$idtamanho', '$idcor', '$produto', '$valor', '$qtde','$modelo','$marca','$nome')";
 		$rsF  = mysql_query($strF) or die(mysql_error());
 		
 		$tr_pedidos .= '
@@ -434,7 +437,7 @@ include("includes/footer.php");
   $pagConf = mysql_fetch_assoc(mysql_query('select * from pagseguro_configuracao'));
   
   echo '<script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>';
-  $getSession = urlencode('ws.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token']);
+  $getSession = urlencode('ws.sandbox.pagseguro.uol.com.br/v2/sessions?email='.$pagConf['email'].'&token='.$pagConf['token']);
 ?>
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -455,7 +458,11 @@ include("includes/footer.php");
       url: 'modelo/getSession.php?url=<?=$getSession?>',
       cache: false,
       success: function(data) {
+        console.log(data);
         PagSeguroDirectPayment.setSessionId(data);
+      },
+      error: function(err) {
+        console.log('gs:',err);
       }
     });
   });

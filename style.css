@@ -1339,6 +1339,9 @@ h2.product-name a:hover{
 .image-area {
   position: relative;
 }
+.image-area a img{
+  max-height: 30vh;
+}
 .area-title {
   background: rgba(0, 0, 0, 0) url("img/bg-bottom1-title.png") repeat-x scroll center bottom;
   margin: 0;
