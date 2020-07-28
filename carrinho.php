@@ -4,8 +4,26 @@ include("includes/header.php");
 $cepSalvo = false;
 
 $cep_origem = mysql_fetch_assoc(mysql_query('select cep_origem from config_frete'))['cep_origem'];
+$respC = mysql_query('select C.codigo as categoria from carrinho A 
+	inner join produtos B on B.codigo = A.idproduto
+	inner join produtos_categorias C on C.codigo = B.idcategoria
+	where idcarrinho = "'.$_SESSION['idcarrinho'].'"
+');
 
-if( isset($_SESSION['cep']) && ( !isset($_GET['frete']) || $_GET['frete'] == $_SESSION['cep'] ) ){
+$misegura = mysql_num_rows($respC);
+while($row = mysql_fetch_assoc($respC)){
+	if($row['categoria'] != '11')$misegura = false;
+}
+
+if($misegura){
+	if($misegura < 3){
+		$sedex = 10.00;
+	}
+	else{
+		$sedex = 0;
+	}
+}
+elseif( isset($_SESSION['cep']) && ( !isset($_GET['frete']) || $_GET['frete'] == $_SESSION['cep'] ) ){
 	if($cep_origem != str_replace('-','',$_SESSION['cep'])){
 		$sedexDias = $_SESSION['sedexDias'];
 		$sedex = $_SESSION['sedex'];
@@ -436,20 +454,25 @@ $(document).ready(() => {
 							<td colspan="3" style="text-align: left;">
 								<?if(isset($cepSalvo)):?>
 									<select class="form-control" style="width:50%" onchange="calcFrete(this)" id="selectFrete">
-										<?php 
-
-											if($cep_origem != str_replace('-','',$_GET['frete']) && $cep_origem != $cepSalvo):
-										?>
+										<option selected disabled>Selecione</option>
+										<?php if(!$misegura):?>
+											<?php if($cep_origem != str_replace('-','',$_GET['frete']) && $cep_origem != $cepSalvo):?>
 										<option value="<?=$pac.':'.$pacDias.':1'?>">PAC</option>
 										<option value="<?=$sedex.':'.$sedexDias.':2'?>" selected>SEDEX</option>
 											<?else:?>
-										<option selected disabled>Selecione</option>
+										
 										<option value="0:0:0">Retirar na loja</option>
 											<?endif;?>
+										<?else:?>
+										<option value="<?=$sedex;?>:0:-3" selected>Frete</option>
+										<?endif;?>
+										<option value="0:0:-1">Retirar na Loja de Caxias do Sul</option>
+										<option value="0:0:-2">Retirar na Loja de Bento Gonçalves</option>
 									</select>
 									<br>
 								<?endif;?>
 							</td>
+							<?php if(!$misegura):?>
 							<td><label>CEP</label></td>
 							<td colspan="2" class="text-left">
 								<script>
@@ -463,13 +486,14 @@ $(document).ready(() => {
 								<br>
 								<div class="btn btn-primary" onclick="carregarFrete()">Calcular</div>
 							</td>
+							<?php endif;?>
 						</tr>
-						<tr class="<?php echo (isset($sedex))?'':'hidden';?>" id="linhaSubTotal">
+						<tr class="<?php echo (isset($sedex) || $misegura)?'':'hidden';?>" id="linhaSubTotal">
 							<td colspan="3" class="total"><span>SubTotal</span></td>
 							<td colspan="3">R$ <span class="total-price" id="subTotal"><?php echo number_format($total, 2, ',', '.');?></span></td>
 						</tr>
-						<tr class="<?php echo (isset($sedex))?'':'hidden';?>" id="linhaFrete">
-							<td colspan="2"><span>Prazo: <span id="diasFrete" class="total-price"><?php echo $sedexDias;?></span> Dias</span></td>
+						<tr class="<?php echo (isset($sedex) || $misegura)?'':'hidden';?>" id="linhaFrete">
+							<td colspan="2"><div class="<?php echo (isset($sedex))?'':'hidden';?>"><span>Prazo: <span id="diasFrete" class="total-price"><?php echo $sedexDias;?></span> Dias</span></div></td>
 							<td colspan="1" class="total"><span>Frete</span></td>
 							<td colspan="3">R$ <span class="total-price" id="valorFrete"><?php echo number_format($sedex, 2, ',', '.');?></span></td>
 						</tr>

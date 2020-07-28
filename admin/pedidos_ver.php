@@ -135,7 +135,6 @@ $numP = mysql_num_rows($rsP);
 
             $marca = mysql_fetch_assoc(mysql_query('select titulo from marcas where codigo ='.$vetP['marca']))['titulo'];
             $modelo = mysql_fetch_assoc(mysql_query('select modelo from modelos where id ='.$vetP['modelo']))['modelo'];
-            var_dump('select titulo from marcas where id ='.$vetP['marca']);
         ?>
             <tr>
                 <td><a href="../upload/<?=$imagem?>" class="thickbox"><img src="../upload/thumbnails/<?=$imagem?>"></a></td>

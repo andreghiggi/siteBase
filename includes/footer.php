@@ -82,7 +82,7 @@
     						<div class="store-content">
     							<ul>
     								<li><?=$n_endereco?></li>
-    								<li>Telefone de contato: <span><br>(54) 9 9706-9211<br>(54) 3538-0924</span></li>
+    								<li>Telefone de contato:<br><span>054 9 91398919</span></li>
     								<li>Email:<a href="<?=$n_email?>"><?=$n_email?></a></li>
     							</ul>
     						</div>
