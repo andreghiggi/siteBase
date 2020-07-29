@@ -36,7 +36,7 @@
             <ul>
                 <li><a href="config_frete.php"><span>Configurar frete</span></a></li>
                 <li><a href="pagseguro_configuracao.php"><span>PagSeguro</span></a></li>
-                <!--<li><a href="juno_configuracao.php"><span>Juno</span></a></li>-->
+                <li><a href="juno_configuracao.php"><span>Juno</span></a></li>
                 <li><a href="config_site.php"><span>Configurações gerais</span></a></li>
             </ul>
         </li>

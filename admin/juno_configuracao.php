@@ -87,6 +87,7 @@ if($_POST['cmd'] == "edit")
 	$fotoId = explode('.',$_POST['identificacao'][0])[0].'_'.date('Ymd').'.'.explode('.',$_POST['identificacao'][0])[1];
 	$fotoSelf = explode('.',$_POST['self'][0])[0].'_'.date('Ymd').'.'.explode('.',$_POST['self'][0])[1];
 	echo '<img src="../upload/'.$fotoSelf.'">';
+	echo '<img src="../upload/'.$fotoID.'">';
 
 	/*if(!isset($_POST['recipient_token']) || $_POST['recipient_token'] == ''){
 		$token = $juno->account($account)->resourceToken;
