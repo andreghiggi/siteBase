@@ -783,12 +783,13 @@ $("input[type='text']").on('blur', function(e) {
               $("#modal-title").html("<font color='red'>Erro</font>");
 
               $("#modal-body").html("");
+
               $.each(data.error, function (index, value) {
                 if (value.code) {
-                  tratarError(value.code);
+                  tratarError(value.code,value.message);
 
                 } else {
-                  tratarError(data.error.code)
+                  tratarError(data.error.code,value.message)
                 }
               })
             }
@@ -828,7 +829,7 @@ $("input[type='text']").on('blur', function(e) {
 
     }
 
-function tratarError(id) {
+function tratarError(id,message) {
   if (id.charAt(0) == '2') id = id.substr(1);
   if (id == "53020" || id == '53021') {
     $("#modal-body").append("<p>Verifique telefone inserido</p>");
@@ -944,8 +945,12 @@ function tratarError(id) {
 
   } else if (id == '53122') {
     $("#modal-body").append("<p>Enquanto na sandbox do PagSeguro, o e-mail deve ter o domínio '@sandbox.pagseguro.com.br' (ex.: comprador@sandbox.pagseguro.com.br)</p>");
-
+  
+  }else{
+    alert("Erro ao processar o seu pagamento!"+message);
+    location.reload();
   }
+
 
   // else {
   //   $("#modal-body").append("<p>"+ id + "</p>");

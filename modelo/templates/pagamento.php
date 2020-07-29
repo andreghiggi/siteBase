@@ -30,7 +30,7 @@
 
     <div id="cardData" style="text-align: center;">
 
-    <h2>Dados do Cartão </h2>
+    <h2>Dados do Cartão de crédito</h2>
 
     <div class="row" id="cardBrand">
     	<div class="col-6 text-right">
