@@ -413,7 +413,7 @@ $(document).ready(() => {
 							<span class="price">R$ <?=number_format($vet['precoVariacao'] == 0 ? $vet['valor_pedido']:$vet['precoVariacao'], 2, ',', '.')?></span>
 						</td>
 						<td>
-							<input type="number" name="qtde_<?=$vet['codigo']?>_<?=$vet['idtamanho']?>_<?=$vet['idcor']?>" id="qtde_<?=$vet['codigo']?>_<?=$vet['idtamanho']?>_<?=$vet['idcor']?>" value="<?=$vet['qtde']?>" placeholder="1" onchange="javascript: qtde_prod(<?=$vet['codigo']?>, <?=$vet['idtamanho']?>, <?=$vet['idcor']?>);">
+							<input type="number" name="qtde_<?=$vet['codigo']?>_<?=$vet['idtamanho']?>_<?=$vet['idcor']?>" id="qtde_<?=$vet['codigo']?>_<?=$vet['idtamanho']?>_<?=$vet['idcor']?>" value="<?=$vet['qtde']?>" placeholder="1" onchange="javascript: qtde_prod(<?=$vet['codigo']?>, <?=$vet['idtamanho']?$vet['idtamanho']:'\'\'';?>, <?=$vet['idcor']?$vet['idcor']:'\'\'';?>);">
 						</td>
 						<td>
 							<span class="price">R$ <?=number_format($valor, 2, ',', '.')?></span>

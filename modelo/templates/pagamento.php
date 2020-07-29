@@ -1,5 +1,14 @@
 <?php include 'modelo/templates/modal.php'; ?>
 
+<script>
+	function atualizadata(self){
+		console.log($(self).val().length);
+		if($(self).val().length < 4){
+			$(self).val('20'+$(self).val());
+		}
+	}
+</script>
+
 <div class="col-md-12">
   <div class="groupData" id="paymentMethods">
     
@@ -21,7 +30,7 @@
 
     <div id="cardData" style="text-align: center;">
 
-    <h2>Dados do Cartão </h2>
+    <h2>Dados do Cartão de crédito</h2>
 
     <div class="row" id="cardBrand">
     	<div class="col-6 text-right">
@@ -42,7 +51,7 @@
     	<div class="col">
 		  	<div class="input-group w-50">
 		  		<input type="text" name="cardExpirationMonth" id="cardExpirationMonth" class="form-control" maxlength="2" style="max-width:20% !important" /> <span class="mr-2 ml-2">/</span>
-		    	<input type="text" name="cardExpirationYear" id="cardExpirationYear" class="form-control" maxlength="4" />
+		    	<input type="text" name="cardExpirationYear" id="cardExpirationYear" class="form-control" maxlength="4" onblur="atualizadata(this);"/>
 		    </div>
     	</div>
     </div>
