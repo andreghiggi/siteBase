@@ -458,6 +458,19 @@ function valida()
 			
 			$total = $vet['valor'] + $vetF['valor'];
 			$total_f += $total;
+
+			$entrega = 'erro!';
+			switch($vet['entrega']){
+				case '0':
+					$entrega = 'retirar na loja';
+				break;
+				case '1':
+					$entrega = 'PAC';
+				break;
+				case '2':
+					$entrega = 'SEDEX';
+				break;
+			}
     	?>
             <tr >
                 <td <?=$class?>><a href="pedidos_ver.php?idpedido=<?=$vet['codigo']?>" target="_blank">#<?=$vet['idcarrinho']?></a></td>
@@ -474,7 +487,7 @@ function valida()
                     	echo "Cancelamento: ".$vet['data_cancelamento']."<br />";
                     ?>
                 </td>
-                <td><?php echo ($vet['entrega'] == 1)?'Sedex':'Retirar na loja'?></td>
+                <td><?=$entrega?></td>
                 <td>R$ <?=number_format($total, 2, ',', '.')?></td>
                 <td><?=($vet['pagamento'] == 1) ? 'site' : 'presencial'?></td>
                 <td class="c">

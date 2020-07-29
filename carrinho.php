@@ -280,6 +280,7 @@ function qtde_prod(idproduto, idtamanho, idcor)
 }
 
 function calcFrete(self){
+	if(parseFloat($(self).val().split(':')[0]).toFixed(2).toString().replace('.',',') == 'NaN') return;
 	$('#linhaSubTotal').removeClass('hidden');
 	$('#linhaFrete').removeClass('hidden');
 	$('#btnProximo').removeClass('hidden');
@@ -432,15 +433,13 @@ $(document).ready(() => {
 							<td colspan="3" style="text-align: left;">
 								<?if(isset($cepSalvo)):?>
 									<select class="form-control" style="width:50%" onchange="calcFrete(this)" id="selectFrete">
+										<option selected disabled>Selecione</option>
+										<option value="0:0:0">Retirar na loja</option>
 										<?php 
-
-											if($cep_origem != str_replace('-','',$_GET['frete']) && $cep_origem != $cepSalvo):
+											if($cep_origem != str_replace('-','',$_GET['frete']) && $cep_origem != $cepSalvo && (isset($_GET['cep']) || $cepSalvo)):
 										?>
 										<option value="<?=$pac.':'.$pacDias.':1'?>">PAC</option>
 										<option value="<?=$sedex.':'.$sedexDias.':2'?>" selected>SEDEX</option>
-											<?else:?>
-										<option selected disabled>Selecione</option>
-										<option value="0:0:0">Retirar na loja</option>
 											<?endif;?>
 									</select>
 									<br>
