@@ -1324,7 +1324,13 @@ h2.product-name a:hover{
   opacity: 0.8;
 }
 .image-area {
-  position: relative;
+  /*position: relative;*/
+  height: 30vh !important;
+  display: flex !important;
+  overflow: hidden !important;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .area-title {
   background: rgba(0, 0, 0, 0) url("img/bg-bottom1-title.png") repeat-x scroll center bottom;

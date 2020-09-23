@@ -13,7 +13,7 @@ else
 
 $idcategoria = $_POST['idcategoria'];
 $idsubcategoria = $_POST['idsubcategoria'];
-$idmarca = $_POST['idmarca'];
+$idmarca = $_POST['idmarca'] | 0;
 $nome = addslashes($_POST['nome']);
 $valor_produto = str_replace(",", ".", str_replace(".", "", $_POST['valor_produto']));
 $valor_desconto = str_replace(",", ".", str_replace(".", "", $_POST['valor_desconto']));

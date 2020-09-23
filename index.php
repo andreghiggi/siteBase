@@ -124,8 +124,8 @@ if($num > 0)
 							<!-- single-product-start -->
 							<div class="container">
 								<div class="single-product">
-									<div class="image-area">
-										<a href="produto.php?codigo=<?=$vet['codigo']?>">
+									<div class="image-area" style="background-image:url('upload/<?=$imagem?>')">
+										<a href="produto.php?codigo=<?=$vet['codigo']?>" style="display:none">
 											<img src="upload/<?=$imagem?>" alt="<?=stripslashes($vet['nome'])?>">
 										</a>
 									</div>
