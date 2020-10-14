@@ -3035,6 +3035,9 @@ h2.sub-section-title{
   margin-top: 10px;
   overflow: hidden;
 }
+.thumnail-img{
+  margin: auto;
+}
 a.fancybox i {
   color: #c0c0c0;
   font-size: 20px;
@@ -3065,9 +3068,12 @@ a.fancybox:hover i{
 /*  24.1 product-details-page product-image-tab
 /*----------------------------------------*/
 .thumnail-image{}
-.thumnail-image ul.tab-menu{float: left;}
-.thumnail-image ul.tab-menu li{display: inline-block;margin-right: 2px;}
-.thumnail-image ul.tab-menu li a{}
+.thumnail-image ul.tab-menu{
+  float: left;
+  display: flex;
+}
+.thumnail-image ul.tab-menu li{display: flex;margin-right: 2px;}
+.thumnail-image ul.tab-menu li a{display: flex;}
 .thumnail-image ul.tab-menu li:last-child{margin: 0;}
 
 .product-description h2.product-name {

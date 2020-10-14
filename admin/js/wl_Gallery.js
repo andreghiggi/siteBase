@@ -46,7 +46,19 @@ $.fn.wl_Gallery = function (method) {
 				stop: function (event, ui) {
 					$this.dragging = false;
 				},
-				update: function (event, ui) {}
+				update: function (event, ui) {
+					const targets = $(ui['item'][0]).parent().children();
+					
+					let data = [];
+					for(i = 0; i < targets.length;i++){
+						data.push({posicao:i,img:$($(targets[i]).find('img')[0]).attr('target')});
+					}
+
+					$.post('ajax_posicao.php',{data:JSON.stringify(data)},function(resp){
+						console.log(resp);
+					}).fail(err => console.log(err));
+
+				}
 			});
 
 			opts.images = [];

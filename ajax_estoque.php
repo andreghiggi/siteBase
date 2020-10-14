@@ -11,6 +11,9 @@ $idcor = 0;
 $strE = "SELECT * FROM produtos_estoque WHERE idproduto = '$idproduto' AND idtamanho = '$idtamanho'";
 $rsE  = mysql_query($strE) or die(mysql_error());
 $vetE = mysql_fetch_array($rsE);
+
+
+
 ?>
 
 <br>
@@ -20,7 +23,7 @@ if($vetE['estoque'] <= 0)
 {
 ?>
 <span class="stock-fail">
-	Esgotado
+	Tempo de produção <?=$vet['tempProd'];?> dias
 </span>
 <?
 }

@@ -8,12 +8,12 @@ $idproduto = anti_injection($_GET['idproduto']);
 $idcor = anti_injection($_GET['idcor']);
 $idtamanho = anti_injection($_GET['idtamanho']);
 
-$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' and idcor= '$idcor' ORDER BY status DESC";
+$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' and idcor= '$idcor' ORDER BY ordem";
 $rsI  = mysql_query($strI) or die(mysql_error());
 $numI = mysql_num_rows($rsI);
 
 if(mysql_num_rows($rsI) == 0){
-	$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' ORDER BY status DESC";
+	$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$idproduto' ORDER BY ordem";
 	$rsI  = mysql_query($strI) or die(mysql_error());
 	$numI = mysql_num_rows($rsI);
 }
@@ -59,7 +59,7 @@ if($numI > 0)
         	if(!$i)
         		$class = 'class="active"';
         ?>
-		<li <?=$class?>><a data-toggle="tab" href="#image<?=$i?>"><img alt="" src="upload/thumbnails/<?=$array_imagens[$i]?>"></a></li>
+		<li <?=$class?>><a data-toggle="tab" href="#image<?=$i?>"><img alt="" class="thumnail-img" src="upload/<?=$array_imagens[$i]?>"></a></li>
 		<?
 		}
 		?>

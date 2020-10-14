@@ -33,7 +33,7 @@ if(!$num)
 					<div class="row">
 						<div id="imagens" class="col-sm-5 col-lg-5 col-md-5">
 							<?
-							$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$codigo' ORDER BY status DESC";
+							$strI = "SELECT * FROM produtos_imagens WHERE idproduto = '$codigo' ORDER BY ordem";
 							$rsI  = mysql_query($strI) or die(mysql_error());
 							$numI = mysql_num_rows($rsI);
 
@@ -78,7 +78,7 @@ if(!$num)
 							        	if(!$i)
 							        		$class = 'class="active"';
 							        ?>
-									<li <?=$class?>><a data-toggle="tab" href="#image<?=$i?>"><img alt="" src="upload/thumbnails/<?=$array_imagens[$i]?>"></a></li>
+									<li <?=$class?>><a data-toggle="tab" href="#image<?=$i?>"><img alt="" class="thumnail-img" src="upload/<?=$array_imagens[$i]?>"></a></li>
 									<?
 									}
 									?>
@@ -264,7 +264,7 @@ if(!$num)
 											{
 											?>
 											<span class="stock-fail">
-												Esgotado
+												Tempo de produção <?=$vet['tempProd'];?> dias
 											</span>
 											<?
 											}

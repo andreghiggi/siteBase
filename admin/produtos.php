@@ -12,7 +12,7 @@ else
     $idimagem = anti_injection($_POST['idimagem']);
 
 $idcategoria = $_POST['idcategoria'];
-$idsubcategoria = $_POST['idsubcategoria'];
+$idsubcategoria = $_POST['idsubcategoria'] | 0;
 $idmarca = $_POST['idmarca'] | 0;
 $nome = addslashes($_POST['nome']);
 $valor_produto = str_replace(",", ".", str_replace(".", "", $_POST['valor_produto']));
@@ -26,6 +26,7 @@ $destaque = $_POST['destaque'];
 $ind_cores = $_POST['ind_cores'];
 $status = $_POST['status'];
 $vet_imagem = $_POST['imagens'];
+$tempProd = $_POST['tempProd'];
 
 $altura = $_POST['altura'];
 $largura = $_POST['largura'];
@@ -77,11 +78,9 @@ if($_POST['cmd'] == "edit")
 
     $str = "UPDATE produtos SET idcategoria = '$idcategoria', idsubcategoria = '$idsubcategoria', idmarca = '$idmarca', nome = '$nome', descricao = '$descricao',
         informacoes = '$informacoes', valor_produto = '$valor_produto', valor_desconto = '$valor_desconto', peso = '$peso', tags = '$tags', estoque = '$estoque',
-        destaque = '$destaque', ind_cores = '$ind_cores', status = '$status', altura = '$altura', comprimento = '$comprimento', largura = '$largura', ref = '$ref'
+        destaque = '$destaque', ind_cores = '$ind_cores', status = '$status', altura = '$altura', comprimento = '$comprimento', largura = '$largura', ref = '$ref', tempProd = '$tempProd'
         WHERE codigo = '$codigo'";
     $rs  = mysql_query($str) or die(mysql_error());
-
-    var_dump(mysql_error());
 
     if(is_array($vet_imagem))
     {
@@ -102,7 +101,7 @@ if($_POST['cmd'] == "edit")
         }
     }
     
-    #redireciona("produtos.php?ind_msg=2");
+    redireciona("produtos.php?ind_msg=2");
 }
 
 if($_GET['cmd'] == "del")
@@ -206,11 +205,20 @@ include('menu.inc.php');
    
 <script language="javascript">
 function valida(ind)
-{   
+{
     if(ind == 1)
         document.form.cmd.value = "add";
-    else
+    else{
+        const temp = $('.ui-sortable li a img');
+        let posicao = [];
+        for(i = 0; i < temp.length; i++){
+            posicao.push({'img':$(temp[i]).attr('target'),'posicao':i});
+        }
+        $.post('ajax_posicao.php',{data:JSON.stringify(posicao)},function(resp){
+            console.log(resp);
+        });
         document.form.cmd.value = "edit";
+    }
 }
 
 function excluir_imagem(codigo, idimagem)
@@ -252,7 +260,6 @@ function editarEstoque(self){
 }
 
 function editPreco(self){
-    console.log("1");
 	let span = $(self).find('.valorProduto');
 	$(span).replaceWith('<input type="number" step="0.01" value="'+$(span).text()+'" onblur="editarValor(this)" id="editarNovoValor">');
 	$('#editarNovoValor').focus();
@@ -263,6 +270,12 @@ function editEstoque(self){
 	$(span).replaceWith('<input type="number" step="1" value="'+$(span).text()+'" onblur="editarEstoque(this)" id="editarNovoEstoque">');
 	$('#editarNovoEstoque').focus();
 }
+
+$(document).ready(function(){
+    $('.ui-sortable').mouseup(function(){
+        
+    });
+});
 
 </script>			
 <section id="content">
@@ -395,6 +408,13 @@ function editEstoque(self){
             </div>
         </section>
         <section>
+            <label for="tempProd">Tempo de produção</label>
+            <div>
+                <input type="number" id="tempProd" name="tempProd" value="<?=isset($vet['tempProd'])?$vet['tempProd']:0;?>" style="width:10%" min="0">
+                <br><span>Tempo em dias para a produção</span>
+            </div>
+        </section>
+        <section>
             <label for="title">Tags:<br><span>Separar as tags com ";" sem espaços</span></label>
             <div><input type="text" id="tags" name="tags" value="<?=$vet['tags']?>" ></div>
         </section>
@@ -415,7 +435,7 @@ function editEstoque(self){
         $rsF  = mysql_query($strF) or die(mysql_error());
         $numF = mysql_num_rows($rsF);
 
-        if($numF)
+        if(true)
         {
         ?>
         <section>
@@ -423,25 +443,27 @@ function editEstoque(self){
             <div>
                 <ul class="gallery">
                     <?
-                    while($vetF = mysql_fetch_array($rsF))
-                    {
-                        $class = '';
-                        if($vetF['status'] == 1) {
-                            $class = 'style="border: 1px solid red;"';
-                            $str_imagem = 'imagem destaque';
-                            $icon_imagem = 'i_tick';
-                        } else {
-                            $str_imagem = 'tornar destaque';
-                            $icon_imagem = 'i_flag';
+                        if($numF){
+                            while($vetF = mysql_fetch_array($rsF))
+                            {
+                                $class = '';
+                                if($vetF['status'] == 1) {
+                                    $class = 'style="border: 1px solid red;"';
+                                    $str_imagem = 'imagem destaque';
+                                    $icon_imagem = 'i_tick';
+                                } else {
+                                    $str_imagem = 'tornar destaque';
+                                    $icon_imagem = 'i_flag';
+                                }
+                            ?>
+                            <li>
+                                <a href="../upload/<?=$vetF['imagem']?>"><img src="../upload/<?=$vetF['imagem']?>" target="<?=$vetF['imagem']?>" width="116" height="116" <?=$class?>></a>
+                                <div id="<?=$str_imagem?>" style="margin:0 auto; margin-top:5%; text-align: center;"><button class="<?=$icon_imagem?> icon small" onClick="javascript: imagem_destaque('<?=$vet['codigo']?>', '<?=$vetF['codigo']?>');"><?=$str_imagem?></button></div>
+                                <div id="excluir" style="margin:0 auto; margin-top:5%; text-align: center;"><button class="i_trashcan icon small" onClick="javascript: excluir_imagem('<?=$vet['codigo']?>', '<?=$vetF['codigo']?>');">excluir foto</button></div>
+                            </li>
+                            <?
+                            }
                         }
-                    ?>
-                    <li>
-                        <a href="../upload/<?=$vetF['imagem']?>" title=""><img src="../upload/<?=$vetF['imagem']?>" width="116" height="116" <?=$class?>></a>
-                        <div id="<?=$str_imagem?>" style="margin:0 auto; margin-top:5%; text-align: center;"><button class="<?=$icon_imagem?> icon small" onClick="javascript: imagem_destaque('<?=$vet['codigo']?>', '<?=$vetF['codigo']?>');"><?=$str_imagem?></button></div>
-                        <div id="excluir" style="margin:0 auto; margin-top:5%; text-align: center;"><button class="i_trashcan icon small" onClick="javascript: excluir_imagem('<?=$vet['codigo']?>', '<?=$vetF['codigo']?>');">excluir foto</button></div>
-                    </li>
-                    <?
-                    }
                     ?>
                 </ul>
             </div>

@@ -23,4 +23,9 @@ alter table config_frete add column `senha` varchar(10) DEFAULT NULL;
 alter table config_frete add column `PAC` varchar(5) DEFAULT NULL;
 alter table config_frete add column `SEDEX` varchar(5) DEFAULT NULL;
 
-ALTER TABLE `produtos` ADD `ref` VARCHAR(20) NOT NULL AFTER `largura`; 
+ALTER TABLE `produtos` ADD `ref` VARCHAR(20) NOT NULL AFTER `largura`;
+
+ALTER TABLE `produtos` ADD `tempProd` INT NOT NULL AFTER `ref`;
+ALTER TABLE `produtos` CHANGE `tempProd` `tempProd` INT(11) NOT NULL DEFAULT '0';
+
+ALTER TABLE `produtos_imagens` ADD `ordem` INT NULL AFTER `status`;
