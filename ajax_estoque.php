@@ -32,12 +32,12 @@ if($vetE['estoque'] <= 0)
 
 <br>
 <?
-if($vetE['estoque'] > 0)
+if(/*$vetE['estoque'] > 0*/true)
 {
 ?>
-<!--<a href="carrinho.php?cmd=add&idproduto=<?=$idproduto?>&idtamanho=<?=$idtamanho?>&idcor=<?=$idcor?>" class="btn btn-dark mt-2 mb-3">
+<a href="carrinho.php?cmd=add&idproduto=<?=$idproduto?>&idtamanho=<?=$idtamanho?>&idcor=<?=$idcor?>" class="btn btn-dark mt-2 mb-3">
 	<span>Adicionar ao carrinho</span>
-</a>-->
+</a>
 <?
 }
 ?>
