@@ -12,7 +12,7 @@ $strE = "SELECT * FROM produtos_estoque WHERE idproduto = '$idproduto' AND idtam
 $rsE  = mysql_query($strE) or die(mysql_error());
 $vetE = mysql_fetch_array($rsE);
 
-
+$vet = mysql_fetch_assoc(mysql_fetch_array());
 
 ?>
 
@@ -25,6 +25,9 @@ if($vetE['estoque'] <= 0)
 <span class="stock-fail">
 	Tempo de produção <?=$vet['tempProd'];?> dias
 </span>
+<a href="carrinho.php?cmd=add&idproduto=<?=$idproduto?>&idtamanho=<?=$idtamanho?>&idcor=<?=$idcor?>" class="btn btn-dark mt-2 mb-3">
+	<span>Adicionar ao carrinho</span>
+</a>
 <?
 }
 ?>

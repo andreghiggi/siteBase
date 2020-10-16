@@ -3037,6 +3037,7 @@ h2.sub-section-title{
 }
 .thumnail-img{
   margin: auto;
+  height: 100%;
 }
 a.fancybox i {
   color: #c0c0c0;
@@ -3071,6 +3072,7 @@ a.fancybox:hover i{
 .thumnail-image ul.tab-menu{
   float: left;
   display: flex;
+  max-height: 14vh;
 }
 .thumnail-image ul.tab-menu li{display: flex;margin-right: 2px;}
 .thumnail-image ul.tab-menu li a{display: flex;}
