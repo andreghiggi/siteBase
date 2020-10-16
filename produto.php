@@ -278,14 +278,14 @@ if(!$num)
 
 								<div id="carrinho" class="">
 								<?
-								if($vet['ind_cores'] == 2)
-								{
+								/*if($vet['ind_cores'] == 2)
+								{*/
 								?>
 									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="btn btn-dark mt-2 mb-3">
 										<span>Adicionar ao carrinho</span>
 									</a>
 								<?
-								}
+								#}
 								?>
 								</div>
 

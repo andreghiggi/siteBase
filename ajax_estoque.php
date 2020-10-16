@@ -25,9 +25,6 @@ if($vetE['estoque'] <= 0)
 <span class="stock-fail">
 	Tempo de produção <?=$vet['tempProd'];?> dias
 </span>
-<a href="carrinho.php?cmd=add&idproduto=<?=$idproduto?>&idtamanho=<?=$idtamanho?>&idcor=<?=$idcor?>" class="btn btn-dark mt-2 mb-3">
-	<span>Adicionar ao carrinho</span>
-</a>
 <?
 }
 ?>
@@ -38,9 +35,9 @@ if($vetE['estoque'] <= 0)
 if($vetE['estoque'] > 0)
 {
 ?>
-<a href="carrinho.php?cmd=add&idproduto=<?=$idproduto?>&idtamanho=<?=$idtamanho?>&idcor=<?=$idcor?>" class="btn btn-dark mt-2 mb-3">
+<!--<a href="carrinho.php?cmd=add&idproduto=<?=$idproduto?>&idtamanho=<?=$idtamanho?>&idcor=<?=$idcor?>" class="btn btn-dark mt-2 mb-3">
 	<span>Adicionar ao carrinho</span>
-</a>
+</a>-->
 <?
 }
 ?>
