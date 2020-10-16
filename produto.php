@@ -278,7 +278,7 @@ if(!$num)
 
 								<div id="carrinho" class="">
 								<?
-								if($vet['ind_cores'] == 2 && $vet['estoque'] > 0)
+								if($vet['ind_cores'] == 2)
 								{
 								?>
 									<a href="carrinho.php?cmd=add&idproduto=<?=$vet['codigo']?>" class="btn btn-dark mt-2 mb-3">
