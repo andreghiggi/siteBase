@@ -135,7 +135,7 @@ if($_GET['cmd'] == "add")
 
 		if($num > 0)
 		{
-			if($vetP['estoque'] < $qtde)
+			if($vetP['estoque'] < $qtde && $vetP['tempFabricacao'] == '0')
 			{
 				//msg("O estoque do produto é inferior à quantidade selecionada, entre em contato com o suporte.");
 				redireciona("loja.php?ind_msg=1");
@@ -179,7 +179,7 @@ if($_GET['cmd'] == "add")
 
 		if($num > 0)
 		{
-			if($vetP['estoque'] < $qtde)
+			if($vetP['estoque'] < $qtde && $vetP['tempFabricacao'] == '0')
 			{
 				//msg("O estoque do produto é inferior à quantidade selecionada, entre em contato com o suporte.");
 				redireciona("loja.php?ind_msg=1");

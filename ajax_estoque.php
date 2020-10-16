@@ -12,7 +12,7 @@ $strE = "SELECT * FROM produtos_estoque WHERE idproduto = '$idproduto' AND idtam
 $rsE  = mysql_query($strE) or die(mysql_error());
 $vetE = mysql_fetch_array($rsE);
 
-$vet = mysql_fetch_assoc(mysql_fetch_array());
+$vet = mysql_fetch_assoc(mysql_query('select tempProd from produtos where codigo = '.$idproduto));
 
 ?>
 
