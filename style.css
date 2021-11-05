@@ -979,8 +979,9 @@ a:focus, a.link:hover{
 }
 .category-menu {
   border-left: 1px solid #f1f1f1;
-  border-radius: 0 0 5px 5px;
   border-right: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  border-radius: 0 0 5px 5px;
 }
 .category-menu ul{}
 .category-menu ul li{
