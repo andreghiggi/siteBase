@@ -7,7 +7,7 @@ if($num > 0)
 {
 ?>
 <!-- category-menu-area start-->
-<div class="category-menu-area hidden-sm">
+<div class="category-menu-area">
 	<div class="category-title">
 		<h2>Categorias</h2>
 	</div>

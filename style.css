@@ -2685,8 +2685,13 @@ border-color: #262626;}
   padding: 10px 0 2px;
   text-transform: uppercase;
 }
-.list-item ul{}
-.list-item ul li{}
+.list-item ul{
+  display: flex;
+  flex-wrap: wrap;
+}
+.list-item ul li{
+  margin-right: 10px;
+}
 .list-item ul li a{
   background: rgba(0, 0, 0, 0) url("img/icon-layered.png") no-repeat scroll 0 11px;
   border: 0 none;
