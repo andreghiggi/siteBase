@@ -985,10 +985,7 @@ a:focus, a.link:hover{
 .category-menu ul{}
 .category-menu ul li{position: relative;}
 .category-menu ul li a{
-    /* border-bottom: 1px solid #f1f1f1; */
-	cursor:pointer;
-}
-.category-menu ul li a{
+  cursor:pointer;
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
     border-left: 4px solid transparent;
     display: block;
