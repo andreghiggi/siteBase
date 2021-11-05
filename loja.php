@@ -85,14 +85,14 @@ elseif($order == 4)
 <section class="slider-category-area">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-3 col-lg-3 col-md-3">
+			<div class="col-12">
 				<div class="left-sidebar">
 					<?
 					include("includes/menu.php");
 					?>
 				</div>
 			</div>
-			<div class="col-sm-9 col-lg-9 col-md-9">
+			<div class="col-12">
 				<div class="row">
 					<div class="col-lg-12 col-md-12">
 						<?

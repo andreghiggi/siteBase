@@ -57,14 +57,14 @@ if($num > 0)
 <section class="slider-category-area">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-3 col-lg-3 col-md-3">
+			<div class="col-12">
 				<div class="left-sidebar">
 					<?
 					include("includes/menu.php");
 					?>
 				</div>
 			</div>
-			<div class="col-sm-9 col-lg-9 col-md-9">
+			<div class="col-12">
 				<?
 			    $str = "SELECT * FROM publicidade WHERE tipo = '1' AND status = '1' ORDER BY RAND() LIMIT 1";
 			    $rs  = mysql_query($str) or die(mysql_error());

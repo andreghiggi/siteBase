@@ -985,7 +985,7 @@ a:focus, a.link:hover{
 .category-menu ul{}
 .category-menu ul li{position: relative;}
 .category-menu ul li a{
-    border-bottom: 1px solid #f1f1f1;
+    /* border-bottom: 1px solid #f1f1f1; */
 	cursor:pointer;
 }
 .category-menu ul li a{
@@ -999,6 +999,8 @@ a:focus, a.link:hover{
     text-decoration: none;
     text-transform: uppercase;
     color: #666;
+    flex-grow: 1;
+    text-align: center;
 }
 .category-menu ul li a:hover{
   border-color: #262626 #262626 #f1f1f1;

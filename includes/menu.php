@@ -12,7 +12,7 @@ if($num > 0)
 		<h2>Categorias</h2>
 	</div>
 	<div class="category-menu" id="cate-toggle">
-		<ul>
+		<ul class="d-flex flex-wrap list-group-flush list-group-horizontal">
 			<?
 			while($vet = mysql_fetch_array($rs))
 			{
@@ -23,7 +23,7 @@ if($num > 0)
 			    if(!$numS)
 			    {
 			?>
-			<li>
+			<li class="list-group-item">
 				<a href="loja.php?idcategoria=<?=$vet['codigo']?>"><?=stripslashes($vet['nome'])?></a>
 			</li>
 			<?
