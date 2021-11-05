@@ -983,7 +983,11 @@ a:focus, a.link:hover{
   border-right: 1px solid #f1f1f1;
 }
 .category-menu ul{}
-.category-menu ul li{position: relative;}
+.category-menu ul li{
+  position: relative;
+  flex-grow: 1;
+  text-align: center;
+}
 .category-menu ul li a{
   cursor:pointer;
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
@@ -996,8 +1000,6 @@ a:focus, a.link:hover{
     text-decoration: none;
     text-transform: uppercase;
     color: #666;
-    flex-grow: 1;
-    text-align: center;
 }
 .category-menu ul li a:hover{
   border-color: #262626 #262626 #f1f1f1;
